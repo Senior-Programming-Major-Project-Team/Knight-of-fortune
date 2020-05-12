@@ -8,4 +8,4 @@
 
 项目成员：
 
-项目Github地址：https://github.com/Xuedixuedi/ArenaofValor
+项目Github地址：https://github.com/Senior-Programming-Major-Project-Team/Knight-of-fortune/blob/master/
