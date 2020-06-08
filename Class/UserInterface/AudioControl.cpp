@@ -1,3 +1,4 @@
+#pragma execution_character_set("utf-8")//使编码中文正常显示
 #include "AudioControl.h"
 #include "ui/CocosGUI.h"
 USING_NS_CC;
@@ -22,18 +23,26 @@ bool AudioControl::init() {
     // 获得设备可见视图大小
     Size visibleSize = Director::getInstance()->getVisibleSize();
     // 创建“背景音乐”文本并添加为当前层的子节点
-    auto music_text = Text::create("Background music", "Arial", 32);
+    auto background = Sprite::create("background.png");
+    if (background)
+    {
+        background->setScaleX(visibleSize.width / background->getTextureRect().getMaxX());
+        background->setScaleY(visibleSize.height / background->getTextureRect().getMaxY());
+        background->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+    }
+    this->addChild(background);
+    auto music_text = Text::create("音乐音量", "Arial", 16);
     music_text->setPosition(Vec2(visibleSize.width * 0.25, visibleSize.height * 0.7));
     this->addChild(music_text);
 
     // 创建一个滑动条
     auto music_slider = Slider::create();
     // 设置滑动条的纹理
-    music_slider->loadBarTexture("slider.png");
+    music_slider->loadBarTexture("sliderTrack.png");
     // 设置滑动条的滚轮纹理
-    music_slider->loadSlidBallTextures("SliderBar.png", "SliderBar.png", "");
+    music_slider->loadSlidBallTextures("SliderThumb.png", "SliderThumb.png", "");
     // 设置处理滑动条的进度条纹理
-    music_slider->loadProgressBarTexture("slider.png");
+    music_slider->loadProgressBarTexture("sliderProgress.png");
     // 获取之前设置的背景音乐音量
     float musicPercent = UserDefault::getInstance()->getFloatForKey("musicPercent");
     // 如果是第一次进入设置场景，设置背景音乐滑动条默认初始值为100
@@ -58,18 +67,18 @@ bool AudioControl::init() {
     });
     this->addChild(music_slider);
     // 创建“音效音量”文本并添加为当前层的子节点
-    auto sound_text = Text::create("Sound Effect", "Arial", 32);
+    auto sound_text = Text::create("音效音量", "Arial", 16);
     sound_text->setPosition(Vec2(visibleSize.width * 0.25, visibleSize.height * 0.5));
     this->addChild(sound_text);
 
     // 创建一个滑动条
     auto effects_slider = Slider::create();
     // 设置滑动条的纹理
-    effects_slider->loadBarTexture("slider.png");
+    effects_slider->loadBarTexture("sliderTrack.png");
     // 设置滑动条的滚轮纹理
-    effects_slider->loadSlidBallTextures("SliderBar.png", "SliderBar.png", "");
+    effects_slider->loadSlidBallTextures("SliderThumb.png", "SliderThumb.png", "");
     // 设置处理滑动条的进度条纹理
-    effects_slider->loadProgressBarTexture("slider.png");
+    effects_slider->loadProgressBarTexture("sliderProgress.png");
     // 获取之前设置的音效音量
     float effectPercent = UserDefault::getInstance()->getFloatForKey("effectPercent");
     // 如果是第一次进入设置场景，设置音效滑动条默认初始值为100
@@ -95,16 +104,20 @@ bool AudioControl::init() {
     this->addChild(effects_slider);
 
     // 创建“返回“按钮，点击时调用returnToMenu函数
-    auto return_button = Button::create("button.png");
-    return_button->setPosition(Vec2(visibleSize.width - return_button->getContentSize().width / 2,
-        return_button->getContentSize().height / 2));
-    return_button->addTouchEventListener([](Ref* pSender, Widget::TouchEventType type) {
+    auto close_button = Button::create("AutoControlExit.png");
+    float ButtonPic0 = 45 * 9;
+    float fSize = visibleSize.width > visibleSize.height ? visibleSize.width : visibleSize.height;
+    close_button->setScaleX(fSize / ButtonPic0);
+    close_button->setScaleY(fSize / ButtonPic0);
+    close_button->setPosition(Vec2(visibleSize.width*9 / 10, visibleSize.height * 0.9));
+    close_button->addTouchEventListener([](Ref* pSender, Widget::TouchEventType type) {
         if (type == Widget::TouchEventType::ENDED) {
             // 切换到MenuScene场景
             auto transition = TransitionSlideInL::create(2.0, GameMenu::createScene());
             Director::getInstance()->replaceScene(transition);
         }
     });
+    this->addChild(close_button);
     return true;
 }
 

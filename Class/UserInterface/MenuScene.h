@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "cocos2d.h"
-//#include "PreLoadScene.h"
+#include "PreLoad.h"
 #include "AudioControl.h"
 
 // 1. GameMenu类的作用是显示一个菜单场景，让用户选择“开始游戏”或是“游戏设置”。
