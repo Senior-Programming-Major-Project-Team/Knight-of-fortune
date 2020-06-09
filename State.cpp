@@ -1,6 +1,5 @@
 #include "State.h"
 #include "constnumber.h"
-#include "cocos2d.h"
 
 USING_NS_CC;
 
@@ -8,10 +7,7 @@ State* State::create()
 {
 	State* AState = new (std::nothrow) State;
 	if (AState && AState->init())
-	{
-		AState->autorelease();
 		return AState;
-	}
 	CC_SAFE_DELETE(AState);
 	return nullptr;
 }
@@ -19,14 +15,14 @@ State* State::create()
 
 bool State::init()
 {
-	_maxArmor = ARMOR;
-	_currentArmor = ARMOR;
-	_maxMagic = ARMOR;
-	_currentMagic = MAGIC;
-	_maxHealth = HEALTH;
-	_currentHealth = HEALTH;
-	_currentSpeed = 1;
-	_alreadyDead = false;
+	setMaxArmor(ARMOR);
+	setCurrentArmor(ARMOR);
+	setMaxMagic(MAGIC);
+	setCurrentMagic(MAGIC);
+	setMaxHealth(HEALTH);
+	setCurrentHealth(HEALTH);
+	setCurrentSpeed(100);
+	setAlreadyDead(false);
 	return true;
 }
 
