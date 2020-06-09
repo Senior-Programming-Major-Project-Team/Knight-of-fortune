@@ -15,7 +15,7 @@ class State
 	CC_SYNTHESIZE(INT32, _currentArmor, CurrentArmor);
 	CC_SYNTHESIZE(INT32, _currentMagic, CurrentMagic);
 	CC_SYNTHESIZE(INT32, _currentHealth, CurrentHealth);
-	CC_SYNTHESIZE(INT32, _currentSpeed, CurrentSpeed);
+	CC_SYNTHESIZE(float, _currentSpeed, CurrentSpeed);
 	CC_SYNTHESIZE(bool, _alreadyDead, AlreadyDead);
 
 public:
@@ -28,7 +28,7 @@ public:
 
 	void changeCurrentMagic(INT32 newCurrentMagic);
 
-	bool init();
+	virtual bool init();
 
 	static State* create();
 };
