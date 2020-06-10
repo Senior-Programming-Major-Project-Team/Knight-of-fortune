@@ -17,6 +17,7 @@ class State
 	CC_SYNTHESIZE(INT32, _currentHealth, CurrentHealth);
 	CC_SYNTHESIZE(float, _currentSpeed, CurrentSpeed);
 	CC_SYNTHESIZE(bool, _alreadyDead, AlreadyDead);
+	CC_SYNTHESIZE(float, _minAttackInterval, MinAttackInterval);
 
 public:
 
@@ -28,9 +29,12 @@ public:
 
 	void changeCurrentMagic(INT32 newCurrentMagic);
 
+	void changeCurrentSpeed(INT32 newCurrentSpeed);
+
+	void changeMinAttackInterval(INT32 newMinAttackInterval);
+
 	virtual bool init();
 
-	static State* create();
 };
 
 #endif // _STATE_
