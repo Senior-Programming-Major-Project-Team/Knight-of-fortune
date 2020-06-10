@@ -18,16 +18,17 @@ bool MovingActor::init(HelloWorld* combatScene, const std::string& filename, Cam
 {
 	if (!Sprite::initWithFile(filename))
 		return false;
-	MovingActor::initstate(actorcamp);
+	MovingActor::initstate(combatScene, actorcamp);
 	return true;
 }
 
-void MovingActor::initstate(Camp actorcamp)
+void MovingActor::initstate(HelloWorld* combatScene, Camp actorcamp)
 {
+	setCombatScene(combatScene);
+	_actorState->init();
 	setActorCamp(actorcamp);
 	setActorWeapon1(nullptr);
 	setActorWeapon2(nullptr);
-	_actorState->init();
 }
 
 void MovingActor::die()
@@ -35,7 +36,7 @@ void MovingActor::die()
 	_actorState->setAlreadyDead(true);
 }
 
-void MovingActor::damage(INT32 damage)
+void MovingActor::Damage(INT32 damage)
 {
 	if (_actorState->changeCurrentArmor(_actorState->getCurrentArmor() - damage) < 0)
 	{
@@ -47,7 +48,7 @@ void MovingActor::damage(INT32 damage)
 	}
 }
 
-void MovingActor::recover()
+void MovingActor::Recover()
 {
 	while (_actorState->getCurrentMagic() < _actorState->getMaxMagic())
 		this->scheduleOnce(schedule_selector(MovingActor::MagicRecover), 1.0f);
@@ -67,21 +68,13 @@ void MovingActor::ArmorRecover(float dt)
 
 void MovingActor::updateDirection()
 {
-	if (_angle <= 2 * MINDEGREE || _angle > 14 * MINDEGREE)
+	if (_angle <= 4 * MINDEGREE || _angle > 12 * MINDEGREE)
 	{
 		_actordirection = Direction::RIGHT;
 	}
-	else if (_angle <= 6 * MINDEGREE)
-	{
-		_actordirection = Direction::UP;
-	}
-	else if (_angle <= 10 * MINDEGREE)
+	else if (_angle <= 12 * MINDEGREE)
 	{
 		_actordirection = Direction::LEFT;
-	}
-	else if (_angle <= 14 * MINDEGREE)
-	{
-		_actordirection = Direction::DOWN;
 	}
 }
 
@@ -92,12 +85,12 @@ void MovingActor::moveTo(const Vec2& targetPosition)
 	auto oldDirection = _actordirection;
 	_angle = ccpAngle(getPosition(), targetPosition);
 	updateDirection();
-	auto direction = ccpNormalize(ccpSub(targetPosition, getPosition()));
 	if (_actordirection != oldDirection)
 	{
 		startAnimation();
 	}
-	auto newPosition = ccpAdd(getPosition(), ccpMult(direction, _actorState->getCurrentSpeed());
+	auto direction = ccpNormalize(ccpSub(targetPosition, getPosition()));
+	auto newPosition = ccpAdd(getPosition(), ccpMult(direction, _actorState->getCurrentSpeed()));
 	setPosition(newPosition);
 }
 
