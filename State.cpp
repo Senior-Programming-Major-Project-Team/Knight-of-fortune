@@ -3,16 +3,6 @@
 
 USING_NS_CC;
 
-State* State::create()
-{
-	State* AState = new (std::nothrow) State;
-	if (AState && AState->init())
-		return AState;
-	CC_SAFE_DELETE(AState);
-	return nullptr;
-}
-
-
 bool State::init()
 {
 	setMaxArmor(ARMOR);
@@ -22,6 +12,7 @@ bool State::init()
 	setMaxHealth(HEALTH);
 	setCurrentHealth(HEALTH);
 	setCurrentSpeed(100);
+	setMinAttackInterval(2);
 	setAlreadyDead(false);
 	return true;
 }
@@ -39,6 +30,7 @@ void State::changeCurrentHealth(INT32 newCurrentHealth)
 		setCurrentHealth(0);
 	if (newCurrentHealth >= _maxHealth)
 	    setCurrentHealth(_maxHealth);
+	setCurrentHealth(newCurrentHealth);
 }
 
 void State::changeCurrentMagic(INT32 newCurrentMagic)
@@ -47,6 +39,7 @@ void State::changeCurrentMagic(INT32 newCurrentMagic)
 		setCurrentMagic(0);
 	if (newCurrentMagic >= _maxMagic)
 		setCurrentMagic(_maxMagic);
+	setCurrentMagic(newCurrentMagic);
 }
 
 INT32 State::changeCurrentArmor(INT32 newCurrentArmor)
@@ -59,6 +52,17 @@ INT32 State::changeCurrentArmor(INT32 newCurrentArmor)
 	if (newCurrentArmor >= _maxArmor)
 	{
 		setCurrentArmor(_maxArmor);
-		return 1;
 	}
+	setCurrentArmor(newCurrentArmor);
+	return 1;
+}
+
+void State::changeCurrentSpeed(INT32 newCurrentSpeed)
+{
+	setCurrentSpeed(newCurrentSpeed);
+}
+
+void State::changeMinAttackInterval(INT32 newMinAttackInterval)
+{
+	setMinAttackInterval(newMinAttackInterval);
 }
