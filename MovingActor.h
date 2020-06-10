@@ -25,10 +25,11 @@ class MovingActor :
 	CC_SYNTHESIZE(float, _angle, Angle);
 	CC_SYNTHESIZE(Weapon*, _actorWeapon1, ActorWeapon1);
 	CC_SYNTHESIZE(Weapon*, _actorWeapon2, ActorWeapon2);
+	CC_SYNTHESIZE(float, _lastAttackTime, LastAttackTime);
 
 protected:
 
-	void MovingActor::initstate(Camp actorcamp);//初始化数据
+	void MovingActor::initstate(HelloWorld* combatScene, Camp actorcamp);//初始化数据
 
 	virtual void updateDirection();//判断人物朝向
 
@@ -43,9 +44,9 @@ public:
 
 	virtual bool init(HelloWorld* combatScene, const std::string& filename, Camp actorcamp);
 
-	virtual void damage(INT32 _damage);//人物受伤判定
+	virtual void Damage(INT32 _damage);//人物受伤判定
 
-	virtual void recover();//每帧自动回复护甲和蓝量
+	virtual void Recover();//每帧自动回复护甲和蓝量
 
 	virtual void MagicRecover(float dt);
 
