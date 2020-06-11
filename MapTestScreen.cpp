@@ -1,7 +1,7 @@
 #include "MapTestScreen.h"
 #include "SimpleAudioEngine.h"
 #include <cmath>
-
+#include<stdlib.h>
 USING_NS_CC;
 
 static void problemLoading(const char* filename)
@@ -32,8 +32,23 @@ bool  MapTest::init()
 
 void  MapTest::initMapLayer()
 {
-	//设置地图的大小
-	_map = TMXTiledMap::create("mapOne.tmx");
+	//设置地图的大小,随机初始化地图
+	int began = 1, end = 5;
+	//初始化地图
+	srand(time(0));
+	int select = rand() % 5 + 1;
+	
+	int a = 2;
+	switch (a)
+	{
+	case 1:_map = TMXTiledMap::create("mapOne.tmx"); break;
+	case 2:_map = TMXTiledMap::create("mapTwo.tmx"); break;
+	case 3:_map = TMXTiledMap::create("mapThree.tmx"); break;
+	case 4:_map = TMXTiledMap::create("mapFour.tmx"); break;
+	case 5:_map = TMXTiledMap::create("mapFive.tmx"); break;
+	}
+
+	
 	auto size = _map->getBoundingBox().size;
 	_map->setAnchorPoint(Vec2::ZERO);
 	_map->setPosition(Vec2::ZERO);
@@ -43,13 +58,8 @@ void  MapTest::initMapLayer()
 	baseLayer->setZOrder(0);
 
 	_mapInformation = MapInfo(_map);
-	/*_blueSoldierPathPoints = SoldierPath::create("data/BluePathPoints.txt", _mapInformation);
-	_redSoldierPathPoints = SoldierPath::create("data/RedPathPoints.txt", _mapInformation);
-	_aiHeroPathPoints = SoldierPath::create("data/AIHeroPathPoints.txt", _mapInformation);
-	_actors.pushBack(_blueSoldierPathPoints);
-	_actors.pushBack(_redSoldierPathPoints);
-	_actors.pushBack(_aiHeroPathPoints);*/
 
+	//使得碰撞检测层与障碍检测层不可见
 	auto collisionLayer = _map->getLayer("collision");
 	collisionLayer->setVisible(false);
     auto boxesLayer= _map->getLayer("boxes");

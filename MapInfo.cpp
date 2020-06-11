@@ -14,9 +14,9 @@ MapInfo::MapInfo(TMXTiledMap* map)
 	_boxesBoard = DyaDicVector(_mapSize.x, std::vector<bool>(_mapSize.y, true));
 	
 	//地图碰撞信息的存储,运用空白gid值为0
-	for (int i = 0; i < _mapSize.x; ++i)
+	for (int i = 0; i < _mapSize.x; i++)
 	{
-		for (int j = 0; j < _mapSize.y; ++j)
+		for (int j = 0; j < _mapSize.y; j++)
 		{
 			if (collisionLayer->getTileGIDAt(Vec2(i, j)) > 0)
 			{
@@ -27,9 +27,9 @@ MapInfo::MapInfo(TMXTiledMap* map)
 	}
 
 	//箱子信息的存储
-	for (int i = 0; i < _mapSize.x; ++i)
+	for (int i = 0; i < _mapSize.x; i++)
 	{
-		for (int j = 0; j < _mapSize.y; ++j)
+		for (int j = 0; j < _mapSize.y; j++)
 		{
 			if (boxesLayer->getTileGIDAt(Vec2(i, j)) > 0)
 			{
