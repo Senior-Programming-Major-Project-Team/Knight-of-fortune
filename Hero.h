@@ -14,13 +14,15 @@ class Hero :public MovingActor
 
 public:
 
-	virtual bool checkSkillStatus();
+	virtual void Attack();//攻击
 
-	virtual void castSkill();
+	virtual bool checkSkillStatus();//确认技能是否可以使用
+
+	virtual void castSkill();//释放技能
 	
-	virtual void heroMove();
+	virtual void heroMove(const Vec2& targetPosition);//移动
 
-	virtual void stopMove();
+	virtual void stopMove();//停止移动
 
 	virtual bool init(HelloWorld* combatScene, std::string heroName, Camp atorcamp);
 
@@ -28,13 +30,13 @@ public:
 
 protected:
 
-	virtual void startAnimation();
+	virtual void startAnimation();//动画
 
 	virtual bool initHeroData(HelloWorld* combatScene, std::string heroName, Camp actorcamp);
 
-	virtual Weapon* pickupWeapon(Weapon* weapon);
+	virtual Weapon* pickupWeapon(Weapon* weapon);//拾取武器
 
-	virtual void changeWeapon();
+	virtual void changeWeapon();//更换武器
 };
 
 #endif // _HERO_
