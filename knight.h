@@ -4,24 +4,21 @@
 #define _KNIGHT_
 
 #include "Hero.h"
+#include "cocos2d.h"
 
 USING_NS_CC;
 
 class Knight : public Hero
 {
-	CC_SYNTHESIZE(float, _maxskillTime, MaxSkillTime);//技能使用时间
-	CC_SYNTHESIZE(float, _currentskillTime, CurrentSkillTime);//当前使用时间
-	CC_SYNTHESIZE(float, _startTime, StartTime);//开启技能时间
 	CC_SYNTHESIZE(bool, _isSkillOn, IsSkillOn);//判断技能是否开启
 
 public:
 
-	Knight* create(HelloWorld* combatScene, std::string heroName, Camp actorcamp)
+	static Knight* create(HelloWorld* combatScene, std::string heroName, Camp actorcamp)
 	{
 		Knight* knight = new(std::nothrow)Knight;
 		if (knight && knight->init(combatScene, heroName, actorcamp))
 		{
-			knight->autorelease();
 			return knight;
 		}
 		CC_SAFE_DELETE(knight);
@@ -34,45 +31,36 @@ public:
 		{
 			return false;
 		}
-		_maxskillTime = 20;
-		_currentskillTime = 0;
+		setHeroName(heroName);
 		_isSkillOn = false;
 		return true;
 	}
 
-	virtual void castSkill()//释放技能
+	void Skill(float dt)//释放技能
 	{
-		if (checkSkillStatus() && checkSkillTime())
+		if (checkSkillStatus())
 		{
 		    if (!_isSkillOn)
 		    {
-				_startTime = GetCurrentTime() / 1000.f;
-				_actorState->setMinAttackInterval(_actorState->getMinAttackInterval() / 2);
-		        _actorState->setCurrentSpeed(_actorState->getCurrentSpeed * 2);
+				setMinAttackInterval(getMinAttackInterval() / 2);
+		        setCurrentSpeed(getCurrentSpeed() * 2);
+				//setTexture("knightLeft.png");//
+				_isSkillOn = true;
 			}
-			
-			_isSkillOn = true;
-			Attack();
-			castSkill();
 		}
-		stopSkill();
 	}
 
-	bool checkSkillTime()//判断技能使用时间
+	virtual void castSkill()
 	{
-		_currentskillTime = GetCurrentTime() / 1000.f - _startTime;
-		if (_currentskillTime <= _maxskillTime)
-			return true;
-		else
-			return false;
+		this->scheduleOnce(schedule_selector(Knight::Skill), 0);
+		this->scheduleOnce(schedule_selector(Knight::stopSkill), 10.0f);
 	}
 
-	void stopSkill()//终止技能
+	void stopSkill(float dt)//终止技能
 	{
 		_lastSkillTime = GetCurrentTime() / 1000.f;
-		_currentskillTime = 0;
-		_actorState->setMinAttackInterval(_actorState->getMinAttackInterval() * 2);
-		_actorState->setCurrentSpeed(_actorState->getCurrentSpeed / 2);
+		setMinAttackInterval(getMinAttackInterval() * 2);
+		setCurrentSpeed(getCurrentSpeed() / 2);
 		_isSkillOn = false;
 	}
 };
