@@ -27,17 +27,22 @@ bool Hero::init(HelloWorld* combatScene, std::string heroName, Camp actorcamp)
 bool Hero::initHeroData(HelloWorld* combatScene, std::string heroName, Camp camp)
 {
 	_combatScene = combatScene;
-	setTexture(StringUtils::format("pictures\\hero\\%s\\%sright1.png", heroName.c_str(), heroName.c_str()));
-	setPosition(Vec2(0, 0));
-	_actorState->init();
+	setTexture(StringUtils::format("%sRight.png", heroName.c_str(), heroName.c_str()));
+	_maxArmor = ARMOR;
+	_currentArmor = ARMOR;
+	_maxMagic = MAGIC;
+	_currentMagic = MAGIC;
+	_maxHealth = HEALTH;
+	_currentHealth = HEALTH;
+	_currentSpeed = SPEED;
+	_minAttackInterval = 2;
+	_alreadyDead = false;
 	_heroName = heroName;
-	_actorcamp = Camp::ME;
-	_actordirection = Direction::LEFT;
+	_actorcamp = camp;
+	_actordirection = Direction::RIGHT;
 	_angle = 0;
-	_calmTime = 30;
+	_calmTime = 1;
 	_lastSkillTime = 0;
-	_actorWeapon1 = nullptr;
-	_actorWeapon2 = nullptr;
 	return true;
 }
 
@@ -52,71 +57,39 @@ bool Hero::checkSkillStatus()
 
 void Hero::castSkill() {}
 
-void Hero::heroMove()
+void Hero::heroMove(const Vec2& targetPosition)
 {
-	auto nowTime = GetCurrentTime() / 1000.f;
-	if (nowTime - _lastAttackTime <= _actorState->getMinAttackInterval())
-	{
-		return;
-	}
 	Direction oldDirection = _actordirection;
+	_angle = ccpToAngle(targetPosition);
 	updateDirection();
-	if (_actordirection != oldDirection)
-	{
-		startAnimation();
-	}
-	/*auto direction = ccpNormalize(ccpSub(targetPosition, getPosition()));
-	auto newPosition = ccpAdd(getPosition(), ccpMult(direction, _actorState->getCurrentSpeed()));
-	setPosition(newPosition);*/
-}
-
-void Hero::startAnimation()
-{
-	stopAllActions();
-	auto animation = Animation::create();
-	switch (_actordirection)
-	{
-	case Direction::RIGHT:
-		animation = AnimationCache::getInstance()->getAnimation(StringUtils::format("%sMoveRight", _heroName.getCString()));
-		break;
-	case Direction::LEFT:
-		animation = AnimationCache::getInstance()->getAnimation(StringUtils::format("%sMoveLeft", _heroName.getCString()));
-		break;
-	}
-	animation->setDelayPerUnit(0.15f);
-	animation->setLoops(-1);
-	auto animate = Animate::create(animation);
-	runAction(RepeatForever::create(animate));
+	auto direction = targetPosition;
+	auto newPosition = getPosition() + direction * getCurrentSpeed();
+	setPosition(newPosition);
+	stopMove();
 }
 
 void Hero::stopMove()
 {
-	auto nowTime = GetCurrentTime() / 1000.f;
-	if (nowTime - _lastAttackTime < _actorState->getMinAttackInterval())
-	{
-		return;
-	}
 	stopAllActions();
 	switch (_actordirection)
 	{
 	case Direction::LEFT:
-		setTexture(StringUtils::format("", _heroName.getCString(), _heroName.getCString()));
+		setTexture(StringUtils::format("%sLeft.png", _heroName.getCString(), _heroName.getCString()));
 		break;
 	case Direction::RIGHT:
-		setTexture(StringUtils::format("", _heroName.getCString(), _heroName.getCString()));
+		setTexture(StringUtils::format("%sRight.png", _heroName.getCString(), _heroName.getCString()));
 		break;
 	}
-	_actordirection = Direction::NO;
 }
 
-Weapon* Hero::pickupWeapon(Weapon* weapon)
+/*
+void Hero::Attack()
 {
-	Weapon* tempWeapon = _actorWeapon1;
-	_actorWeapon1 = weapon;
-	return tempWeapon;
-}
-
-void Hero::changeWeapon()
-{
-	CC_SWAP(_actorWeapon1, _actorWeapon2, Weapon*);
-}
+	auto nowTime = GetCurrentTime() / 1000.f;
+	if (nowTime - _lastAttackTime < getMinAttackInterval())
+	{
+		return;
+	}
+	changeCurrentMagic(getCurrentMagic() - getMagicPoint());
+	_lastAttackTime = nowTime;
+}*/
