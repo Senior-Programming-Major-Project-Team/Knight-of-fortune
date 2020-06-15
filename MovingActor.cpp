@@ -25,24 +25,74 @@ bool MovingActor::init(HelloWorld* combatScene, const std::string& filename, Cam
 void MovingActor::initstate(HelloWorld* combatScene, Camp actorcamp)
 {
 	setCombatScene(combatScene);
-	_actorState->init();
+	_maxArmor = ARMOR;
+	_currentArmor = ARMOR;
+	_maxMagic = MAGIC;
+	_currentMagic = MAGIC;
+	_maxHealth = HEALTH;
+	_currentHealth = HEALTH;
+	_currentSpeed = SPEED;
+	_minAttackInterval = 2;
+	_alreadyDead = false;
 	setActorCamp(actorcamp);
-	setActorWeapon1(nullptr);
-	setActorWeapon2(nullptr);
+	_actordirection = Direction::RIGHT;
+	_angle = 0;
+	_lastAttackTime = 0;
 }
+
+void MovingActor::changeMaxHealth(INT32 newMaxHealth)
+{
+	auto oldMaxHealth = _maxHealth;
+	setMaxHealth(newMaxHealth);
+	setCurrentHealth(_currentHealth + newMaxHealth - oldMaxHealth);
+}
+
+void MovingActor::changeCurrentHealth(INT32 newCurrentHealth)
+{
+	if (newCurrentHealth <= 0)
+		setCurrentHealth(0);
+	if (newCurrentHealth >= _maxHealth)
+		setCurrentHealth(_maxHealth);
+	setCurrentHealth(newCurrentHealth);
+}
+
+void MovingActor::changeCurrentMagic(INT32 newCurrentMagic)
+{
+	if (newCurrentMagic <= 0)
+		setCurrentMagic(0);
+	if (newCurrentMagic >= _maxMagic)
+		setCurrentMagic(_maxMagic);
+	setCurrentMagic(newCurrentMagic);
+}
+
+INT32 MovingActor::changeCurrentArmor(INT32 newCurrentArmor)
+{
+	if (newCurrentArmor <= 0)
+	{
+		setCurrentArmor(0);
+		return newCurrentArmor;
+	}
+	if (newCurrentArmor >= _maxArmor)
+	{
+		setCurrentArmor(_maxArmor);
+	}
+	setCurrentArmor(newCurrentArmor);
+	return 1;
+}
+
 
 void MovingActor::die()
 {
-	_actorState->setAlreadyDead(true);
+	setAlreadyDead(true);
 }
 
 void MovingActor::Damage(INT32 damage)
 {
-	if (_actorState->changeCurrentArmor(_actorState->getCurrentArmor() - damage) < 0)
+	if (changeCurrentArmor(getCurrentArmor() - damage) < 0)
 	{
-		_actorState->changeCurrentHealth(damage - _actorState->getCurrentArmor());
+		changeCurrentHealth(damage - getCurrentArmor());
 	}
-	if (_actorState->getCurrentHealth() <= 0)
+	if (getCurrentHealth() <= 0)
 	{
 		die();
 	}
@@ -50,20 +100,13 @@ void MovingActor::Damage(INT32 damage)
 
 void MovingActor::Recover()
 {
-	while (_actorState->getCurrentMagic() < _actorState->getMaxMagic())
-		this->scheduleOnce(schedule_selector(MovingActor::MagicRecover), 1.0f);
-	while (_actorState->getCurrentArmor() < _actorState->getMaxArmor())
-		this->scheduleOnce(schedule_selector(MovingActor::MagicRecover), 1.0f);
-}
-
-void MovingActor::MagicRecover(float dt)
-{
-	_actorState->changeCurrentMagic( _actorState->getCurrentMagic() + 10);
+	while (getCurrentArmor() < getMaxArmor())
+		this->scheduleOnce(schedule_selector(MovingActor::ArmorRecover), 1.0f);
 }
 
 void MovingActor::ArmorRecover(float dt)
 {
-	_actorState->changeCurrentArmor(_actorState->getCurrentArmor() + 1);
+	changeCurrentArmor(getCurrentArmor() + 1);
 }
 
 void MovingActor::updateDirection()
@@ -78,22 +121,14 @@ void MovingActor::updateDirection()
 	}
 }
 
-void MovingActor::startAnimation(){}
-
 void MovingActor::moveTo(const Vec2& targetPosition)
 {
 	auto oldDirection = _actordirection;
-	_angle = ccpAngle(getPosition(), targetPosition);
+	_angle = ccpToAngle(targetPosition);
 	updateDirection();
-	if (_actordirection != oldDirection)
-	{
-		startAnimation();
-	}
-	auto direction = ccpNormalize(ccpSub(targetPosition, getPosition()));
-	auto newPosition = ccpAdd(getPosition(), ccpMult(direction, _actorState->getCurrentSpeed()));
+	auto direction = targetPosition;
+	auto newPosition = getPosition() + direction * getCurrentSpeed();
 	setPosition(newPosition);
 }
-
-void MovingActor::Attack() {};
 
 void MovingActor::Buff() {};
