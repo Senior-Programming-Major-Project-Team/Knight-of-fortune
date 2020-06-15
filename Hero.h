@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef _HERO_
 #define _HERO_
 
@@ -6,7 +8,7 @@
 
 USING_NS_CC;
 
-class Hero :public MovingActor
+class Hero : public MovingActor
 {
 	CC_SYNTHESIZE(String, _heroName, HeroName);
 	CC_SYNTHESIZE(float, _calmTime, CalmTime);
@@ -14,7 +16,7 @@ class Hero :public MovingActor
 
 public:
 
-	virtual void Attack();//攻击
+	//virtual void Attack();//
 
 	virtual bool checkSkillStatus();//确认技能是否可以使用
 
@@ -30,13 +32,7 @@ public:
 
 protected:
 
-	virtual void startAnimation();//动画
-
 	virtual bool initHeroData(HelloWorld* combatScene, std::string heroName, Camp actorcamp);
-
-	virtual Weapon* pickupWeapon(Weapon* weapon);//拾取武器
-
-	virtual void changeWeapon();//更换武器
 };
 
 #endif // _HERO_
