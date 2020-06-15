@@ -11,6 +11,9 @@
 #define SPEED 1
 #define MINDEGREE 0.3926991
 
+#define PRESS 1
+#define RELEASE	2
+
 enum Camp
 {
 	ME,
@@ -23,6 +26,10 @@ enum Direction
 	DOWN,
 	LEFT,
 	RIGHT,
+	UPLEFT,
+	UPRIGHT,
+	DOWNLEFT,
+	DOWNRIGHT,
 	NO
 };
 
