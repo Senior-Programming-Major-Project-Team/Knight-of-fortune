@@ -1,4 +1,4 @@
-#include "MapInfo.h"
+ï»¿#include "MapInfo.h"
 USING_NS_CC;
 MapInfo::MapInfo(TMXTiledMap* map)
 {
@@ -10,10 +10,10 @@ MapInfo::MapInfo(TMXTiledMap* map)
 
 
 
-	_collisionBoard = DyaDicVector(_mapSize.x, std::vector<bool>(_mapSize.y, true));//vectorµÄ³õÊ¼»¯ĞÎÊ½¡­¡­
+	_collisionBoard = DyaDicVector(_mapSize.x, std::vector<bool>(_mapSize.y, true));//vectorçš„åˆå§‹åŒ–å½¢å¼â€¦â€¦
 	_boxesBoard = DyaDicVector(_mapSize.x, std::vector<bool>(_mapSize.y, true));
 	
-	//µØÍ¼Åö×²ĞÅÏ¢µÄ´æ´¢,ÔËÓÃ¿Õ°×gidÖµÎª0
+	//åœ°å›¾ç¢°æ’ä¿¡æ¯çš„å­˜å‚¨,è¿ç”¨ç©ºç™½gidå€¼ä¸º0
 	for (int i = 0; i < _mapSize.x; i++)
 	{
 		for (int j = 0; j < _mapSize.y; j++)
@@ -26,7 +26,7 @@ MapInfo::MapInfo(TMXTiledMap* map)
 		}
 	}
 
-	//Ïä×ÓĞÅÏ¢µÄ´æ´¢
+	//ç®±å­ä¿¡æ¯çš„å­˜å‚¨
 	for (int i = 0; i < _mapSize.x; i++)
 	{
 		for (int j = 0; j < _mapSize.y; j++)

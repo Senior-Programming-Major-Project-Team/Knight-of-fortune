@@ -1,4 +1,4 @@
-#ifndef __MAPINFO_H__
+ï»¿#ifndef __MAPINFO_H__
 #define __MAPINFO_H__
 
 #include"Constant.h"
@@ -21,23 +21,23 @@ private:
 
 public:
 
-	//Ä¬ÈÏ´æÔÚ¹¹Ôìº¯Êı
+	//é»˜è®¤å­˜åœ¨æ„é€ å‡½æ•°
 	MapInfo() = default;
-	//ÓÃtiledmap³õÊ¼»¯
+	//ç”¨tiledmapåˆå§‹åŒ–
 	MapInfo(TMXTiledMap* map);
 
-	//×ª»»×ø±êÏµ
+	//è½¬æ¢åæ ‡ç³»
 	PointINT getGridPoint(const Vec2& position) const;
 
-	//ÒÆ³ıÕÏ°­Îï
+	//ç§»é™¤éšœç¢ç‰©
 	void removeTowerCollision(const Vec2& towerPosition);
 
 	Vec2 getPrecisePosition(const PointINT& girdPoint) const;
 
-	//collison²ãÊÇ·ñ¿ÉÒÔµ²×¡
+	//collisonå±‚æ˜¯å¦å¯ä»¥æŒ¡ä½
 	bool checkCollision(const Vec2& position) const;
 
-	//Ïä×ÓÀàÀï¼ì²é×ø±êÊÇ·ñÊÇÏä×ÓÀà
+	//ç®±å­ç±»é‡Œæ£€æŸ¥åæ ‡æ˜¯å¦æ˜¯ç®±å­ç±»
 	bool checkBoxes(const Vec2& position) const;
 
 };

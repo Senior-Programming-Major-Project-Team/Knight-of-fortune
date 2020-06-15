@@ -1,4 +1,4 @@
-#include "MapTestScreen.h"
+ï»¿#include "MapTestScreen.h"
 #include "SimpleAudioEngine.h"
 #include <cmath>
 #include<stdlib.h>
@@ -32,14 +32,13 @@ bool  MapTest::init()
 
 void  MapTest::initMapLayer()
 {
-	//ÉèÖÃµØÍ¼µÄ´óÐ¡,Ëæ»ú³õÊ¼»¯µØÍ¼
+	//è®¾ç½®åœ°å›¾çš„å¤§å°,éšæœºåˆå§‹åŒ–åœ°å›¾
 	int began = 1, end = 5;
-	//³õÊ¼»¯µØÍ¼
+	//åˆå§‹åŒ–åœ°å›¾
 	srand(time(0));
 	int select = rand() % 5 + 1;
 	
-	int a = 2;
-	switch (a)
+	switch (select)
 	{
 	case 1:_map = TMXTiledMap::create("mapOne.tmx"); break;
 	case 2:_map = TMXTiledMap::create("mapTwo.tmx"); break;
@@ -53,13 +52,13 @@ void  MapTest::initMapLayer()
 	_map->setAnchorPoint(Vec2::ZERO);
 	_map->setPosition(Vec2::ZERO);
 
-	//ÉèÖÃ»ù²ã
+	//è®¾ç½®åŸºå±‚
 	auto baseLayer = _map->getLayer("Base");
 	baseLayer->setZOrder(0);
 
 	_mapInformation = MapInfo(_map);
 
-	//Ê¹µÃÅö×²¼ì²â²ãÓëÕÏ°­¼ì²â²ã²»¿É¼û
+	//ä½¿å¾—ç¢°æ’žæ£€æµ‹å±‚ä¸Žéšœç¢æ£€æµ‹å±‚ä¸å¯è§
 	auto collisionLayer = _map->getLayer("collision");
 	collisionLayer->setVisible(false);
     auto boxesLayer= _map->getLayer("boxes");

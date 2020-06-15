@@ -1,4 +1,4 @@
-#ifndef _MAP_TESTSCREEN_H_
+ï»¿#ifndef _MAP_TESTSCREEN_H_
 #define _MAP_TESTSCREEN_H_
 
 #include "cocos2d.h"
@@ -19,31 +19,31 @@ class MapTest : public cocos2d::Scene
 	CC_SYNTHESIZE(TMXTiledMap*, _map, Map);
 	CC_SYNTHESIZE(MapInfo, _mapInformation, MapInformation);
 	public:
-	//¹«¿ªÈİÆ÷
+	//å…¬å¼€å®¹å™¨
 	
 
 private:
 
 	
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	void initMapLayer();
 	/*void initListener();*/
-	//Ö¡¸üĞÂ
+	//å¸§æ›´æ–°
 	void updateMap();
 	//netWork
-	//¼àÌı
-	//¼àÌıÆ÷
+	//ç›‘å¬
+	//ç›‘å¬å™¨
 	//EventListenerTouchOneByOne* listenerTouch;
 	//EventListenerKeyboard* listenerKeyBoard;
-	////Êó±êµã»÷ÊÂ¼ş
+	////é¼ æ ‡ç‚¹å‡»äº‹ä»¶
 	//virtual bool onTouchBegan(Touch* touch, Event* event);
-	////°´¼üÊÂ¼ş
+	////æŒ‰é”®äº‹ä»¶
 	//virtual bool onPressKey(EventKeyboard::KeyCode keyCode, Event* event);
 	//virtual bool onReleaseKey(EventKeyboard::KeyCode keyCode, Event* event);
-	////ÅĞ¶ÏÊÇ·ñÒ»Ö±±»°´×¡
+	////åˆ¤æ–­æ˜¯å¦ä¸€ç›´è¢«æŒ‰ä½
 	//std::map<cocos2d::EventKeyboard::KeyCode, bool> keys;
 	//bool isKeyPressed(EventKeyboard::KeyCode keyCode);
-	////Êó±ê¼àÌıÆ÷
+	////é¼ æ ‡ç›‘å¬å™¨
 	//bool _isMouseSprite;
 	//Sprite* _mouseSprite;
 	//EventListenerMouse* listenerMouse;
