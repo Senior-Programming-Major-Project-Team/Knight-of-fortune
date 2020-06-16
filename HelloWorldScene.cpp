@@ -117,9 +117,10 @@ bool HelloWorld::init()
     }*/
 	initstatedate();
 	inithero();
+	initweapon();
 	initenemy();
 	this->scheduleUpdate();
-	this->schedule(schedule_selector(HelloWorld::updateEnemy), 0.1f);
+    this->schedule(schedule_selector(HelloWorld::updateEnemy), 0.1f);
 
     return true;
 }
@@ -144,12 +145,20 @@ void HelloWorld::inithero()
 	//开启监听
 }
 
+void HelloWorld::initweapon()
+{
+	_myWeapon = TommyGun::create(this, "Tommygun", _myHero);
+	_myWeapon->setTexture("tommygun.png");
+	_myHero->addChild(_myWeapon);
+	_myWeapon->openFire(this);
+}
+
 void HelloWorld::initenemy()
 {
-	//initpig();
+	initpig();
 	initlancegoblin();
-	//initflower();
-	//inithandgungoblin();
+	initflower();
+	inithandgungoblin();
 }
 
 void HelloWorld::initpig()
@@ -242,7 +251,7 @@ void HelloWorld::updateEnemy(float delta)//更新怪物信息
 		}
 		case EType::LANCEGOBLIN:
 		{
-			//i->automove();//
+			i->automove();
 			i->Attack(_myHero);
 			break;
 		}
