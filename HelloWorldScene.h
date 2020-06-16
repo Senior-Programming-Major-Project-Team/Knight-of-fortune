@@ -31,9 +31,12 @@
 #include "LanceGoblin.h"
 #include "Flower.h"
 #include "HandGunGoblin.h"
+#include "TommyGun.h"
+
 
 class Hero;
 class Enemy;
+class Weapon;
 
 class HelloWorld : public cocos2d::Scene
 {
@@ -41,6 +44,7 @@ class HelloWorld : public cocos2d::Scene
 	CC_SYNTHESIZE(Direction, _pressdirection, PressDirection);
 	CC_SYNTHESIZE(bool, _isCanMove, IsCanMove);
 	CC_SYNTHESIZE(Hero*, _myHero, MyHero);
+	CC_SYNTHESIZE(Weapon*, _myWeapon, MyWeapon);
 
 public:
 
@@ -53,6 +57,8 @@ public:
 	void initstatedate();//初始化按键信息
 
 	void inithero();//初始化人物信息
+
+	void initweapon();
 
 	void initenemy();//初始化敌人信息
 
