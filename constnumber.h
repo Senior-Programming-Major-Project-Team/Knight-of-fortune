@@ -10,6 +10,8 @@
 #define ARMOR 5
 #define SPEED 1
 #define MINDEGREE 0.3926991
+#define MIN_ATTACK_INTERVAL 1
+#define ATTACK_RADIUS 10
 
 #define PRESS 1
 #define RELEASE	2
