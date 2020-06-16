@@ -30,6 +30,7 @@ class MovingActor :
 	CC_SYNTHESIZE(float, _currentSpeed, CurrentSpeed);
 	CC_SYNTHESIZE(bool, _alreadyDead, AlreadyDead);
 	CC_SYNTHESIZE(float, _minAttackInterval, MinAttackInterval);
+	CC_SYNTHESIZE(float, _attackRadius, AttackRadius);
 
 protected:
 
@@ -41,7 +42,7 @@ protected:
 
 	void changeCurrentHealth(INT32 newCurrentHealth);
 
-	INT32 changeCurrentArmor(INT32 newCurrentArmor);
+	void changeCurrentArmor(INT32 newCurrentArmor);
 
 	void changeCurrentMagic(INT32 newCurrentMagic);
 
@@ -63,3 +64,4 @@ public:
 	virtual void Buff();//buff效果
 };
 #endif // _MovingActor_
+
