@@ -16,7 +16,7 @@ class Hero : public MovingActor
 
 public:
 
-	//virtual void Attack();//
+	virtual void die();
 
 	virtual bool checkSkillStatus();//确认技能是否可以使用
 
@@ -32,7 +32,7 @@ public:
 
 protected:
 
-	virtual bool initHeroData(HelloWorld* combatScene, std::string heroName, Camp actorcamp);
+	virtual void initHeroData(HelloWorld* combatScene, std::string heroName, Camp actorcamp);
 };
 
 #endif // _HERO_
