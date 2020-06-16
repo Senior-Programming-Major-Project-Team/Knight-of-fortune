@@ -17,7 +17,7 @@ public:
 	static Knight* create(HelloWorld* combatScene, std::string heroName, Camp actorcamp)
 	{
 		Knight* knight = new(std::nothrow)Knight;
-		if (knight && knight->init(combatScene, heroName, actorcamp))
+		if (knight->init(combatScene, heroName, actorcamp))
 		{
 			return knight;
 		}
@@ -31,7 +31,6 @@ public:
 		{
 			return false;
 		}
-		setHeroName(heroName);
 		_isSkillOn = false;
 		return true;
 	}
@@ -44,7 +43,6 @@ public:
 		    {
 				setMinAttackInterval(getMinAttackInterval() / 2);
 		        setCurrentSpeed(getCurrentSpeed() * 2);
-				//setTexture("knightLeft.png");//
 				_isSkillOn = true;
 			}
 		}
@@ -58,10 +56,13 @@ public:
 
 	void stopSkill(float dt)//终止技能
 	{
-		_lastSkillTime = GetCurrentTime() / 1000.f;
-		setMinAttackInterval(getMinAttackInterval() * 2);
-		setCurrentSpeed(getCurrentSpeed() / 2);
-		_isSkillOn = false;
+		if (_isSkillOn)
+		{
+			_lastSkillTime = GetCurrentTime() / 1000.f;
+			setMinAttackInterval(getMinAttackInterval() * 2);
+			setCurrentSpeed(getCurrentSpeed() / 2);
+			_isSkillOn = false;
+		}
 	}
 };
 
