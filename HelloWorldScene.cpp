@@ -1,3 +1,27 @@
+/****************************************************************************
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
+ http://www.cocos2d-x.org
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
+
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "constnumber.h"
@@ -25,7 +49,6 @@ bool HelloWorld::init()
     {
         return false;
     }
-	initdate();
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -92,12 +115,90 @@ bool HelloWorld::init()
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }*/
+	initstatedate();
 	inithero();
-	scheduleUpdate();
+	initenemy();
+	this->scheduleUpdate();
+	this->schedule(schedule_selector(HelloWorld::updateEnemy), 0.1f);
+
     return true;
 }
 
-void HelloWorld::update(float delta) //更新按键信息（wasd）
+void HelloWorld::update(float delta) 
+{
+	updateHero(0);
+}
+
+void HelloWorld::inithero()
+{
+	_myHero = Knight::create(this, "knight", Camp::ME);
+	_myHero->setPosition(Vec2(100, 100));
+	_myHero->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	this->addChild(_myHero);
+	listenerKeyBoard = EventListenerKeyboard::create();
+	//创建键盘监听
+	listenerKeyBoard->onKeyPressed = CC_CALLBACK_2(HelloWorld::onPressKey, this,);
+	listenerKeyBoard->onKeyReleased = CC_CALLBACK_2(HelloWorld::onReleaseKey, this);
+	//绑定键盘监听
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerKeyBoard, this);
+	//开启监听
+}
+
+void HelloWorld::initenemy()
+{
+	//initpig();
+	initlancegoblin();
+	//initflower();
+	//inithandgungoblin();
+}
+
+void HelloWorld::initpig()
+{
+	Pig* pig = Pig::create(this, "Pig", Camp::ENEMY);
+	_enemies.pushBack(pig);
+	pig->setPosition(Vec2(200, 200));
+	pig->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	this->addChild(pig);
+}
+
+void HelloWorld::initlancegoblin()
+{
+	LanceGoblin* lanceGoblin = LanceGoblin::create(this, "LanceGoblin", Camp::ENEMY);
+	_enemies.pushBack(lanceGoblin);
+	lanceGoblin->setPosition(Vec2(300, 200));
+	lanceGoblin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	this->addChild(lanceGoblin);
+}
+
+void HelloWorld::initflower()
+{
+	Flower* flower = Flower::create(this, "Flower", Camp::ENEMY);
+	_enemies.pushBack(flower);
+	flower->setPosition(Vec2(200, 300));
+	flower->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	this->addChild(flower);
+}
+
+void HelloWorld::inithandgungoblin()
+{
+	HandGunGoblin* handGunGoblin = HandGunGoblin::create(this, "HandGunGoblin", Camp::ENEMY);
+	_enemies.pushBack(handGunGoblin);
+	handGunGoblin->setPosition(Vec2(300, 300));
+	handGunGoblin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	this->addChild(handGunGoblin);
+}
+
+void HelloWorld::initstatedate()
+{
+	_pressdirection = Direction::NO;
+	_isCanMove = false;
+	_wState = false;
+	_aState = false;
+	_sState = false;
+	_dState = false;
+}
+
+void HelloWorld::updateHero(float delta)//更新人物信息（wasd）
 {
 	Node::update(delta);
 	auto leftArrow = EventKeyboard::KeyCode::KEY_LEFT_ARROW;
@@ -109,7 +210,7 @@ void HelloWorld::update(float delta) //更新按键信息（wasd）
 		_wState = true;
 		_sState = false;
 	}
-	else if (isKeyPressed(leftArrow)) 
+	else if (isKeyPressed(leftArrow))
 	{
 		_aState = true;
 		_dState = false;
@@ -124,34 +225,43 @@ void HelloWorld::update(float delta) //更新按键信息（wasd）
 		_dState = true;
 		_aState = false;
 	}
-	Heromove(knight);
+	Heromove();
 }
 
-void HelloWorld::inithero()
+void HelloWorld::updateEnemy(float delta)//更新怪物信息
 {
-	knight->setPosition(Vec2(100, 100));
-	knight->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	this->addChild(knight);
-	listenerKeyBoard = EventListenerKeyboard::create();
-	//创建键盘监听
-	listenerKeyBoard->onKeyPressed = CC_CALLBACK_2(HelloWorld::onPressKey, this, knight);
-	listenerKeyBoard->onKeyReleased = CC_CALLBACK_2(HelloWorld::onReleaseKey, this, knight);
-	//绑定键盘监听
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerKeyBoard, this);
-	//开启监听
+	for (auto& i : _enemies)
+	{
+		switch (i->getEnemyType())
+		{
+		case EType::PIG:
+		{
+			i->automove();
+			i->Attack(_myHero);
+			break;
+		}
+		case EType::LANCEGOBLIN:
+		{
+			//i->automove();//
+			i->Attack(_myHero);
+			break;
+		}
+		case EType::FLOWER:
+		{
+			i->Attack(_myHero);
+			break;
+		}
+		case EType::HANDGUNGOBLIN:
+		{
+			i->automove();
+			i->Attack(_myHero);
+			break;
+		}
+		}
+	}
 }
 
-void HelloWorld::initstatedate()
-{
-	_pressdirection = Direction::NO;
-	_isCanMove = false;
-	_wState = false;
-	_aState = false;
-	_sState = false;
-	_dState = false;
-}
-
-void HelloWorld::Heromove(Hero* hero)
+void HelloWorld::Heromove()
 {
 	PressDirection();
 	stopAllActions();
@@ -206,16 +316,16 @@ void HelloWorld::Heromove(Hero* hero)
 		break;
 	}
 	}
-	hero->heroMove(point);
+	_myHero->heroMove(point);
 }
 
-bool HelloWorld::onPressKey(EventKeyboard::KeyCode keyCode, Event* envet, Hero* hero)
+bool HelloWorld::onPressKey(EventKeyboard::KeyCode keyCode, Event* envet)
 {
 	updateState(keyCode, PRESS);
 	return true;
 }
 
-bool HelloWorld::onReleaseKey(EventKeyboard::KeyCode keyCode, Event * envet, Hero*hero)
+bool HelloWorld::onReleaseKey(EventKeyboard::KeyCode keyCode, Event * envet)
 {
 	updateState(keyCode, RELEASE);
 	if (!_isCanMove)
@@ -225,7 +335,7 @@ bool HelloWorld::onReleaseKey(EventKeyboard::KeyCode keyCode, Event * envet, Her
 	if (_pressdirection == Direction::NO)
 	{
 		stopAllActions();
-		hero->runAction(MoveTo::create(0.08, hero->getPosition()));
+		_myHero->runAction(MoveTo::create(0.08, _myHero->getPosition()));
 		_isCanMove = false;
 	}
 	return true;
@@ -308,7 +418,7 @@ bool HelloWorld::updateState(EventKeyboard::KeyCode keyCode, int type)
 	{
 		if (type == PRESS)
 		{
-			knight->castSkill();
+			_myHero->castSkill();
 		}
 		break;
 	}
