@@ -32,7 +32,8 @@ void MovingActor::initstate(HelloWorld* combatScene, Camp actorcamp)
 	_maxHealth = HEALTH;
 	_currentHealth = HEALTH;
 	_currentSpeed = SPEED;
-	_minAttackInterval = 2;
+	_minAttackInterval = MIN_ATTACK_INTERVAL;
+	_attackRadius = ATTACK_RADIUS;
 	_alreadyDead = false;
 	setActorCamp(actorcamp);
 	_actordirection = Direction::RIGHT;
@@ -50,8 +51,11 @@ void MovingActor::changeMaxHealth(INT32 newMaxHealth)
 void MovingActor::changeCurrentHealth(INT32 newCurrentHealth)
 {
 	if (newCurrentHealth <= 0)
+	{
 		setCurrentHealth(0);
-	if (newCurrentHealth >= _maxHealth)
+		die();
+	}	
+	else if (newCurrentHealth >= _maxHealth)
 		setCurrentHealth(_maxHealth);
 	setCurrentHealth(newCurrentHealth);
 }
@@ -60,42 +64,35 @@ void MovingActor::changeCurrentMagic(INT32 newCurrentMagic)
 {
 	if (newCurrentMagic <= 0)
 		setCurrentMagic(0);
-	if (newCurrentMagic >= _maxMagic)
+	else if (newCurrentMagic >= _maxMagic)
 		setCurrentMagic(_maxMagic);
 	setCurrentMagic(newCurrentMagic);
 }
 
-INT32 MovingActor::changeCurrentArmor(INT32 newCurrentArmor)
+void MovingActor::changeCurrentArmor(INT32 newCurrentArmor)
 {
 	if (newCurrentArmor <= 0)
 	{
 		setCurrentArmor(0);
-		return newCurrentArmor;
+		changeCurrentHealth(getCurrentHealth() + newCurrentArmor);
 	}
-	if (newCurrentArmor >= _maxArmor)
+	else if (newCurrentArmor >= _maxArmor)
 	{
 		setCurrentArmor(_maxArmor);
 	}
 	setCurrentArmor(newCurrentArmor);
-	return 1;
 }
 
 
 void MovingActor::die()
 {
 	setAlreadyDead(true);
+	setTexture("HelloWorld.png");
 }
 
 void MovingActor::Damage(INT32 damage)
 {
-	if (changeCurrentArmor(getCurrentArmor() - damage) < 0)
-	{
-		changeCurrentHealth(damage - getCurrentArmor());
-	}
-	if (getCurrentHealth() <= 0)
-	{
-		die();
-	}
+	changeCurrentArmor(getCurrentArmor() - damage);
 }
 
 void MovingActor::Recover()
@@ -119,16 +116,6 @@ void MovingActor::updateDirection()
 	{
 		_actordirection = Direction::LEFT;
 	}
-}
-
-void MovingActor::moveTo(const Vec2& targetPosition)
-{
-	auto oldDirection = _actordirection;
-	_angle = ccpToAngle(targetPosition);
-	updateDirection();
-	auto direction = targetPosition;
-	auto newPosition = getPosition() + direction * getCurrentSpeed();
-	setPosition(newPosition);
 }
 
 void MovingActor::Buff() {};
