@@ -24,7 +24,7 @@ bool Hero::init(HelloWorld* combatScene, std::string heroName, Camp actorcamp)
 	return true;
 }
 
-bool Hero::initHeroData(HelloWorld* combatScene, std::string heroName, Camp camp)
+void Hero::initHeroData(HelloWorld* combatScene, std::string heroName, Camp camp)
 {
 	_combatScene = combatScene;
 	setTexture(StringUtils::format("%sRight.png", heroName.c_str(), heroName.c_str()));
@@ -35,7 +35,8 @@ bool Hero::initHeroData(HelloWorld* combatScene, std::string heroName, Camp camp
 	_maxHealth = HEALTH;
 	_currentHealth = HEALTH;
 	_currentSpeed = SPEED;
-	_minAttackInterval = 2;
+	_minAttackInterval = MIN_ATTACK_INTERVAL;
+	_attackRadius = ATTACK_RADIUS;
 	_alreadyDead = false;
 	_heroName = heroName;
 	_actorcamp = camp;
@@ -43,7 +44,6 @@ bool Hero::initHeroData(HelloWorld* combatScene, std::string heroName, Camp camp
 	_angle = 0;
 	_calmTime = 1;
 	_lastSkillTime = 0;
-	return true;
 }
 
 bool Hero::checkSkillStatus()
@@ -82,14 +82,7 @@ void Hero::stopMove()
 	}
 }
 
-/*
-void Hero::Attack()
+void Hero::die()
 {
-	auto nowTime = GetCurrentTime() / 1000.f;
-	if (nowTime - _lastAttackTime < getMinAttackInterval())
-	{
-		return;
-	}
-	changeCurrentMagic(getCurrentMagic() - getMagicPoint());
-	_lastAttackTime = nowTime;
-}*/
+	setAlreadyDead(true);
+}
