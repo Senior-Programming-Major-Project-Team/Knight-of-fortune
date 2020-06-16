@@ -19,6 +19,11 @@
 #define PRESS 1
 #define RELEASE	2
 
+#define TOMMY_GUN  500
+#define HAND_GUN   501
+#define SWORD      700
+#define AXE        701
+
 typedef std::vector<std::vector<bool>> DyaDicVector;
 
 typedef struct PointINT
@@ -56,31 +61,12 @@ enum Direction
 	NO
 };
 
-namespace MyMath
+enum EType
 {
-	inline float getRad(const Vec2& startPoint, const Vec2& endPoint)
-	{
-		float py1 = startPoint.y;
-		float py2 = endPoint.y;
-		//求出两边长度  
-		auto delta = endPoint - startPoint;
-		//开方   与  几次方 公式  
-		auto distance = startPoint.distance(endPoint);
-		auto cos = delta.x / distance;
-		//反余弦定理，知道两边长求角度：cos = 邻边/斜边  
-		auto rad = acos(cos);
-		//当触屏Y坐标 <摇杆的Y坐标时，取反值  
-		if (py1 > py2)
-		{
-			rad = 2 * M_PI - rad;
-		}
-		return rad;
-	}
-
-	inline Vec2 calculatePositionDelta(float angle, float speed)
-	{
-		return Vec2(cos(angle) * speed / FRAMES_PER_SECOND, sin(angle) * speed / FRAMES_PER_SECOND);
-	}
+	PIG,
+	HANDGUNGOBLIN,
+	LANCEGOBLIN,
+	FLOWER
 };
 
 #endif //_CONSTNUMBER_ 
