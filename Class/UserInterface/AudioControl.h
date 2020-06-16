@@ -9,7 +9,8 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "extensions/GUI/CCControlExtension/CCControlSlider.h"
-#include "MenuScene.h"
+#include "HelloWorldScene.h"
+#include"MenuScene.h"
 using namespace CocosDenshion;
 using namespace cocos2d::extension;
 

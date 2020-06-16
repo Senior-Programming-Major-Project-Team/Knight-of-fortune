@@ -42,8 +42,8 @@ bool GameMenu::init ()  {
     start_button->setPosition(Vec2(visibleSize.width / 3.5, visibleSize.height * 0.25));
     start_button->addTouchEventListener([](Ref* pSender, Widget::TouchEventType type) {
         if (type == Widget::TouchEventType::ENDED) {
-            // 切换到PreLoad场景
-            auto transition = TransitionSlideInL::create(0.5, PreLoad::createScene());
+            // 切换到选人场景
+            auto transition = TransitionSlideInL::create(0.5, HeroChosen::createScene());
             Director::getInstance()->replaceScene(transition);
         }
     });
@@ -79,7 +79,6 @@ bool GameMenu::init ()  {
     this->addChild(close_button);
     return true;
 }
-
 
 
 
