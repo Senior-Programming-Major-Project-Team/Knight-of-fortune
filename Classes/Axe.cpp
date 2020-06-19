@@ -29,7 +29,7 @@ bool Axe::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 	spAxe->setAnchorPoint(Point(0.5, 0.7));
 	spAxe->setPosition(hero->getPosition());
 	spAxe->setTag(AXE);
-	combatScene->addChild(spAxe);
+	hero->addChild(spAxe);
 	_attackPoint = 4;
 	_magicPoint = 0;
 	_critRate = 0.15;

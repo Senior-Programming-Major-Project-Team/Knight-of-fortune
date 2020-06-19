@@ -19,6 +19,7 @@ bool HealthPotion_1::init()
 {
 	_HP = 1;
 	_attack += 5;
+	return true;
 }
 
 HealthPotion_2* HealthPotion_2::create()
@@ -40,6 +41,7 @@ bool HealthPotion_2::init()
 {
 	_HP = 2;
 	_attack = _attack+3;
+	return true;
 }
 
 HealthPotion_3* HealthPotion_3::create()
@@ -61,6 +63,7 @@ bool HealthPotion_3::init()
 {
 	_HP = 2;
 	_MP = 15;
+	return true;
 }
 
 HealthPotion_4* HealthPotion_4::create()
@@ -81,5 +84,6 @@ HealthPotion_4* HealthPotion_4::create()
 bool HealthPotion_4::init()
 {
 	_HP = 4;
+	return true;
 }
 

@@ -29,7 +29,7 @@ bool Sword::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 	spSword->setAnchorPoint(Point(0.5, 0.7));
 	spSword->setPosition(hero->getPosition());
 	spSword->setTag(SWORD);
-	combatScene->addChild(spSword);
+	hero->addChild(spSword);
 	_attackPoint = 4;
 	_magicPoint = 0;
 	_critRate = 0.15;

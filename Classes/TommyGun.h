@@ -10,6 +10,7 @@ class TommyGun :public longRangeWeapon
 	CC_SYNTHESIZE(INT32, _magicPoint, MagicPoint);
 	CC_SYNTHESIZE(INT32, _attackPoint, AttackPoint);
 	CC_SYNTHESIZE(float, _critRate, CritRate);
+	CC_SYNTHESIZE(Hero*,_hero,hero_);
 public:
 	virtual bool init(HelloWorld* combatScene, std::string weaponName,Hero* hero);
 	//CREATE_FUNC(tommyGun);
@@ -24,6 +25,10 @@ public:
 	virtual void openFire(HelloWorld* combatScene);
 	//void touchupdate(float time);
 	virtual void consumeMagic(HelloWorld* combatScene);
+
+	virtual void update(float t);
+
+	
 
 	
 	int targetX, targetY;

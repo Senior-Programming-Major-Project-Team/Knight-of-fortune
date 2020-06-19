@@ -59,7 +59,7 @@ public:
 
 	virtual void ArmorRecover(float dt);
 	
-	virtual void moveTo(const Vec2& targetPosition);//更新人物坐标
+	//virtual void moveTo(const Vec2& targetPosition);//更新人物坐标
 
 	virtual void Buff();//buff效果
 };

@@ -29,7 +29,7 @@ bool HandGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 	spHandGun->setAnchorPoint(Point(0.5, 0.7));
 	spHandGun->setPosition(hero->getPosition());
 	spHandGun->setTag(HAND_GUN);
-	combatScene->addChild(spHandGun);
+	hero->addChild(spHandGun);
 	_attackPoint = 2;
 	_magicPoint = 300;
 	_critRate = 0.1;

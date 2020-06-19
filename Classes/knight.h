@@ -10,7 +10,7 @@ USING_NS_CC;
 
 class Knight : public Hero
 {
-	CC_SYNTHESIZE(bool, _isSkillOn, IsSkillOn);//åˆ¤æ–­æŠ€èƒ½æ˜¯å¦å¼€å¯
+	CC_SYNTHESIZE(bool, _isSkillOn, IsSkillOn);//ÅÐ¶Ï¼¼ÄÜÊÇ·ñ¿ªÆô
 
 public:
 
@@ -35,14 +35,14 @@ public:
 		return true;
 	}
 
-	void Skill(float dt)//é‡Šæ”¾æŠ€èƒ½
+	void Skill(float dt)//ÊÍ·Å¼¼ÄÜ
 	{
 		if (checkSkillStatus())
 		{
-		    if (!_isSkillOn)
-		    {
+			if (!_isSkillOn)
+			{
 				setMinAttackInterval(getMinAttackInterval() / 2);
-		        setCurrentSpeed(getCurrentSpeed() * 2);
+				setCurrentSpeed(getCurrentSpeed() * 2);
 				_isSkillOn = true;
 			}
 		}
@@ -54,7 +54,7 @@ public:
 		this->scheduleOnce(schedule_selector(Knight::stopSkill), 10.0f);
 	}
 
-	void stopSkill(float dt)//ç»ˆæ­¢æŠ€èƒ½
+	void stopSkill(float dt)//ÖÕÖ¹¼¼ÄÜ
 	{
 		if (_isSkillOn)
 		{
@@ -67,3 +67,4 @@ public:
 };
 
 #endif//_KNIGHT_
+

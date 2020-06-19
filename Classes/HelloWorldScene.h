@@ -1,98 +1,217 @@
 /****************************************************************************
+
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
- 
+
+
+
  http://www.cocos2d-x.org
- 
+
+
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
+
  of this software and associated documentation files (the "Software"), to deal
+
  in the Software without restriction, including without limitation the rights
+
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+
  copies of the Software, and to permit persons to whom the Software is
+
  furnished to do so, subject to the following conditions:
- 
+
+
+
  The above copyright notice and this permission notice shall be included in
+
  all copies or substantial portions of the Software.
- 
+
+
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+
  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+
  THE SOFTWARE.
+
  ****************************************************************************/
 
+
+
 #ifndef __HELLOWORLD_SCENE_H__
+
 #define __HELLOWORLD_SCENE_H__
 
+
+
 #include "cocos2d.h"
+
 #include "knight.h"
+
 #include "Pig.h"
+
 #include "LanceGoblin.h"
+
 #include "Flower.h"
+
 #include "HandGunGoblin.h"
 
+#include "TommyGun.h"
+
+
+
+
+
 class Hero;
+
 class Enemy;
 
+class Weapon;
+
+
+
 class HelloWorld : public cocos2d::Scene
+
 {
 
+
+
 	CC_SYNTHESIZE(Direction, _pressdirection, PressDirection);
+
 	CC_SYNTHESIZE(bool, _isCanMove, IsCanMove);
+
 	CC_SYNTHESIZE(Hero*, _myHero, MyHero);
+
+	CC_SYNTHESIZE(Weapon*, _myWeapon, MyWeapon);
+
+
 
 public:
 
+
+
 	Vector<Enemy*> _enemies;
 
-    static cocos2d::Scene* createScene();
 
-    virtual bool init();
 
-	void initstatedate();//åˆå§‹åŒ–æŒ‰é”®ä¿¡æ¯
+	static cocos2d::Scene* createScene();
 
-	void inithero();//åˆå§‹åŒ–äººç‰©ä¿¡æ¯
 
-	void initenemy();//åˆå§‹åŒ–æ•Œäººä¿¡æ¯
+
+	virtual bool init();
+
+
+
+	void initstatedate();//³õÊ¼»¯°´¼üĞÅÏ¢
+
+
+
+	void inithero();//³õÊ¼»¯ÈËÎïĞÅÏ¢
+
+
+
+	void initweapon();
+
+
+
+	void initenemy();//³õÊ¼»¯µĞÈËĞÅÏ¢
+
+
 
 	void initpig();
 
+
+
 	void initlancegoblin();
+
+
 
 	void initflower();
 
+
+
 	void inithandgungoblin();
 
-	void Heromove();//äººç‰©ç§»åŠ¨
-    
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
+
+
+	void Heromove();//ÈËÎïÒÆ¶¯
+
+
+
+	// a selector callback
+
+	void menuCloseCallback(cocos2d::Ref* pSender);
+
+
 
 	virtual bool onPressKey(EventKeyboard::KeyCode keyCode, Event* envet);
 
+
+
 	virtual bool onReleaseKey(EventKeyboard::KeyCode keyCode, Event* envet);
 
-	std::map<cocos2d::EventKeyboard::KeyCode, bool> keys;//å‚¨å­˜æŒ‰é”®ä¿¡æ¯
 
-	bool isKeyPressed(EventKeyboard::KeyCode keyCode);//åˆ¤æ–­æŒ‰é”®æ˜¯å¦ä¸€ç›´è¢«æŒ‰ä½
+
+	std::map<cocos2d::EventKeyboard::KeyCode, bool> keys;//´¢´æ°´¼üĞÅÏ¢
+
+
+
+	bool isKeyPressed(EventKeyboard::KeyCode keyCode);//ÅĞ¶Ï°´¼üÊÇ·ñÒ»Ö±±»°´×¡
+
+
 
 	void update(float delta);
 
+
+
 	void updateHero(float delta);
+
+
 
 	void updateEnemy(float delta);
 
-	bool updateState(EventKeyboard::KeyCode keyCode, int type);//æ›´æ–°æŒ‰é”®ä¿¡æ¯
+	void updateWeapon(float t);
+
+
+
+	bool updateState(EventKeyboard::KeyCode keyCode, int type);//¸üĞÂ°´¼üĞÅÏ¢
+
+
 
 	bool PressDirection();
 
-	EventListenerKeyboard* listenerKeyBoard;//é”®ç›˜ç›‘å¬
+
+
+	EventListenerKeyboard* listenerKeyBoard;//¼üÅÌ¼àÌı
+
+
 
 	bool _wState, _aState, _sState, _dState;
-    
-    // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+
+	/*EventListenerTouchOneByOne* touch;
+
+	virtual bool onTouchBegan(Touch* touch, Event* unused_event);
+
+	virtual void onTouchMoved(Touch* touch, Event* unused_event);
+
+	virtual void onTouchEnded(Touch* touch, Event* unused_event);*/
+
+
+
+	// implement the "static create()" method manually
+
+	CREATE_FUNC(HelloWorld);
+
 };
+
+
 
 #endif // __HELLOWORLD_SCENE_H__
