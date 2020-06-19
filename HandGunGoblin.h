@@ -40,7 +40,7 @@ public:
 		return true;
 	}
 
-	void Attack(Hero* hero)
+	virtual void Attack(Hero* hero, Enemy* enemy)
 	{
 		auto nowTime = GetCurrentTime() / 1000.f;
 		if (nowTime - _lastAttackTime < _minAttackInterval)
@@ -50,22 +50,22 @@ public:
 		_lastAttackTime = nowTime;
 		Sprite* Bullet = Sprite::create("Bullet.png");
 		_bullets.pushBack(Bullet);
-		Bullet->setPosition(/*getPosition() + */Vec2(30, 30));
+		Bullet->setPosition(Vec2(30, 30));
 		this->addChild(Bullet);
 		srand(time(0) + rand());
-		Point point;
+		Point point, maxpoint;
 		point.x = CCRANDOM_0_1() * 2 - 1;
 		point.y = CCRANDOM_0_1() * 2 - 1;
-		Bullet->runAction(MoveTo::create(1, point * 500 + Bullet->getPosition()));
+		maxpoint = point * 50000 /*+ Bullet->getPosition()*/;
+		Bullet->runAction(MoveTo::create(200, maxpoint));
 		for (auto i = 0; i < _bullets.size(); i++)
 		{
 			auto bullet = _bullets.at(i);
-			if (hero->getPosition().distance(getPosition()) == bullet->getPosition().distance(Vec2(0, 0)))
+			if ((bullet->getPosition() - Vec2(30, 30)).distance(hero->getPosition() + Vec2(70, 70) - enemy->getPosition()) < 120)
 			{
 				hero->Damage(3);
 				bullet->removeFromParent();
 				_bullets.erase(_bullets.begin() + i);
-				CC_SAFE_DELETE(bullet);
 			}
 		}
 	}
