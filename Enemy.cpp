@@ -53,13 +53,14 @@ void Enemy::enemyMove(const Vec2& targetPosition)
 	updateDirection();
 	auto direction = targetPosition;
 	auto newPosition = getPosition() + direction * getCurrentSpeed();
-	setPosition(newPosition);
+	//setPosition(newPosition);
+	runAction(MoveTo::create(5, newPosition));
 	stopMove();
 }
 
 void Enemy::stopMove()
 {
-	stopAllActions();
+	//stopAllActions();
 	switch (_actordirection)
 	{
 	case Direction::LEFT:
@@ -80,7 +81,7 @@ void Enemy::automove()
 	enemyMove(point);
 }
 
-void Enemy::Attack(Hero* hero)
+void Enemy::Attack(Hero* hero, Enemy* enemy)
 {
 	auto nowTime = GetCurrentTime() / 1000.f;
 	if (nowTime - _lastAttackTime < _minAttackInterval)
