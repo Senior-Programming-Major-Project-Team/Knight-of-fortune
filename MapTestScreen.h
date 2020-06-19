@@ -30,35 +30,14 @@ private:
 	/*void initListener();*/
 	//帧更新
 	void updateMap();
-	//netWork
-	//监听
-	//监听器
-	//EventListenerTouchOneByOne* listenerTouch;
-	//EventListenerKeyboard* listenerKeyBoard;
-	////鼠标点击事件
-	//virtual bool onTouchBegan(Touch* touch, Event* event);
-	////按键事件
-	//virtual bool onPressKey(EventKeyboard::KeyCode keyCode, Event* event);
-	//virtual bool onReleaseKey(EventKeyboard::KeyCode keyCode, Event* event);
-	////判断是否一直被按住
-	//std::map<cocos2d::EventKeyboard::KeyCode, bool> keys;
-	//bool isKeyPressed(EventKeyboard::KeyCode keyCode);
-	////鼠标监听器
-	//bool _isMouseSprite;
-	//Sprite* _mouseSprite;
-	//EventListenerMouse* listenerMouse;
-	//virtual bool onMouseMove(Event* event);
-	//void updateSkillPanel();
-	//bool gameEnd();
-	//void changeScene(float delta);
-	//void synchronize();
-
 	Vec2 getPositionInMap(const Vec2& mousePosition);
 
 public:
 	virtual bool init();
 	static cocos2d::Scene* createScene();
 	CREATE_FUNC(MapTest);
+	void removeBoxes(const Vec2& aPosition);
+
 };
 
 #endif 

@@ -65,6 +65,8 @@ void  MapTest::initMapLayer()
 	boxesLayer->setVisible(false);
 
 	this->addChild(_map, 0, TAG_MAP);
+
+	
 }
 
 Scene* MapTest::createScene()
@@ -82,8 +84,35 @@ void  MapTest::updateMap()
 
 
 
-
 Vec2 MapTest::getPositionInMap(const Vec2& mousePosition)
 {
 	return mousePosition - _map->getPosition();
+}
+
+
+
+//此函数一定要确定输入的坐标是
+void MapTest::removeBoxes(const Vec2& aPosition)
+{
+	if (_mapInformation.checkBoxes(aPosition))
+	{
+		auto boxesLayer = this->_map->getLayer("boxes");
+		//转换坐标
+		Size mapSize = _map->getMapSize();//获取地图总大小
+		Size tileSize = _map->getTileSize();//获取格子大小
+		int x = (aPosition.x) / tileSize.width;//格子坐标x
+		int y = (mapSize.height - aPosition.y) / tileSize.height;//格子坐标y
+
+		//移除箱子瓦片
+		boxesLayer->setTileGID(0, Vec2(x, y));//设置为0就置空了
+		//更新地图信息
+		_mapInformation.removeBoxesMessage(aPosition);
+
+	}
+	
+	else
+	{
+		return;
+	}
+	
 }

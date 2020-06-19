@@ -29,8 +29,11 @@ public:
 	//转换坐标系
 	PointINT getGridPoint(const Vec2& position) const;
 
-	//移除障碍物
-	void removeTowerCollision(const Vec2& towerPosition);
+	//移除
+	
+	void removeBoxesMessage(const Vec2& aPosition);
+	
+
 
 	Vec2 getPrecisePosition(const PointINT& girdPoint) const;
 
