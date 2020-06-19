@@ -39,7 +39,7 @@ public:
 		return true;
 	}
 
-	void Attack(Hero* hero)
+	virtual void Attack(Hero* hero, Enemy* enemy)
 	{
 		auto nowTime = GetCurrentTime() / 1000.f;
 		if (nowTime - _lastAttackTime < _minAttackInterval)
@@ -90,12 +90,11 @@ public:
 		for (auto i = 0; i < _bullets.size(); i++)
 		{
 			auto bullet = _bullets.at(i);
-			if (hero->getPosition().distance(getPosition()) == bullet->getPosition().distance(Vec2(30, 30)))
+			if ((bullet->getPosition() - Vec2(30, 30)).distance(hero->getPosition() + Vec2(70, 70) - enemy->getPosition()) < 120)
 			{
 				hero->Damage(3);
 				bullet->removeFromParent();
 				_bullets.erase(_bullets.begin() + i);
-				CC_SAFE_DELETE(bullet);
 			}
 		}
 	}
