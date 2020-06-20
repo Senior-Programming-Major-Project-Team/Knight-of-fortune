@@ -28,11 +28,11 @@ class longRangeWeapon :public Weapon
 
 public:
 
-	virtual bool init(HelloWorld* combatScene, std::string weaponName, Hero* hero);
+	virtual bool init(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies);
 
 	//CREATE_FUNC(longRangeWeapon);
 
-	static longRangeWeapon* create(HelloWorld* combatScene, std::string weaponName, Hero* hero);
+	static longRangeWeapon* create(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies);
 
 	//static Scene* createScene();
 

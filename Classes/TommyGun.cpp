@@ -10,14 +10,14 @@ USING_NS_CC;
 
 
 
-TommyGun* TommyGun::create(HelloWorld* combatScene, std::string weaponName, Hero* hero)
+TommyGun* TommyGun::create(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies)
 
 {
 
 	TommyGun* tommyGun = new(std::nothrow)TommyGun;
 	
 
-	if (tommyGun->init(combatScene, weaponName, hero))
+	if (tommyGun->init(combatScene, weaponName, hero, enemies))
 
 	{
 
@@ -41,11 +41,11 @@ TommyGun* TommyGun::create(HelloWorld* combatScene, std::string weaponName, Hero
 
 
 
-bool TommyGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
+bool TommyGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies)
 
 {
 
-	if (!longRangeWeapon::init(combatScene, weaponName, hero))
+	if (!longRangeWeapon::init(combatScene, weaponName, hero,enemies))
 
 	{
 
@@ -80,6 +80,10 @@ bool TommyGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 	_weaponName = "TommyGun";
 
 	_hero = hero;
+
+	_enemies = enemies;
+
+	_combatScene = combatScene;
 
 	//this->scheduleUpdate();
 
@@ -178,11 +182,17 @@ void TommyGun::onTouchEnded(Touch* touch, Event* unused_event)
 
 	//Vec2 bulletPosition = this->convertToWorldSpace(Bullet->getPosition());
 
-	Bullet->setPosition(90,30);
+	Bullet->setPosition(70,30);
 
-	Bullet2->setPosition(110, 30);
+	Bullet2->setPosition(90, 30);
 
-	Bullet3->setPosition(130, 30);
+	Bullet3->setPosition(110, 30);
+
+	Bullet->setAnchorPoint(Point(0, 0));
+
+	Bullet2->setAnchorPoint(Point(0, 0));
+
+	Bullet3->setAnchorPoint(Point(0, 0));
 
 	//Vec2 bullet1Position = getPosition() + Bullet->getPosition();
 
@@ -323,4 +333,58 @@ void TommyGun::update(float t)
 
 	}
 
+	for (int i = 0; i < _enemies.size(); i++)
+	{
+		auto nowEnemy = _enemies.at(i);
+		
+		//Rect enemyRec(nowEnemy->getPositionX(), nowEnemy->getPositionX(), nowEnemy->boundingBox().size.width, nowEnemy->boundingBox().size.height);
+		//auto visibleSize = Director::getInstance()->getVisibleSize();
+		Rect enemyRec(500, 0, 100, 100);
+
+		for (int j = 0; j < allBullet.size(); j++)
+		{
+			auto nowBullet = allBullet.at(j);
+
+			float _x = nowBullet->getPositionX();
+
+			float _y = nowBullet->getPositionY();
+
+			changeCoordinate(_x,_y);
+			
+			//Vec2 AbsBulletPosition = this->convertToWorldSpace(nowBullet->getPosition());
+			
+			Rect bulletRec(nowBullet->getPositionX(),nowBullet->getPositionY(), nowBullet->boundingBox().size.width, nowBullet->boundingBox().size.height);
+			
+			if (bulletRec.intersectsRect(enemyRec))
+			{
+				nowBullet->removeFromParent();
+
+				allBullet.eraseObject(nowBullet);
+
+				nowEnemy->removeFromParent();
+
+				_enemies.eraseObject(nowEnemy);
+
+				i--;
+
+				j--;
+			}
+		}
+	}
+	
+}
+
+void TommyGun::changeCoordinate(float &x, float &y)
+{
+	
+
+	Vec2 shootVector(targetX - getPositionX(), targetY - getPositionY());
+
+	Vec2 detalVector = shootVector.getNormalized(); //方向单位向量
+
+	float angle = atan2(detalVector.y, detalVector.x);
+
+	x = (x-getPositionX()) / cos(angle);
+	x = (y - getPositionY()) / sin(angle);
+	
 }

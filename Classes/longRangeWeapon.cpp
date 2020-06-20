@@ -10,15 +10,15 @@ USING_NS_CC;
 
 
 
-longRangeWeapon* longRangeWeapon::create(HelloWorld* combatScene, std::string weaponName, Hero* hero)
+longRangeWeapon* longRangeWeapon::create(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies)
 
 {
 
 	longRangeWeapon* longRangeweapon = new(std::nothrow)longRangeWeapon;
 
-	longRangeweapon->init(combatScene, weaponName, hero);
+	longRangeweapon->init(combatScene, weaponName, hero,enemies);
 
-	if (longRangeweapon->init(combatScene, weaponName, hero))
+	if (longRangeweapon->init(combatScene, weaponName, hero,enemies))
 
 	{
 
@@ -42,7 +42,7 @@ longRangeWeapon* longRangeWeapon::create(HelloWorld* combatScene, std::string we
 
 
 
-bool longRangeWeapon::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
+bool longRangeWeapon::init(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies)
 
 {
 

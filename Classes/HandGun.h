@@ -12,12 +12,18 @@ USING_NS_CC;
 class HandGun :public longRangeWeapon
 {
 	CC_SYNTHESIZE(INT32, _magicPoint, MagicPoint);
+
 	CC_SYNTHESIZE(INT32, _attackPoint, AttackPoint);
+
 	CC_SYNTHESIZE(float, _critRate, CritRate);
+
+	CC_SYNTHESIZE(Hero*, _hero, hero_);
+
+	CC_SYNTHESIZE(Vector<Enemy*>, _enemies, Enemies);
 public:
-	virtual bool init(HelloWorld* combatScene, std::string weaponName, Hero* hero);
+	virtual bool init(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies);
 	//CREATE_FUNC(tommyGun);
-	static HandGun* create(HelloWorld* combatScene, std::string weaponName, Hero* hero);
+	static HandGun* create(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies);
 
 	virtual bool onTouchBegan(Touch* touch, Event* unused_event);
 
@@ -28,6 +34,8 @@ public:
 	virtual void openFire(HelloWorld* combatScene);
 	//void touchupdate(float time);
 	virtual void consumeMagic(HelloWorld* combatScene);
+
+	virtual void update(float t);
 
 
 	int targetX, targetY;

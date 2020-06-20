@@ -307,7 +307,7 @@ void HelloWorld::initweapon()
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touch, this);*/
 
-	_myWeapon = TommyGun::create(this, "tommygun.png",_myHero);
+	_myWeapon = TommyGun::create(this, "tommygun.png",_myHero,_enemies);
 
 	_myWeapon->setTexture("tommygun.png");
 

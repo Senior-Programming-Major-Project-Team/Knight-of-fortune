@@ -12,6 +12,8 @@
 
 #include"Hero.h"
 
+#include"Enemy.h"
+
 
 
 class HelloWorld;
@@ -40,13 +42,15 @@ class Weapon :public Sprite
 		
 	CC_SYNTHESIZE(Hero*, _hero, hero_);
 
+	CC_SYNTHESIZE(Vector<Enemy*>, _enemies, Enemies);
+
 public:
 
-	virtual bool init(HelloWorld* combatScene, std::string weaponName, Hero* hero);
+	virtual bool init(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies);
 
 
 
-	static Weapon* create(HelloWorld* combatScene, std::string weaponName, Hero* hero);
+	static Weapon* create(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies);
 
 
 

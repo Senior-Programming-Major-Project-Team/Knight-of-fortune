@@ -10,13 +10,13 @@ USING_NS_CC;
 
 
 
-Weapon* Weapon::create(HelloWorld* combatScene, std::string weaponName, Hero* hero)
+Weapon* Weapon::create(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies)
 
 {
 
 	Weapon* weapon = new(std::nothrow)Weapon;
 
-	if (weapon->init(combatScene, weaponName, hero))
+	if (weapon->init(combatScene, weaponName, hero,enemies))
 
 	{
 
@@ -40,7 +40,7 @@ Weapon* Weapon::create(HelloWorld* combatScene, std::string weaponName, Hero* he
 
 
 
-bool Weapon::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
+bool Weapon::init(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies)
 
 {
 	if (!Sprite::initWithFile(weaponName))
