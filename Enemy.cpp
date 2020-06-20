@@ -54,7 +54,8 @@ void Enemy::enemyMove(const Vec2& targetPosition)
 	auto direction = targetPosition;
 	auto newPosition = getPosition() + direction * getCurrentSpeed();
 	//setPosition(newPosition);
-	runAction(MoveTo::create(5, newPosition));
+	if (newPosition.x >= 100 && newPosition.y >= 100 && newPosition.x <= 800 && newPosition.y <= 800)
+		runAction(MoveTo::create(5, newPosition));
 	stopMove();
 }
 
@@ -91,4 +92,8 @@ void Enemy::Attack(Hero* hero, Enemy* enemy)
 	_lastAttackTime = nowTime;
 }
 
-void Enemy::die() {}
+void Enemy::die() 
+{
+	setAlreadyDead(true);
+	setTexture("HelloWorld.png");
+}

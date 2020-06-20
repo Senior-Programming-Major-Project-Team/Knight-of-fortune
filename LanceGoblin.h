@@ -33,7 +33,7 @@ public:
 			return false;
 		}
 		_enemyType = EType::LANCEGOBLIN;
-		changeMaxHealth(HEALTH + 14);
+		changeMaxHealth(HEALTH + 35);
 		setCurrentSpeed(30);
 		_attack = 5;
 		_attackRadius = 80;
@@ -41,7 +41,7 @@ public:
 		return true;
 	}
 
-	void Attack(Hero* hero)
+	virtual void Attack(Hero* hero, Enemy* enemy)
 	{
 		auto nowTime = GetCurrentTime() / 1000.f;
 		if (nowTime - _lastAttackTime < _minAttackInterval)
@@ -68,3 +68,4 @@ public:
 };
 
 #endif // _LANCEGOBLIN_
+

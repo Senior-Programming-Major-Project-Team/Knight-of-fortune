@@ -116,6 +116,7 @@ bool HelloWorld::init()
         this->addChild(sprite, 0);
     }*/
 	initstatedate();
+	initmap();
 	inithero();
 	initweapon();
 	initenemy();
@@ -128,73 +129,107 @@ bool HelloWorld::init()
 void HelloWorld::update(float delta) 
 {
 	updateHero(0);
+	updateWeapon(0);
+}
+
+void HelloWorld::initmap()
+{
+	_mylayer = GameScene::create();
+	this->addChild(_mylayer);
+	_mapInformation = _mylayer->getMapInformation();
 }
 
 void HelloWorld::inithero()
 {
 	_myHero = Knight::create(this, "knight", Camp::ME);
+	addChild(_myHero);
 	_myHero->setPosition(Vec2(100, 100));
 	_myHero->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	this->addChild(_myHero);
 	listenerKeyBoard = EventListenerKeyboard::create();
-	//åˆ›å»ºé”®ç›˜ç›‘å¬
+	//´´½¨¼üÅÌ¼àÌı
 	listenerKeyBoard->onKeyPressed = CC_CALLBACK_2(HelloWorld::onPressKey, this,);
 	listenerKeyBoard->onKeyReleased = CC_CALLBACK_2(HelloWorld::onReleaseKey, this);
-	//ç»‘å®šé”®ç›˜ç›‘å¬
+	//°ó¶¨¼üÅÌ¼àÌı
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerKeyBoard, this);
-	//å¼€å¯ç›‘å¬
+	//¿ªÆô¼àÌı
 }
 
 void HelloWorld::initweapon()
 {
-	_myWeapon = TommyGun::create(this, "Tommygun", _myHero);
+	_myWeapon = TommyGun::create(this, "tommygun.png", _myHero);
+
 	_myWeapon->setTexture("tommygun.png");
-	_myHero->addChild(_myWeapon);
+
+	this->addChild(_myWeapon);
+
 	_myWeapon->openFire(this);
+
+	_myWeapon->setPosition(110, 110);
 }
 
 void HelloWorld::initenemy()
 {
-	initpig();
-	initlancegoblin();
-	initflower();
-	inithandgungoblin();
+	for (int i = 0; i < 12; i++)
+	{
+		srand(time(0) + rand());
+		int enemynumber = CCRANDOM_0_1() * 4;
+		switch (enemynumber)
+		{
+		case 0:initpig(); break;
+		case 1:initlancegoblin(); break;
+		case 3:initflower(); break;
+		case 2:inithandgungoblin(); break;
+		}
+	}
 }
 
 void HelloWorld::initpig()
 {
 	Pig* pig = Pig::create(this, "Pig", Camp::ENEMY);
 	_enemies.pushBack(pig);
-	pig->setPosition(Vec2(200, 200));
-	pig->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	this->addChild(pig);
+	addChild(pig);
+	Vec2 position = HelloWorld::RandomGeneration();
+	pig->setPosition(position);
+	pig->setAnchorPoint(Vec2::ANCHOR_MIDDLE);	
 }
 
 void HelloWorld::initlancegoblin()
 {
 	LanceGoblin* lanceGoblin = LanceGoblin::create(this, "LanceGoblin", Camp::ENEMY);
 	_enemies.pushBack(lanceGoblin);
-	lanceGoblin->setPosition(Vec2(300, 200));
-	lanceGoblin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	this->addChild(lanceGoblin);
+	addChild(lanceGoblin);
+	Vec2 position = HelloWorld::RandomGeneration();
+	lanceGoblin->setPosition(position);
+	lanceGoblin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);	
 }
 
 void HelloWorld::initflower()
 {
 	Flower* flower = Flower::create(this, "Flower", Camp::ENEMY);
 	_enemies.pushBack(flower);
-	flower->setPosition(Vec2(200, 300));
+	addChild(flower);
+	Vec2 position = HelloWorld::RandomGeneration();
+	flower->setPosition(position);
 	flower->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	this->addChild(flower);
 }
 
 void HelloWorld::inithandgungoblin()
 {
 	HandGunGoblin* handGunGoblin = HandGunGoblin::create(this, "HandGunGoblin", Camp::ENEMY);
-	_enemies.pushBack(handGunGoblin);
-	handGunGoblin->setPosition(Vec2(300, 300));
+	_enemies.pushBack(handGunGoblin);	
+	addChild(handGunGoblin);
+	Vec2 position = HelloWorld::RandomGeneration();
+	handGunGoblin->setPosition(position);
 	handGunGoblin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	this->addChild(handGunGoblin);
+}
+
+Vec2 HelloWorld::RandomGeneration()
+{
+	srand(time(0) + rand());
+	Point point;
+	point.x = CCRANDOM_0_1() * 850;
+	point.y = CCRANDOM_0_1() * 850;
+	return point;
 }
 
 void HelloWorld::initstatedate()
@@ -207,7 +242,7 @@ void HelloWorld::initstatedate()
 	_dState = false;
 }
 
-void HelloWorld::updateHero(float delta)//æ›´æ–°äººç‰©ä¿¡æ¯ï¼ˆwasdï¼‰
+void HelloWorld::updateHero(float delta)//¸üĞÂÈËÎïĞÅÏ¢£¨wasd£©
 {
 	Node::update(delta);
 	auto leftArrow = EventKeyboard::KeyCode::KEY_LEFT_ARROW;
@@ -235,38 +270,59 @@ void HelloWorld::updateHero(float delta)//æ›´æ–°äººç‰©ä¿¡æ¯ï¼ˆwasdï¼‰
 		_aState = false;
 	}
 	Heromove();
+	_myHero->Recover();
 }
 
-void HelloWorld::updateEnemy(float delta)//æ›´æ–°æ€ªç‰©ä¿¡æ¯
+void HelloWorld::updateWeapon(float t)
 {
+	_myWeapon->update(_enemies);
+}
+
+void HelloWorld::updateEnemy(float delta)//¸üĞÂ¹ÖÎïĞÅÏ¢
+{
+	int deadenemies = 0;
 	for (auto& i : _enemies)
 	{
-		switch (i->getEnemyType())
+		if (i->getAlreadyDead() == false)
 		{
-		case EType::PIG:
-		{
-			i->automove();
-			i->Attack(_myHero);
+			switch (i->getEnemyType())
+		    {
+			case EType::PIG:
+		    {
+				i->automove();
+			    i->Attack(_myHero, i);
 			break;
-		}
-		case EType::LANCEGOBLIN:
-		{
-			i->automove();
-			i->Attack(_myHero);
+		    }
+		    case EType::LANCEGOBLIN:
+		    {
+				i->automove();
+			    i->Attack(_myHero, i);
 			break;
-		}
-		case EType::FLOWER:
-		{
-			i->Attack(_myHero);
+		    }
+		    case EType::FLOWER:
+		    {
+				i->Attack(_myHero, i);
+			    break;
+		    }
+		    case EType::HANDGUNGOBLIN:
+		    {
+				i->automove();
+			    i->Attack(_myHero, i);
 			break;
+		    }
+		    }
 		}
-		case EType::HANDGUNGOBLIN:
+		
+		if (i->getAlreadyDead() == true)
 		{
-			i->automove();
-			i->Attack(_myHero);
-			break;
+			i->removeFromParent();
+			deadenemies++;
 		}
-		}
+	}
+	if (deadenemies == 12)
+	{
+		_isFighting = false;
+		Stopfight();
 	}
 }
 
@@ -326,6 +382,21 @@ void HelloWorld::Heromove()
 	}
 	}
 	_myHero->heroMove(point);
+}
+
+void HelloWorld::Stopfight()
+{
+	_enemies.clear();
+	if (_enemies.empty() == true)
+	{
+		_myHero->die();
+	}
+	//Size visibleSize = Director::getInstance()->getVisibleSize();
+	//Point origin = Director::getInstance()->getVisibleOrigin();
+	//auto TransferMatrix = ParticleSystemQuad::create("TransferMatrix.plist");
+	//TransferMatrix->setPosition(visibleSize / 2);
+	//TransferMatrix->setScale(0.5);
+	//addChild(TransferMatrix);
 }
 
 bool HelloWorld::onPressKey(EventKeyboard::KeyCode keyCode, Event* envet)
@@ -423,7 +494,7 @@ bool HelloWorld::updateState(EventKeyboard::KeyCode keyCode, int type)
 		}
 		break;
 	}
-	case EventKeyboard::KeyCode::KEY_E://å¼€å¯æŠ€èƒ½
+	case EventKeyboard::KeyCode::KEY_E://¿ªÆô¼¼ÄÜ
 	{
 		if (type == PRESS)
 		{
@@ -487,7 +558,6 @@ bool HelloWorld::PressDirection()
 	}
 	return true;
 }
-
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

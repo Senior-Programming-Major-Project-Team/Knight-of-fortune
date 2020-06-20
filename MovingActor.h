@@ -34,9 +34,9 @@ class MovingActor :
 
 protected:
 
-	void MovingActor::initstate(HelloWorld* combatScene, Camp actorcamp);//åˆå§‹åŒ–æ•°æ®
+	void MovingActor::initstate(HelloWorld* combatScene, Camp actorcamp);//³õÊ¼»¯Êı¾İ
 
-	virtual void updateDirection();//åˆ¤æ–­äººç‰©æœå‘
+	virtual void updateDirection();//ÅĞ¶ÏÈËÎï³¯Ïò
 
 	void changeMaxHealth(INT32 newMaxHealth);
 
@@ -53,15 +53,13 @@ public:
 
 	virtual bool init(HelloWorld* combatScene, const std::string& filename, Camp actorcamp);
 
-	virtual void Damage(INT32 _damage);//äººç‰©å—ä¼¤åˆ¤å®š
+	virtual void Damage(INT32 _damage);//ÈËÎïÊÜÉËÅĞ¶¨
 
-	virtual void Recover();//æ¯å¸§è‡ªåŠ¨å›å¤æŠ¤ç”²
+	virtual void Recover();//Ã¿Ö¡×Ô¶¯»Ø¸´»¤¼×
 
 	virtual void ArmorRecover(float dt);
-	
-	virtual void moveTo(const Vec2& targetPosition);//æ›´æ–°äººç‰©åæ ‡
 
-	virtual void Buff();//buffæ•ˆæœ
+	virtual void Buff();//buffĞ§¹û
 };
 #endif // _MovingActor_
 

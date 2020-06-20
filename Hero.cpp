@@ -64,7 +64,8 @@ void Hero::heroMove(const Vec2& targetPosition)
 	updateDirection();
 	auto direction = targetPosition;
 	auto newPosition = getPosition() + direction * getCurrentSpeed();
-	setPosition(newPosition);
+	if (newPosition.x >= 20 && newPosition.y >= 20 && newPosition.x <= 880 && newPosition.y <= 880)
+		setPosition(newPosition);
 	stopMove();
 }
 
@@ -85,4 +86,5 @@ void Hero::stopMove()
 void Hero::die()
 {
 	setAlreadyDead(true);
+	setTexture("HelloWorld.png");
 }

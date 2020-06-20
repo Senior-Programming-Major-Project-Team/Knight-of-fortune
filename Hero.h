@@ -18,13 +18,13 @@ public:
 
 	virtual void die();
 
-	virtual bool checkSkillStatus();//ç¡®è®¤æŠ€èƒ½æ˜¯å¦å¯ä»¥ä½¿ç”¨
+	virtual bool checkSkillStatus();//È·ÈÏ¼¼ÄÜÊÇ·ñ¿ÉÒÔÊ¹ÓÃ
 
-	virtual void castSkill();//é‡Šæ”¾æŠ€èƒ½
+	virtual void castSkill();//ÊÍ·Å¼¼ÄÜ
 	
-	virtual void heroMove(const Vec2& targetPosition);//ç§»åŠ¨
+	virtual void heroMove(const Vec2& targetPosition);//ÒÆ¶¯
 
-	virtual void stopMove();//åœæ­¢ç§»åŠ¨
+	virtual void stopMove();//Í£Ö¹ÒÆ¶¯
 
 	virtual bool init(HelloWorld* combatScene, std::string heroName, Camp atorcamp);
 

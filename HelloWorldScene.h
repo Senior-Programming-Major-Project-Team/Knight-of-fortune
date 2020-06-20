@@ -32,19 +32,24 @@
 #include "Flower.h"
 #include "HandGunGoblin.h"
 #include "TommyGun.h"
+#include "GameScene.h"
 
 
 class Hero;
 class Enemy;
 class Weapon;
+class GameScene;
 
 class HelloWorld : public cocos2d::Scene
 {
 
 	CC_SYNTHESIZE(Direction, _pressdirection, PressDirection);
 	CC_SYNTHESIZE(bool, _isCanMove, IsCanMove);
+	CC_SYNTHESIZE(MapInfo, _mapInformation, MapInformation);
 	CC_SYNTHESIZE(Hero*, _myHero, MyHero);
+	CC_SYNTHESIZE(GameScene*, _mylayer, Mylayer);
 	CC_SYNTHESIZE(Weapon*, _myWeapon, MyWeapon);
+	CC_SYNTHESIZE(bool, _isFighting, IsFighting);
 
 public:
 
@@ -54,13 +59,15 @@ public:
 
     virtual bool init();
 
-	void initstatedate();//åˆå§‹åŒ–æŒ‰é”®ä¿¡æ¯
+	void initstatedate();//³õÊ¼»¯°´¼üĞÅÏ¢
 
-	void inithero();//åˆå§‹åŒ–äººç‰©ä¿¡æ¯
+	void initmap();
+
+	void inithero();//³õÊ¼»¯ÈËÎïĞÅÏ¢
 
 	void initweapon();
 
-	void initenemy();//åˆå§‹åŒ–æ•Œäººä¿¡æ¯
+	void initenemy();//³õÊ¼»¯µĞÈËĞÅÏ¢
 
 	void initpig();
 
@@ -70,7 +77,7 @@ public:
 
 	void inithandgungoblin();
 
-	void Heromove();//äººç‰©ç§»åŠ¨
+	void Heromove();//ÈËÎïÒÆ¶¯
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
@@ -79,21 +86,27 @@ public:
 
 	virtual bool onReleaseKey(EventKeyboard::KeyCode keyCode, Event* envet);
 
-	std::map<cocos2d::EventKeyboard::KeyCode, bool> keys;//å‚¨å­˜æŒ‰é”®ä¿¡æ¯
+	std::map<cocos2d::EventKeyboard::KeyCode, bool> keys;//´¢´æ°´¼üĞÅÏ¢
 
-	bool isKeyPressed(EventKeyboard::KeyCode keyCode);//åˆ¤æ–­æŒ‰é”®æ˜¯å¦ä¸€ç›´è¢«æŒ‰ä½
+	bool isKeyPressed(EventKeyboard::KeyCode keyCode);//ÅĞ¶Ï°´¼üÊÇ·ñÒ»Ö±±»°´×¡
 
 	void update(float delta);
 
 	void updateHero(float delta);
 
+	void updateWeapon(float t);
+
 	void updateEnemy(float delta);
 
-	bool updateState(EventKeyboard::KeyCode keyCode, int type);//æ›´æ–°æŒ‰é”®ä¿¡æ¯
+	bool updateState(EventKeyboard::KeyCode keyCode, int type);//¸üĞÂ°´¼üĞÅÏ¢
 
 	bool PressDirection();
 
-	EventListenerKeyboard* listenerKeyBoard;//é”®ç›˜ç›‘å¬
+	Vec2 RandomGeneration();
+
+	void Stopfight();
+
+	EventListenerKeyboard* listenerKeyBoard;//¼üÅÌ¼àÌı
 
 	bool _wState, _aState, _sState, _dState;
     

@@ -17,11 +17,11 @@ class Enemy :
 
 public:
 
-	virtual void Attack(Hero* hero);
+	virtual void Attack(Hero* hero, Enemy* enemy);
 
-	virtual void enemyMove(const Vec2& targetPosition);//移动
+	virtual void enemyMove(const Vec2& targetPosition);//�ƶ�
 
-	virtual void stopMove();//停止移动
+	virtual void stopMove();//ֹͣ�ƶ�
 
 	virtual void automove();
 
@@ -37,3 +37,4 @@ protected:
 };
 
 #endif // _ENEMY_
+

@@ -57,7 +57,8 @@ void MovingActor::changeCurrentHealth(INT32 newCurrentHealth)
 	}	
 	else if (newCurrentHealth >= _maxHealth)
 		setCurrentHealth(_maxHealth);
-	setCurrentHealth(newCurrentHealth);
+	else
+		setCurrentHealth(newCurrentHealth);
 }
 
 void MovingActor::changeCurrentMagic(INT32 newCurrentMagic)
@@ -66,7 +67,8 @@ void MovingActor::changeCurrentMagic(INT32 newCurrentMagic)
 		setCurrentMagic(0);
 	else if (newCurrentMagic >= _maxMagic)
 		setCurrentMagic(_maxMagic);
-	setCurrentMagic(newCurrentMagic);
+	else
+		setCurrentMagic(newCurrentMagic);
 }
 
 void MovingActor::changeCurrentArmor(INT32 newCurrentArmor)
@@ -80,7 +82,8 @@ void MovingActor::changeCurrentArmor(INT32 newCurrentArmor)
 	{
 		setCurrentArmor(_maxArmor);
 	}
-	setCurrentArmor(newCurrentArmor);
+	else
+		setCurrentArmor(newCurrentArmor);
 }
 
 
@@ -97,13 +100,12 @@ void MovingActor::Damage(INT32 damage)
 
 void MovingActor::Recover()
 {
-	while (getCurrentArmor() < getMaxArmor())
-		this->scheduleOnce(schedule_selector(MovingActor::ArmorRecover), 1.0f);
+	this->scheduleOnce(schedule_selector(MovingActor::ArmorRecover), 1.0f);
 }
 
 void MovingActor::ArmorRecover(float dt)
 {
-	changeCurrentArmor(getCurrentArmor() + 1);
+	changeCurrentArmor(getCurrentArmor() + 2);
 }
 
 void MovingActor::updateDirection()

@@ -34,7 +34,7 @@ public:
 			return false;
 		}
 		_enemyType = EType::FLOWER;
-		changeMaxHealth(HEALTH);
+		changeMaxHealth(HEALTH + 20);
 		_minAttackInterval = 4;
 		return true;
 	}
@@ -79,18 +79,18 @@ public:
 		this->addChild(Bullet6);
 		this->addChild(Bullet7);
 		this->addChild(Bullet8);
-		Bullet1->runAction(MoveTo::create(10, Vec2(500,0) + Bullet1->getPosition()));
-		Bullet2->runAction(MoveTo::create(10, Vec2(354,354) + Bullet2->getPosition()));
-		Bullet3->runAction(MoveTo::create(10, Vec2(0,500) + Bullet3->getPosition()));
-		Bullet4->runAction(MoveTo::create(10, Vec2(-354,354) + Bullet4->getPosition()));
-		Bullet5->runAction(MoveTo::create(10, Vec2(-500,0) + Bullet5->getPosition()));
-		Bullet6->runAction(MoveTo::create(10, Vec2(-354,-354) + Bullet6->getPosition()));
-		Bullet7->runAction(MoveTo::create(10, Vec2(0,-500) + Bullet7->getPosition()));
-		Bullet8->runAction(MoveTo::create(10, Vec2(354,-354) + Bullet8->getPosition()));
+		Bullet1->runAction(MoveTo::create(100, Vec2(5000,0) + Bullet1->getPosition()));
+		Bullet2->runAction(MoveTo::create(100, Vec2(3540,3540) + Bullet2->getPosition()));
+		Bullet3->runAction(MoveTo::create(100, Vec2(0,5000) + Bullet3->getPosition()));
+		Bullet4->runAction(MoveTo::create(100, Vec2(-3540,3540) + Bullet4->getPosition()));
+		Bullet5->runAction(MoveTo::create(100, Vec2(-5000,0) + Bullet5->getPosition()));
+		Bullet6->runAction(MoveTo::create(100, Vec2(-3540,-3540) + Bullet6->getPosition()));
+		Bullet7->runAction(MoveTo::create(100, Vec2(0,-5000) + Bullet7->getPosition()));
+		Bullet8->runAction(MoveTo::create(100, Vec2(3540,-3540) + Bullet8->getPosition()));
 		for (auto i = 0; i < _bullets.size(); i++)
 		{
 			auto bullet = _bullets.at(i);
-			if ((bullet->getPosition() - Vec2(30, 30)).distance(hero->getPosition() + Vec2(70, 70) - enemy->getPosition()) < 120)
+			if ((bullet->convertToWorldSpace(Point(0, 0)).distance(hero->getPosition())) < 50)
 			{
 				hero->Damage(3);
 				bullet->removeFromParent();

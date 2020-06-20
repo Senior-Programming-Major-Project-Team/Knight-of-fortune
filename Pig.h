@@ -33,7 +33,7 @@ public:
 			return false;
 		}
 		_enemyType = EType::PIG;
-		changeMaxHealth(HEALTH + 6);
+		changeMaxHealth(HEALTH + 25);
 		setCurrentSpeed(50);
 		_attack = 3;
 		_attackRadius = 60;
@@ -41,7 +41,7 @@ public:
 		return true;
 	}
 
-	void Attack(Hero* hero)
+	virtual void Attack(Hero* hero, Enemy* enemy)
 	{
 		auto nowTime = GetCurrentTime() / 1000.f;
 		if (nowTime - _lastAttackTime < _minAttackInterval)

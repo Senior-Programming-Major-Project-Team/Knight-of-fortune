@@ -34,7 +34,7 @@ public:
 			return false;
 		}
 		_enemyType = EType::HANDGUNGOBLIN;
-		changeMaxHealth(HEALTH + 10);
+		changeMaxHealth(HEALTH + 30);
 		_minAttackInterval = 1;
 		_currentSpeed = 10;
 		return true;
@@ -61,7 +61,7 @@ public:
 		for (auto i = 0; i < _bullets.size(); i++)
 		{
 			auto bullet = _bullets.at(i);
-			if ((bullet->getPosition() - Vec2(30, 30)).distance(hero->getPosition() + Vec2(70, 70) - enemy->getPosition()) < 120)
+			if ((bullet->convertToWorldSpace(Point(0, 0)).distance(hero->getPosition())) < 50)
 			{
 				hero->Damage(3);
 				bullet->removeFromParent();
