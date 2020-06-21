@@ -1,7 +1,7 @@
 ﻿#ifndef __MAPINFO_H__
 #define __MAPINFO_H__
 
-#include "constnumber.h"
+#include "Constnumber.h"
 #include "cocos2d.h"
 USING_NS_CC;
 
@@ -29,8 +29,11 @@ public:
 	//转换坐标系
 	PointINT getGridPoint(const Vec2& position) const;
 
-	//移除障碍物
-	void removeTowerCollision(const Vec2& towerPosition);
+	//移除
+
+	void removeBoxesMessage(const Vec2& aPosition);
+
+
 
 	Vec2 getPrecisePosition(const PointINT& girdPoint) const;
 
@@ -41,5 +44,5 @@ public:
 	bool checkBoxes(const Vec2& position) const;
 
 };
-	
+
 #endif 

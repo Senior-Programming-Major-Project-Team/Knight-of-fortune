@@ -116,10 +116,8 @@ bool HelloWorld::init()
         this->addChild(sprite, 0);
     }*/
 	initstatedate();
-	initmap();
-	inithero();
-	initweapon();
-	initenemy();
+	inithero();	
+	initmap();	
 	this->scheduleUpdate();
     this->schedule(schedule_selector(HelloWorld::updateEnemy), 0.1f);
 
@@ -136,14 +134,21 @@ void HelloWorld::initmap()
 {
 	_mylayer = GameScene::create();
 	this->addChild(_mylayer);
+	this->addChild(_myHero);
 	_mapInformation = _mylayer->getMapInformation();
+	_showState = ShowState::createLayer();
+	this->addChild(_showState);
+	initweapon();
+	initenemy();
+	_isFighting = true;
 }
 
 void HelloWorld::inithero()
 {
 	_myHero = Knight::create(this, "knight", Camp::ME);
-	addChild(_myHero);
-	_myHero->setPosition(Vec2(100, 100));
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Point origin = Director::getInstance()->getVisibleOrigin();
+	_myHero->setPosition(visibleSize / 2);
 	_myHero->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	listenerKeyBoard = EventListenerKeyboard::create();
 	//创建键盘监听
@@ -236,6 +241,7 @@ void HelloWorld::initstatedate()
 {
 	_pressdirection = Direction::NO;
 	_isCanMove = false;
+	_isFighting = true;
 	_wState = false;
 	_aState = false;
 	_sState = false;
@@ -271,6 +277,12 @@ void HelloWorld::updateHero(float delta)//更新人物信息（wasd）
 	}
 	Heromove();
 	_myHero->Recover();
+	if (_myHero->getPosition().distance(Vec2(450, 450)) <= 100 && _isFighting == false)
+	{
+		_myHero->removeFromParent();
+		initmap();
+	}
+	//_showState->update(_myHero);
 }
 
 void HelloWorld::updateWeapon(float t)
@@ -387,16 +399,12 @@ void HelloWorld::Heromove()
 void HelloWorld::Stopfight()
 {
 	_enemies.clear();
-	if (_enemies.empty() == true)
-	{
-		_myHero->die();
-	}
-	//Size visibleSize = Director::getInstance()->getVisibleSize();
-	//Point origin = Director::getInstance()->getVisibleOrigin();
-	//auto TransferMatrix = ParticleSystemQuad::create("TransferMatrix.plist");
-	//TransferMatrix->setPosition(visibleSize / 2);
-	//TransferMatrix->setScale(0.5);
-	//addChild(TransferMatrix);
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Point origin = Director::getInstance()->getVisibleOrigin();
+	auto TransferMatrix = ParticleSystemQuad::create("TransferMatrix.plist");
+	TransferMatrix->setPosition(visibleSize / 2);
+	TransferMatrix->setScale(0.5);
+	this->addChild(TransferMatrix);
 }
 
 bool HelloWorld::onPressKey(EventKeyboard::KeyCode keyCode, Event* envet)

@@ -16,6 +16,7 @@ using namespace ui;
     //return layer;
 }*/
 
+
 bool GameScene::initMapLayer()
 {
 	// 设置地图的大小, 随机初始化地图
@@ -59,6 +60,5 @@ bool GameScene::init()
     {
         return false;
     }
-	this->addChild(ShowState::createLayer());
     //AddTransferMatriax();
  }

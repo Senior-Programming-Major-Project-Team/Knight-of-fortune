@@ -48,6 +48,7 @@ class HelloWorld : public cocos2d::Scene
 	CC_SYNTHESIZE(MapInfo, _mapInformation, MapInformation);
 	CC_SYNTHESIZE(Hero*, _myHero, MyHero);
 	CC_SYNTHESIZE(GameScene*, _mylayer, Mylayer);
+	CC_SYNTHESIZE(ShowState*, _showState, ShowState);
 	CC_SYNTHESIZE(Weapon*, _myWeapon, MyWeapon);
 	CC_SYNTHESIZE(bool, _isFighting, IsFighting);
 

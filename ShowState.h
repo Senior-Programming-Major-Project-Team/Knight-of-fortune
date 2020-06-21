@@ -4,6 +4,7 @@
 #include "SimpleAudioEngine.h"
 #include<iostream>
 #include "ui/CocosGUI.h"
+#include "Hero.h"
 
 using namespace cocos2d;
 class ShowState:public Layer
@@ -18,10 +19,10 @@ private:
 	Vec2 Position;
 public:
 	/*创造状态的显示界面*/
-	static Layer* createLayer();
+	static ShowState* createLayer();
 	/*用于完成显示界面的初始化*/
 	virtual bool init();
 	CREATE_FUNC(ShowState);
-	virtual void update();
+	void update(Hero* hero);
 };
 

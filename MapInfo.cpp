@@ -10,9 +10,12 @@ MapInfo::MapInfo(TMXTiledMap* map)
 
 
 
-	_collisionBoard = DyaDicVector(_mapSize.x, std::vector<bool>(_mapSize.y, true));//vector的初始化形式……
-	_boxesBoard = DyaDicVector(_mapSize.x, std::vector<bool>(_mapSize.y, true));
-	
+	_collisionBoard = DyaDicVector(_mapSize.x, std::vector<bool>(_mapSize.y, false));//vector的初始化形式……
+	_boxesBoard = DyaDicVector(_mapSize.x, std::vector<bool>(_mapSize.y, false));
+
+
+	//以下存储初步转换了y坐标的颠倒
+
 	//地图碰撞信息的存储,运用空白gid值为0
 	for (int i = 0; i < _mapSize.x; i++)
 	{
@@ -20,7 +23,7 @@ MapInfo::MapInfo(TMXTiledMap* map)
 		{
 			if (collisionLayer->getTileGIDAt(Vec2(i, j)) > 0)
 			{
-				_collisionBoard[i][_mapSize.y - 1 - j] = false;
+				_collisionBoard[i][_mapSize.y - 1 - j] = true;
 
 			}
 		}
@@ -33,7 +36,7 @@ MapInfo::MapInfo(TMXTiledMap* map)
 		{
 			if (boxesLayer->getTileGIDAt(Vec2(i, j)) > 0)
 			{
-				_boxesBoard [i][_mapSize.y - 1 - j] = false;
+				_boxesBoard[i][_mapSize.y - 1 - j] = true;
 
 			}
 		}
@@ -44,18 +47,30 @@ MapInfo::MapInfo(TMXTiledMap* map)
 PointINT MapInfo::getGridPoint(const Vec2& position) const
 {
 	return PointINT(static_cast<INT32>(position.x / _tileSize.x), static_cast<INT32>((position.y) / _tileSize.y));
-}	
+}
 
-void MapInfo::removeTowerCollision(const Vec2& towerPosition)
+void MapInfo::removeBoxesMessage(const Vec2& aPosition)
 {
-	auto centralGridPoint = getGridPoint(towerPosition);
-	for (auto i = -3; i < 4; ++i)
+	auto centralGridPoint = getGridPoint(aPosition);
+	//判断是不是箱子
+	if (_boxesBoard[centralGridPoint.x][centralGridPoint.y] == true)
 	{
-		for (auto j = -3; j < 4; ++j)
-		{
-			_collisionBoard[centralGridPoint.x + i][centralGridPoint.y + j] = true;
-		}
+		//如果是箱子将障碍数组里面标记为可用
+		_collisionBoard[centralGridPoint.x][centralGridPoint.y] = false;
+		//将箱子数组标记为可用
+		_boxesBoard[centralGridPoint.x][centralGridPoint.y] = false;
+
+
 	}
+	//不是就return
+	else
+	{
+		return;
+	}
+
+
+	//将箱子移除
+//layer1->setTileGID(0, Vec2(x, y));//设置为0就置空了
 }
 
 Vec2 MapInfo::getPrecisePosition(const PointINT& girdPoint) const
@@ -72,8 +87,7 @@ bool MapInfo::checkCollision(const Vec2& position) const
 
 bool MapInfo::checkBoxes(const Vec2& position) const
 {
-	auto gridPos = getGridPoint(position);
+	auto gridPos = getGridPoint(position);//转化成格子坐标
 
 	return _boxesBoard[gridPos.x][gridPos.y];
 }
-
