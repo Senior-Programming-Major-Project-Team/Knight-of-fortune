@@ -86,7 +86,7 @@ void Hero::stopMove()
 void Hero::die()
 {
 	setAlreadyDead(true);
-	setTexture("HelloWorld.png");
+	Director::sharedDirector()->replaceScene(AfterDie::createScene());
 }
 
 void Hero::takepotion(Potion* potion)
