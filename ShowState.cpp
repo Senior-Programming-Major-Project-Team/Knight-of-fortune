@@ -90,11 +90,11 @@ void ShowState::update(Hero* hero)
 	_ArInterval = 1;
 	LoadingBar* LoadingBarSet;
 	LoadingBarSet = static_cast<LoadingBar*>(this->getChildByTag(1));
-	LoadingBarSet->setPercent(1);
-	LoadingBarSet = static_cast<LoadingBar*>(this->getChildByTag(2));
-	LoadingBarSet->setPercent(1);
-	LoadingBarSet = static_cast<LoadingBar*>(this->getChildByTag(3));
-	LoadingBarSet->setPercent(1);
+	//LoadingBarSet->setPercent(1.0);
+	//LoadingBarSet = static_cast<LoadingBar*>(this->getChildByTag(2));
+	//LoadingBarSet->setPercent(1.0);
+	//LoadingBarSet = static_cast<LoadingBar*>(this->getChildByTag(3));
+	//LoadingBarSet->setPercent(1.0);
 }
 
 

@@ -11,6 +11,7 @@ USING_NS_CC;
 class Knight : public Hero
 {
 	CC_SYNTHESIZE(bool, _isSkillOn, IsSkillOn);//判断技能是否开启
+	CC_SYNTHESIZE(ParticleSystemQuad*, _burn, Burn);//判断技能是否开启
 
 public:
 
@@ -43,6 +44,9 @@ public:
 		    {
 				setMinAttackInterval(getMinAttackInterval() / 2);
 		        setCurrentSpeed(getCurrentSpeed() * 2);
+				_burn = ParticleSystemQuad::create("Burn.plist");
+				_burn->setPosition(Vec2(30, 30));
+				this->addChild(_burn);
 				_isSkillOn = true;
 			}
 		}
@@ -61,6 +65,7 @@ public:
 			_lastSkillTime = GetCurrentTime() / 1000.f;
 			setMinAttackInterval(getMinAttackInterval() * 2);
 			setCurrentSpeed(getCurrentSpeed() / 2);
+			_burn->removeFromParent();
 			_isSkillOn = false;
 		}
 	}

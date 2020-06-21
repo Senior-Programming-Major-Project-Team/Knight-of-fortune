@@ -54,7 +54,7 @@ void Enemy::enemyMove(const Vec2& targetPosition)
 	auto direction = targetPosition;
 	auto newPosition = getPosition() + direction * getCurrentSpeed();
 	//setPosition(newPosition);
-	if (newPosition.x >= 100 && newPosition.y >= 100 && newPosition.x <= 800 && newPosition.y <= 800)
+	if (newPosition.x >= 200 && newPosition.y >= 200 && newPosition.x <= 700 && newPosition.y <= 700)
 		runAction(MoveTo::create(5, newPosition));
 	stopMove();
 }

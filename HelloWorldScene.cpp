@@ -277,7 +277,7 @@ void HelloWorld::updateHero(float delta)//更新人物信息（wasd）
 	}
 	Heromove();
 	_myHero->Recover();
-	if (_myHero->getPosition().distance(Vec2(450, 450)) <= 100 && _isFighting == false)
+	if (_myHero->getPosition().distance(Vec2(450, 450)) <= 10 && _isFighting == false)
 	{
 		_myHero->removeFromParent();
 		initmap();
