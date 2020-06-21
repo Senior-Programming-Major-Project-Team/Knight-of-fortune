@@ -3,19 +3,28 @@
 USING_NS_CC;
 using namespace ui;
 
-
-/*Scene* GameScene::createScene()
+Scene* GameScene::createScene()
 {
     // 创建一个场景对象
-    //auto scene = Scene::create();
+    auto scene = Scene::create();
     // 创建层对象
-    //auto layer = GameScene::create();
+    auto layer = GameScene::create();
     // 将GameMenu层作为子节点添加到场景
-    //scene->addChild(layer);
+    scene->addChild(layer);
     // 返回场景对象
-    //return layer;
-}*/
+    return scene;
+}
 
+void GameScene::AddTransferMatriax()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Point origin = Director::getInstance()->getVisibleOrigin();
+    auto TransferMatrix = ParticleSystemQuad::create("TransferMatrix.plist");
+    TransferMatrix->setPosition(visibleSize / 2);
+    TransferMatrix->setScale(0.5);
+    this->addChild(TransferMatrix);
+	
+}
 
 bool GameScene::initMapLayer()
 {
@@ -60,5 +69,7 @@ bool GameScene::init()
     {
         return false;
     }
+	this->addChild(ShowState::createLayer());
     //AddTransferMatriax();
  }
+

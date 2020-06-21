@@ -1,4 +1,5 @@
 #pragma once
+//#include "C:\Users\Administrator\codes\MyCppGame\cocos2d\cocos\2d\CCLayer.h"
 #include "cocos2d.h"
 #include "Hero.h"
 #include"MapInfo.h"
@@ -11,6 +12,7 @@ private:
 	Hero* MyHero;
 	Point BornPosition;
     /*该函数用于构建传送法阵*/
+    void AddTransferMatriax();
 	//初始化
 	bool initMapLayer();
 	/*void initListener();*/
@@ -50,11 +52,11 @@ public:
     /**
     * 静态函数，创建Scene场景
     */
-    //static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createScene();
     /**
      * init函数，完成初始化操作。
      */
-	virtual bool init();
+    virtual bool init();
     CREATE_FUNC(GameScene);
     /*该函数判断是否可以产生传送阵了*/
     //bool IsCouldTransfer();

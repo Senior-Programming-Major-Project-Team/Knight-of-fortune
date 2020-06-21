@@ -17,12 +17,20 @@ private:
 	float _ArmorMax;
 	float getArmor;
 	Vec2 Position;
+	ui::LoadingBar* _HP;
+	ui::LoadingBar* _MP;
+	ui::LoadingBar* _AR;
+	ui::Text* _HPT;
+	ui::Text* _MPT;
+	ui::Text* _ART;
+public:
+public:
 public:
 	/*创造状态的显示界面*/
 	static ShowState* createLayer();
 	/*用于完成显示界面的初始化*/
 	virtual bool init();
 	CREATE_FUNC(ShowState);
-	void update(Hero* hero);
+	void update(float delta);
 };
 

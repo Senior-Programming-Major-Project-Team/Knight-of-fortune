@@ -61,7 +61,7 @@ void MovingActor::changeCurrentHealth(float newCurrentHealth)
 	{
 		setCurrentHealth(0);
 		die();
-	}	
+	}
 	else if (newCurrentHealth >= _maxHealth)
 		setCurrentHealth(_maxHealth);
 	else

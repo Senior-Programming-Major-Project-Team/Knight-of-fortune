@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -39,88 +39,87 @@ Scene* HelloWorld::createScene()
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
 {
-    printf("Error while loading: %s\n", filename);
-    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+	printf("Error while loading: %s\n", filename);
+	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    //////////////////////////////
-    // 1. super init first
-    if ( !Scene::init() )
-    {
-        return false;
-    }
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	//////////////////////////////
+	// 1. super init first
+	if (!Scene::init())
+	{
+		return false;
+	}
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+	/////////////////////////////
+	// 2. add a menu item with "X" image, which is clicked to quit the program
+	//    you may modify it.
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+	// add a "close" icon to exit the progress. it's an autorelease object
+	auto closeItem = MenuItemImage::create(
+		"CloseNormal.png",
+		"CloseSelected.png",
+		CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
 
-    if (closeItem == nullptr ||
-        closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
-    {
-        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-    }
-    else
-    {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2;
-        float y = origin.y + closeItem->getContentSize().height/2;
-        closeItem->setPosition(Vec2(x,y));
-    }
+	if (closeItem == nullptr ||
+		closeItem->getContentSize().width <= 0 ||
+		closeItem->getContentSize().height <= 0)
+	{
+		problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+	}
+	else
+	{
+		float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
+		float y = origin.y + closeItem->getContentSize().height / 2;
+		closeItem->setPosition(Vec2(x, y));
+	}
 
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+	// create menu, it's an autorelease object
+	auto menu = Menu::create(closeItem, NULL);
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu, 1);
 
-    /////////////////////////////
-    // 3. add your codes below...
+	/////////////////////////////
+	// 3. add your codes below...
 
-    // add a label shows "Hello World"
-    // create and initialize a label
+	// add a label shows "Hello World"
+	// create and initialize a label
 
-    auto label = Label::createWithTTF("Soul Knight", "fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
-    {
-        problemLoading("'fonts/Marker Felt.ttf'");
-    }
-    else
-    {
-        // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                                origin.y + visibleSize.height - label->getContentSize().height));
+	auto label = Label::createWithTTF("Soul Knight", "fonts/Marker Felt.ttf", 24);
+	if (label == nullptr)
+	{
+		problemLoading("'fonts/Marker Felt.ttf'");
+	}
+	else
+	{
+		// position the label on the center of the screen
+		label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+			origin.y + visibleSize.height - label->getContentSize().height));
 
-        // add the label as a child to this layer
-        this->addChild(label, 1);
-    }
+		// add the label as a child to this layer
+		this->addChild(label, 1);
+	}
 
-    // add "HelloWorld" splash screen"
-    /*auto sprite = Sprite::create("soulknight.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'soulknight.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }*/
+	// add "HelloWorld" splash screen"
+	/*auto sprite = Sprite::create("soulknight.png");
+	if (sprite == nullptr)
+	{
+		problemLoading("'soulknight.png'");
+	}
+	else
+	{
+		// position the sprite on the center of the screen
+		sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+		// add the sprite as a child to this layer
+		this->addChild(sprite, 0);
+	}*/
 	SimpleAudioEngine::getInstance()->playBackgroundMusic("Background.mp3", true);
 	initstatedate();
-	inithero();	
+	inithero();
 	initmap();
 	auto Pause_button = Button::create("pause.png");
 	Pause_button->setScaleX(1);
@@ -131,15 +130,15 @@ bool HelloWorld::init()
 			GameLayer Pause;
 			Pause.TouchPaushButton();
 		}
-	});	
+	});
 	this->addChild(Pause_button);
 	this->scheduleUpdate();
-    this->schedule(schedule_selector(HelloWorld::updateEnemy), 0.1f);
+	this->schedule(schedule_selector(HelloWorld::updateEnemy), 0.1f);
 
-    return true;
+	return true;
 }
 
-void HelloWorld::update(float delta) 
+void HelloWorld::update(float delta)
 {
 	updateHero(0);
 	updateWeapon(0);
@@ -168,12 +167,12 @@ void HelloWorld::inithero()
 	_myHero->setPosition(visibleSize / 2);
 	_myHero->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	listenerKeyBoard = EventListenerKeyboard::create();
-	//åˆ›å»ºé”®ç›˜ç›‘å¬
-	listenerKeyBoard->onKeyPressed = CC_CALLBACK_2(HelloWorld::onPressKey, this,);
+	//´´½¨¼üÅÌ¼àÌý
+	listenerKeyBoard->onKeyPressed = CC_CALLBACK_2(HelloWorld::onPressKey, this, );
 	listenerKeyBoard->onKeyReleased = CC_CALLBACK_2(HelloWorld::onReleaseKey, this);
-	//ç»‘å®šé”®ç›˜ç›‘å¬
+	//°ó¶¨¼üÅÌ¼àÌý
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerKeyBoard, this);
-	//å¼€å¯ç›‘å¬
+	//¿ªÆô¼àÌý
 	HWhatHasYouChooseToBeYourHero = _myHero;
 }
 
@@ -223,19 +222,19 @@ void HelloWorld::initbonusweapon()
 
 	switch (potionnumber)
 	{
-	case 0:	
+	case 0:
 	{
 		_bonusWeapon = HandGun::create(this, "handGun", _myHero);
 		_bonusWeapon->setTexture("handGun_2.png");
 		break;
 	}
-	case 1:	
+	case 1:
 	{
 		_bonusWeapon = TommyGun::create(this, "tommyGun", _myHero);
 		_bonusWeapon->setTexture("tommyGun.png");
 		break;
 	}
-	case 2:	
+	case 2:
 	{
 		_bonusWeapon = Sword::create(this, "sword", _myHero);
 		_bonusWeapon->setTexture("sword_1.png");
@@ -298,7 +297,7 @@ void HelloWorld::initpig()
 	addChild(pig);
 	Vec2 position = HelloWorld::RandomGeneration();
 	pig->setPosition(position);
-	pig->setAnchorPoint(Vec2::ANCHOR_MIDDLE);	
+	pig->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 }
 
 void HelloWorld::initlancegoblin()
@@ -308,7 +307,7 @@ void HelloWorld::initlancegoblin()
 	addChild(lanceGoblin);
 	Vec2 position = HelloWorld::RandomGeneration();
 	lanceGoblin->setPosition(position);
-	lanceGoblin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);	
+	lanceGoblin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 }
 
 void HelloWorld::initflower()
@@ -324,7 +323,7 @@ void HelloWorld::initflower()
 void HelloWorld::inithandgungoblin()
 {
 	HandGunGoblin* handGunGoblin = HandGunGoblin::create(this, "HandGunGoblin", Camp::ENEMY);
-	_enemies.pushBack(handGunGoblin);	
+	_enemies.pushBack(handGunGoblin);
 	addChild(handGunGoblin);
 	Vec2 position = HelloWorld::RandomGeneration();
 	handGunGoblin->setPosition(position);
@@ -352,7 +351,7 @@ void HelloWorld::initstatedate()
 	_dState = false;
 }
 
-void HelloWorld::updateHero(float delta)//æ›´æ–°äººç‰©ä¿¡æ¯ï¼ˆwasdï¼‰
+void HelloWorld::updateHero(float delta)//¸üÐÂÈËÎïÐÅÏ¢£¨wasd£©
 {
 	Node::update(delta);
 	auto leftArrow = EventKeyboard::KeyCode::KEY_LEFT_ARROW;
@@ -385,10 +384,15 @@ void HelloWorld::updateHero(float delta)//æ›´æ–°äººç‰©ä¿¡æ¯ï¼ˆwasdï¼‰
 	{
 		if (_isBoxOpen == false)
 		{
-			initbonusweapon();
-			//initHealthpotion();
-		    _isBoxOpen = true;
-		}		
+			srand(time(0) + rand());
+			int number = CCRANDOM_0_1() * 2;
+			switch (number)
+			{
+			case 0:initbonusweapon(); break;
+			case 1:initHealthpotion(); break;
+				_isBoxOpen = true;
+			}
+		}
 	}
 	if (_myHero->getPosition().distance(Vec2(450, 450)) <= 10 && _isFighting == false)
 	{
@@ -403,7 +407,7 @@ void HelloWorld::updateWeapon(float t)
 	_myWeapon->update(_enemies);
 }
 
-void HelloWorld::updateEnemy(float delta)//æ›´æ–°æ€ªç‰©ä¿¡æ¯
+void HelloWorld::updateEnemy(float delta)//¸üÐÂ¹ÖÎïÐÅÏ¢
 {
 	int deadenemies = 0;
 	for (auto& i : _enemies)
@@ -411,45 +415,45 @@ void HelloWorld::updateEnemy(float delta)//æ›´æ–°æ€ªç‰©ä¿¡æ¯
 		if (i->getAlreadyDead() == false)
 		{
 			switch (i->getEnemyType())
-		    {
+			{
 			case EType::PIG:
-		    {
+			{
 				i->automove();
-			    i->Attack(_myHero, i);
-			break;
-		    }
-		    case EType::LANCEGOBLIN:
-		    {
-				i->automove();
-			    i->Attack(_myHero, i);
-			break;
-		    }
-		    case EType::FLOWER:
-		    {
 				i->Attack(_myHero, i);
-			    break;
-		    }
-		    case EType::HANDGUNGOBLIN:
-		    {
+				break;
+			}
+			case EType::LANCEGOBLIN:
+			{
 				i->automove();
-			    i->Attack(_myHero, i);
-			break;
-		    }
-		    }
+				i->Attack(_myHero, i);
+				break;
+			}
+			case EType::FLOWER:
+			{
+				i->Attack(_myHero, i);
+				break;
+			}
+			case EType::HANDGUNGOBLIN:
+			{
+				i->automove();
+				i->Attack(_myHero, i);
+				break;
+			}
+			}
 		}
-		
+
 		else
 		{
 			if (i->getLastTimeDead() == false)
-			{				
+			{
 				auto Potion_1 = HealthPotion_1::create(this, "1");
-			    addChild(Potion_1);
-			    Potion_1->setPosition(i->getPosition());
-			    Potion_1->setVisible(true);
-			    _potions.pushBack(Potion_1);
+				addChild(Potion_1);
+				Potion_1->setPosition(i->getPosition());
+				Potion_1->setVisible(true);
+				_potions.pushBack(Potion_1);
 				i->setLastTimeDead(true);
 				i->removeFromParent();
-			}			
+			}
 			//
 			deadenemies++;
 		}
@@ -533,37 +537,14 @@ void HelloWorld::takePotion()
 
 void HelloWorld::changeweapon()
 {
-	for (auto& i : _weapons)
+	/*for (auto& i : _weapons)
 	{
 		if (i->getPosition().distance(_myHero->getPosition()) <= 50)
 		{
-			CC_SAFE_DELETE(_myWeapon);
-			switch (i->getWeaponType())
-			{
-			case WType::HANDGUN:
-			{
-				_myWeapon = HandGun::create(this, "handGun", _myHero);
-				break;
-			}
-			case WType::TOMMYGUN:
-			{
-				_myWeapon = TommyGun::create(this, "tommyGun", _myHero);
-				break;
-			}
-			case WType::SWORDW:
-			{
-				_myWeapon = Sword::create(this, "sword", _myHero);
-				break;
-			}
-			case WType::AXEW:
-			{
-				_myWeapon = Axe::create(this, "axe", _myHero);
-				break;
-			}
-			}
-			//addchild(_myWeapon);
+			_myWeapon = i;
+			i->removeFromParent();
 		}
-	}
+	}*/
 }
 
 void HelloWorld::Stopfight()
@@ -598,9 +579,9 @@ bool HelloWorld::onReleaseKey(EventKeyboard::KeyCode keyCode, Event * envet)
 	return true;
 }
 
-bool HelloWorld::isKeyPressed(EventKeyboard::KeyCode keyCode) 
+bool HelloWorld::isKeyPressed(EventKeyboard::KeyCode keyCode)
 {
-	if (keys[keyCode]) 
+	if (keys[keyCode])
 		return true;
 	else
 		return false;
@@ -627,7 +608,7 @@ bool HelloWorld::updateState(EventKeyboard::KeyCode keyCode, int type)
 	}
 	case EventKeyboard::KeyCode::KEY_A:
 	{
-		
+
 		if (type == PRESS)
 		{
 			keys[keyCode] = true;
@@ -671,7 +652,7 @@ bool HelloWorld::updateState(EventKeyboard::KeyCode keyCode, int type)
 		}
 		break;
 	}
-	case EventKeyboard::KeyCode::KEY_Q://å¼€å¯æŠ€èƒ½
+	case EventKeyboard::KeyCode::KEY_Q://¿ªÆô¼¼ÄÜ
 	{
 		if (type == RELEASE)
 		{
@@ -754,13 +735,13 @@ bool HelloWorld::PressDirection()
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
+	//Close the cocos2d-x game scene and quit the application
+	Director::getInstance()->end();
 
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
+	/*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
 
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
+	//EventCustom customEndEvent("game_scene_close_event");
+	//_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
 }

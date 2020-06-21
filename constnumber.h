@@ -69,12 +69,9 @@ enum EType
 	FLOWER
 };
 
-enum WType
+enum HEROCHOSEN
 {
-	HANDGUN,
-	TOMMYGUN,
-	SWORDW,
-	AXEW
+	KNIGHT,
+	OTHER
 };
-
 #endif //_CONSTNUMBER_ 

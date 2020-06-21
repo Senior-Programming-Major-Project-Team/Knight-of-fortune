@@ -51,7 +51,6 @@ bool Axe::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 	_critRate = 0.15;
 	_attackRadius = 100;
 	_weaponName = "Axe";
-	_weaponType = WType::AXEW;
 	_hero = hero;
 
 

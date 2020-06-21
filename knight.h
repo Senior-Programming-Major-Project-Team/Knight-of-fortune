@@ -63,8 +63,8 @@ public:
 		if (_isSkillOn)
 		{
 			_lastSkillTime = GetCurrentTime() / 1000.f;
-			setMinAttackInterval(getMinAttackInterval() * 2);
-			setCurrentSpeed(getCurrentSpeed() / 2);
+			setMinAttackInterval(MIN_ATTACK_INTERVAL);
+			setCurrentSpeed(getCurrentSpeed());
 			_burn->removeFromParent();
 			_isSkillOn = false;
 		}

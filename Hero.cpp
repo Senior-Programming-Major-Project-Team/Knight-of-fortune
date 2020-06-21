@@ -1,4 +1,5 @@
 #include "Hero.h"
+#include "AfterDie.h"
 
 USING_NS_CC;
 
@@ -50,7 +51,7 @@ bool Hero::checkSkillStatus()
 {
 	auto nowTime = GetCurrentTime() / 1000.f;
 
-	if ( _lastSkillTime + _calmTime >= nowTime)
+	if (_lastSkillTime + _calmTime >= nowTime)
 		return false;
 	return true;
 }

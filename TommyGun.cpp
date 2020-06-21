@@ -78,8 +78,6 @@ bool TommyGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 
 	_weaponName = "TommyGun";
 
-	_weaponType = WType::TOMMYGUN;
-
 	_hero = hero;
 
 	_combatScene = combatScene;

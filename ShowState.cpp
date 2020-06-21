@@ -3,17 +3,18 @@
 #include<string>
 #include<stdio.h>
 #include<stdlib.h>
+#include<knight.h>
 using namespace ui;
-
+extern Hero* HWhatHasYouChooseToBeYourHero;
 ShowState* ShowState::createLayer()
 {
 	return ShowState::create();
 }
 
-std::string FtoS(float Number)
+std::string FtoS(INT32 Number)
 {
 	char C[20];
-	sprintf(C, "%f", Number);
+	sprintf(C, "%d", Number);
 	std::string S(C);
 	return S;
 }
@@ -48,10 +49,15 @@ bool ShowState::init()
 	loadingBarHP->setDirection(LoadingBar::Direction::LEFT);
 	// 设置进度条位置
 	loadingBarHP->setPosition(Vec2(Position.x + Size.width / 4, Position.y + 7.9*Size.height / 8));
+	_HP = loadingBarHP;
+	_HPT= Text::create("6/6", "Arial", 12);
+	_HPT->setPosition(Vec2(Position.x + Size.width*1.7 / 4, Position.y + 7.9 * Size.height / 8));
+	this->addChild(_HPT);
+	this->addChild(loadingBarHP, 1);//1,为血条，2为蓝条，3为护甲，4为金币
 	auto MP_Text = Text::create("MP", "Arial", 16);
 	MP_Text->setPosition(Vec2(Position.x + Size.width / 11, Position.y + 7.7 * Size.height / 8));
 	this->addChild(MP_Text, 0);
-	this->addChild(loadingBarHP, 1);//1,为血条，2为蓝条，3为护甲，4为金币
+	
 	auto loadingBarMP = LoadingBar::create("planeMP.png");
 	loadingBarMP->setScale(0.5f);
 	// 设置进度条百分比
@@ -60,6 +66,11 @@ bool ShowState::init()
 	loadingBarMP->setDirection(LoadingBar::Direction::LEFT);
 	// 设置进度条位置
 	loadingBarMP->setPosition(Vec2(Position.x + Size.width / 4, Position.y + 7.7*Size.height / 8));
+	_MP = loadingBarMP;
+	loadingBarMP->setName("MP");
+	_MPT = Text::create("200/200", "Arial", 12);
+	_MPT->setPosition(Vec2(Position.x + Size.width*1.7 / 4, Position.y + 7.7 * Size.height / 8));
+	this->addChild(_MPT);
 	this->addChild(loadingBarMP, 2);//1,为血条，2为蓝条，3为护甲，4为金币
 	auto AR_Text = Text::create("ARMOR", "Arial", 16);
 	AR_Text->setPosition(Vec2(Position.x + Size.width / 11, Position.y + 7.5 * Size.height / 8));
@@ -72,29 +83,40 @@ bool ShowState::init()
 	loadingBarAR->setDirection(LoadingBar::Direction::LEFT);
 	// 设置进度条位置
 	loadingBarAR->setPosition(Vec2(Position.x + Size.width / 4, Position.y + 7.5 * Size.height / 8));
-	this->addChild(loadingBarAR, 2);//1,为血条，2为蓝条，3为护甲，4为金币
+	_AR = loadingBarAR;
+	
+	this->addChild(loadingBarAR, 3);//1,为血条，2为蓝条，3为护甲，4为金币
+	auto _ARTE = Text::create("5/5", "Arial", 16);
+	_ARTE->setPosition(Vec2(Position.x + Size.width *1.7/ 4, Position.y + 7.5 * Size.height / 8));
+	this->addChild(_ARTE);
+	_ART = _ARTE;
 	//auto Money_Text = Text::create("Money: 0", "Arial", 16);
 	//Money_Text->setPosition(Vec2(Position.x + Size.width / 10, Position.y + 0.5 * Size.height / 8));
    // this->addChild(Money_Text, 4);
 	//this->scheduleUpdate();
+	return true;
 }
 
-void ShowState::update(Hero* hero)
+void ShowState::update(float delta)
 {
-	float _HPInterval = 0;
-	float _MPInterval = 0;
-	float _ArInterval = 0;
+	Layer::update(delta);
+	float _HPInterval = 1;
+	float _MPInterval = 1;
+	float _ArInterval = 1;
+	float _HPNow = 6,_MPNow=200,_ARNow=5;
+    _HPNow = HWhatHasYouChooseToBeYourHero->getCurrentHealth();
+    _MPNow = HWhatHasYouChooseToBeYourHero->getCurrentMagic();
+    _ARNow = HWhatHasYouChooseToBeYourHero->getCurrentArmor();
+	_HPInterval = _HPNow/ _HPMax;
+	_MPInterval = _MPNow / _MPMax;
+	_ArInterval = _ARNow / _ArmorMax;
 	//调用接口找到当前的Hp，Mp，Ar，Money;
-	_HPInterval = 1;
-	_MPInterval = 1;
-	_ArInterval = 1;
-	LoadingBar* LoadingBarSet;
-	LoadingBarSet = static_cast<LoadingBar*>(this->getChildByTag(1));
-	//LoadingBarSet->setPercent(1.0);
-	//LoadingBarSet = static_cast<LoadingBar*>(this->getChildByTag(2));
-	//LoadingBarSet->setPercent(1.0);
-	//LoadingBarSet = static_cast<LoadingBar*>(this->getChildByTag(3));
-	//LoadingBarSet->setPercent(1.0);
+	_HP->setPercent(_HPInterval*100);
+    _AR->setPercent(_ArInterval*100);
+	_MP->setPercent(_MPInterval*100);
+	_HPT->setString(FtoS(_HPNow) + "/6");
+	_MPT->setString(FtoS(_MPNow) + "/200");
+	_ART->setString(FtoS(_ARNow) + "/5");
 }
 
 

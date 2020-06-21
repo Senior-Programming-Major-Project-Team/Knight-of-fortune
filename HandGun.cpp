@@ -72,8 +72,6 @@ bool HandGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 
 	_weaponName = "HandGun";
 
-	_weaponType = WType::HANDGUN;
-
 	_hero = hero;
 
 	

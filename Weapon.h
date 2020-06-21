@@ -72,7 +72,6 @@ class Weapon :public Sprite
 
 	CC_SYNTHESIZE(String, _weaponName, WeaponName);
 
-	CC_SYNTHESIZE(WType, _weaponType, WeaponType);
 
 
 
