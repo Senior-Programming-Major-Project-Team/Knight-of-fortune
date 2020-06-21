@@ -236,9 +236,9 @@ bool HelloWorld::init()
 
 	inithero();
 
-	initweapon();
+	initmap();
 
-	initenemy();
+	
 
 	this->scheduleUpdate();
 
@@ -260,6 +260,40 @@ void HelloWorld::update(float delta)
 
 	updateWeapon(0);
 
+	updateHealthPtion(0);
+
+}
+
+
+
+void HelloWorld::initmap()
+
+{
+
+	_mylayer = GameScene::create();
+
+	this->addChild(_mylayer);
+
+	this->addChild(_myHero);
+
+	
+
+	_mapInformation = _mylayer->getMapInformation();
+
+	_showState = ShowState::createLayer();
+
+	this->addChild(_showState);
+
+	initweapon();
+
+	initenemy();
+
+	initHealthpotion();
+
+	//this->addChild(_myHealthPotion_1);
+
+	_isFighting = true;
+
 }
 
 
@@ -270,11 +304,13 @@ void HelloWorld::inithero()
 
 	_myHero = Knight::create(this, "knight", Camp::ME);
 
-	_myHero->setPosition(Vec2(100, 100));
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	Point origin = Director::getInstance()->getVisibleOrigin();
+
+	_myHero->setPosition(visibleSize / 2);
 
 	_myHero->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-
-	this->addChild(_myHero);
 
 	listenerKeyBoard = EventListenerKeyboard::create();
 
@@ -297,32 +333,44 @@ void HelloWorld::inithero()
 void HelloWorld::initweapon()
 
 {
-	
 
-	/*touch->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
+	_myWeapon = TommyGun::create(this, "tommygun.png", _myHero);
 
-	touch->onTouchMoved = CC_CALLBACK_2(HelloWorld::onTouchMoved, this);
 
-	touch->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
-
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(touch, this);*/
-
-	_myWeapon = TommyGun::create(this, "tommygun.png",_myHero,_enemies);
 
 	_myWeapon->setTexture("tommygun.png");
 
+
+
 	this->addChild(_myWeapon);
 
+
+
 	_myWeapon->openFire(this);
+
+
 
 	_myWeapon->setPosition(110, 110);
 
 }
 
-/*bool HelloWorld::onTouchBegan(Touch* touch, Event* unused_event) { return true; }
-void HelloWorld::onTouchMoved(Touch* touch, Event* unused_event) {}
-void HelloWorld::onTouchEnded(Touch* touch, Event* unused_event) {}*/
+void HelloWorld::initHealthpotion()
+{
+	_myHealthPotion_1 = HealthPotion_1::create(this, "healthpotion_1.bmp", _myHero);
 
+	_myHero->addChild(_myHealthPotion_1);
+
+	_myHealthPotion_1->setTexture("healthpotion_1.bmp");
+
+	_myHealthPotion_1->setVisible(true);
+
+	
+
+
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	_myHealthPotion_1->setPosition(visibleSize/2);
+}
 
 
 
@@ -330,13 +378,29 @@ void HelloWorld::initenemy()
 
 {
 
-	initpig();
+	for (int i = 0; i < 12; i++)
 
-	initlancegoblin();
+	{
 
-	initflower();
+		srand(time(0) + rand());
 
-	inithandgungoblin();
+		int enemynumber = CCRANDOM_0_1() * 4;
+
+		switch (enemynumber)
+
+		{
+
+		case 0:initpig(); break;
+
+		case 1:initlancegoblin(); break;
+
+		case 3:initflower(); break;
+
+		case 2:inithandgungoblin(); break;
+
+		}
+
+	}
 
 }
 
@@ -350,11 +414,13 @@ void HelloWorld::initpig()
 
 	_enemies.pushBack(pig);
 
-	pig->setPosition(Vec2(200, 200));
+	addChild(pig);
+
+	Vec2 position = HelloWorld::RandomGeneration();
+
+	pig->setPosition(position);
 
 	pig->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-
-	this->addChild(pig);
 
 }
 
@@ -368,11 +434,13 @@ void HelloWorld::initlancegoblin()
 
 	_enemies.pushBack(lanceGoblin);
 
-	lanceGoblin->setPosition(Vec2(300, 200));
+	addChild(lanceGoblin);
+
+	Vec2 position = HelloWorld::RandomGeneration();
+
+	lanceGoblin->setPosition(position);
 
 	lanceGoblin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-
-	this->addChild(lanceGoblin);
 
 }
 
@@ -386,11 +454,13 @@ void HelloWorld::initflower()
 
 	_enemies.pushBack(flower);
 
-	flower->setPosition(Vec2(200, 300));
+	addChild(flower);
+
+	Vec2 position = HelloWorld::RandomGeneration();
+
+	flower->setPosition(position);
 
 	flower->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-
-	this->addChild(flower);
 
 }
 
@@ -404,11 +474,31 @@ void HelloWorld::inithandgungoblin()
 
 	_enemies.pushBack(handGunGoblin);
 
-	handGunGoblin->setPosition(Vec2(300, 300));
+	addChild(handGunGoblin);
+
+	Vec2 position = HelloWorld::RandomGeneration();
+
+	handGunGoblin->setPosition(position);
 
 	handGunGoblin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
-	this->addChild(handGunGoblin);
+}
+
+
+
+Vec2 HelloWorld::RandomGeneration()
+
+{
+
+	srand(time(0) + rand());
+
+	Point point;
+
+	point.x = CCRANDOM_0_1() * 850;
+
+	point.y = CCRANDOM_0_1() * 850;
+
+	return point;
 
 }
 
@@ -421,6 +511,8 @@ void HelloWorld::initstatedate()
 	_pressdirection = Direction::NO;
 
 	_isCanMove = false;
+
+	_isFighting = true;
 
 	_wState = false;
 
@@ -490,6 +582,36 @@ void HelloWorld::updateHero(float delta)//更新人物信息（wasd）
 
 	Heromove();
 
+	_myHero->Recover();
+
+	if (_myHero->getPosition().distance(Vec2(450, 450)) <= 100 && _isFighting == false)
+
+	{
+
+		_myHero->removeFromParent();
+
+		initmap();
+
+	}
+
+	//_showState->update(_myHero);
+
+}
+
+
+
+void HelloWorld::updateWeapon(float t)
+
+{
+
+	_myWeapon->update(_enemies);
+
+}
+
+
+void HelloWorld::updateHealthPtion(float t)
+{
+	_myHealthPotion_1->update(t);
 }
 
 
@@ -498,70 +620,96 @@ void HelloWorld::updateEnemy(float delta)//更新怪物信息
 
 {
 
+	int deadenemies = 0;
+
 	for (auto& i : _enemies)
 
 	{
 
-		switch (i->getEnemyType())
+		if (i->getAlreadyDead() == false)
 
 		{
 
-		case EType::PIG:
+			switch (i->getEnemyType())
 
-		{
+			{
 
-			i->automove();
+			case EType::PIG:
 
-			i->Attack(_myHero);
+			{
 
-			break;
+				i->automove();
+
+				i->Attack(_myHero, i);
+
+				break;
+
+			}
+
+			case EType::LANCEGOBLIN:
+
+			{
+
+				i->automove();
+
+				i->Attack(_myHero, i);
+
+				break;
+
+			}
+
+			case EType::FLOWER:
+
+			{
+
+				i->Attack(_myHero, i);
+
+				break;
+
+			}
+
+			case EType::HANDGUNGOBLIN:
+
+			{
+
+				i->automove();
+
+				i->Attack(_myHero, i);
+
+				break;
+
+			}
+
+			}
 
 		}
 
-		case EType::LANCEGOBLIN:
+
+
+		if (i->getAlreadyDead() == true)
 
 		{
 
-			i->automove();
+			i->removeFromParent();
 
-			i->Attack(_myHero);
-
-			break;
-
-		}
-
-		case EType::FLOWER:
-
-		{
-
-			i->Attack(_myHero);
-
-			break;
-
-		}
-
-		case EType::HANDGUNGOBLIN:
-
-		{
-
-			i->automove();
-
-			i->Attack(_myHero);
-
-			break;
-
-		}
+			deadenemies++;
 
 		}
 
 	}
 
+	if (deadenemies == 12)
+
+	{
+
+		_isFighting = false;
+
+		Stopfight();
+
+	}
+
 }
 
-void HelloWorld::updateWeapon(float t)
-{
-	_myWeapon->update(t);
-}
 
 
 void HelloWorld::Heromove()
@@ -675,6 +823,28 @@ void HelloWorld::Heromove()
 	}
 
 	_myHero->heroMove(point);
+
+}
+
+
+
+void HelloWorld::Stopfight()
+
+{
+
+	_enemies.clear();
+
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	Point origin = Director::getInstance()->getVisibleOrigin();
+
+	auto TransferMatrix = ParticleSystemQuad::create("TransferMatrix.plist");
+
+	TransferMatrix->setPosition(visibleSize / 2);
+
+	TransferMatrix->setScale(0.5);
+
+	this->addChild(TransferMatrix);
 
 }
 
@@ -997,8 +1167,6 @@ bool HelloWorld::PressDirection()
 	return true;
 
 }
-
-
 
 
 

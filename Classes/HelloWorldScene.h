@@ -66,7 +66,11 @@
 
 #include "TommyGun.h"
 
+#include "GameScene.h"
 
+#include"Buff.h"
+
+#include"HealthPotion.h"
 
 
 
@@ -76,7 +80,11 @@ class Enemy;
 
 class Weapon;
 
+class GameScene;
 
+class Buff;
+
+class HealthPotion_1;
 
 class HelloWorld : public cocos2d::Scene
 
@@ -88,11 +96,21 @@ class HelloWorld : public cocos2d::Scene
 
 	CC_SYNTHESIZE(bool, _isCanMove, IsCanMove);
 
+	CC_SYNTHESIZE(MapInfo, _mapInformation, MapInformation);
+
 	CC_SYNTHESIZE(Hero*, _myHero, MyHero);
+
+	CC_SYNTHESIZE(GameScene*, _mylayer, Mylayer);
+
+	CC_SYNTHESIZE(ShowState*, _showState, ShowState);
 
 	CC_SYNTHESIZE(Weapon*, _myWeapon, MyWeapon);
 
+	CC_SYNTHESIZE(bool, _isFighting, IsFighting);
 
+	CC_SYNTHESIZE(Buff*, _myBuff, MyBuff);
+
+	CC_SYNTHESIZE(HealthPotion_1*, _myHealthPotion_1, MyHealthPotion_1);
 
 public:
 
@@ -114,11 +132,18 @@ public:
 
 
 
+	void initmap();
+
+
+
 	void inithero();//初始化人物信息
 
 
 
-	void initweapon();
+	void initweapon();//初始化武器
+
+
+	void initHealthpotion();
 
 
 
@@ -176,9 +201,14 @@ public:
 
 
 
-	void updateEnemy(float delta);
-
 	void updateWeapon(float t);
+
+
+	void updateHealthPtion(float t);
+
+
+
+	void updateEnemy(float delta);
 
 
 
@@ -190,19 +220,19 @@ public:
 
 
 
+	Vec2 RandomGeneration();
+
+
+
+	void Stopfight();
+
+
+
 	EventListenerKeyboard* listenerKeyBoard;//键盘监听
 
 
 
 	bool _wState, _aState, _sState, _dState;
-
-	/*EventListenerTouchOneByOne* touch;
-
-	virtual bool onTouchBegan(Touch* touch, Event* unused_event);
-
-	virtual void onTouchMoved(Touch* touch, Event* unused_event);
-
-	virtual void onTouchEnded(Touch* touch, Event* unused_event);*/
 
 
 
