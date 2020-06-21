@@ -11,9 +11,10 @@
 #include "extensions/GUI/CCControlExtension/CCControlSlider.h"
 #include "HelloWorldScene.h"
 #include"MenuScene.h"
+#include"HeroChosen.h"
 using namespace CocosDenshion;
 using namespace cocos2d::extension;
-
+ 
 //  AudioControl类用来设置背景音乐和声音特效
 class AudioControl : public cocos2d::Layer
 {
@@ -28,6 +29,5 @@ public:
     virtual bool init();
     CREATE_FUNC(AudioControl);
 };
-
 
 #endif /* defined(_AudioControl_) */

@@ -1,10 +1,11 @@
 #pragma execution_character_set("utf-8")//使编码中文正常显示
 #include "AudioControl.h"
 #include "ui/CocosGUI.h"
+#include"MenuScene.h"
 USING_NS_CC;
 using namespace ui;
-
 Scene* AudioControl::createScene() {
+    
     // 创建一个场景对象
     auto scene = Scene::create();
     // 创建层对象
@@ -110,15 +111,15 @@ bool AudioControl::init() {
     close_button->setScaleX(fSize / ButtonPic0);
     close_button->setScaleY(fSize / ButtonPic0);
     close_button->setPosition(Vec2(visibleSize.width*9 / 10, visibleSize.height * 0.9));
-    close_button->addTouchEventListener([](Ref* pSender, Widget::TouchEventType type) {
+    close_button->addTouchEventListener([this](Ref* pSender, Widget::TouchEventType type) {
         if (type == Widget::TouchEventType::ENDED) {
             // 切换到MenuScene场景
-            auto transition = TransitionSlideInL::create(2.0, GameMenu::createScene());
+            auto transition = TransitionSlideInL::create(2.0,GameMenu::createScene());
             Director::getInstance()->replaceScene(transition);
+            
         }
     });
     this->addChild(close_button);
     return true;
 }
-
 
