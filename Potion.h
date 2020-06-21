@@ -16,7 +16,7 @@ class Potion :public Sprite
 	CC_SYNTHESIZE(float, _HP, HP);
 	CC_SYNTHESIZE(float, _MP, MP);
 	CC_SYNTHESIZE(HelloWorld*, _combatscene, Combatscene);
-	CC_SYNTHESIZE(std::string, _potionName, PotionNme);
+	CC_SYNTHESIZE(String, _potionName, PotionName);
 public:
 	virtual bool init(HelloWorld* combatScene, std::string potionName);
 

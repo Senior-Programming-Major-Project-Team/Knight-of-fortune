@@ -69,4 +69,12 @@ enum EType
 	FLOWER
 };
 
+enum WType
+{
+	HANDGUN,
+	TOMMYGUN,
+	SWORDW,
+	AXEW
+};
+
 #endif //_CONSTNUMBER_ 

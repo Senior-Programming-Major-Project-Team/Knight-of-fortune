@@ -1,29 +1,22 @@
-#include"TommyGun.h"
-
-#include"cocos2d.h"
-
+#include"HandGun.h"
 #include"constnumber.h"
 
 
 
-USING_NS_CC;
-
-
-
-TommyGun* TommyGun::create(HelloWorld* combatScene, std::string weaponName, Hero* hero)
+HandGun* HandGun::create(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 
 {
 
-	TommyGun* tommyGun = new(std::nothrow)TommyGun;
+	HandGun* handGun = new(std::nothrow)HandGun;
 
 
-	if (tommyGun->init(combatScene, weaponName, hero))
+	if (handGun->init(combatScene, weaponName, hero))
 
 	{
 
-		tommyGun->autorelease();
+		handGun->autorelease();
 
-		return tommyGun;
+		return handGun;
 
 	}
 
@@ -31,7 +24,7 @@ TommyGun* TommyGun::create(HelloWorld* combatScene, std::string weaponName, Hero
 
 	{
 
-		CC_SAFE_DELETE(tommyGun);
+		CC_SAFE_DELETE(handGun);
 
 		return nullptr;
 
@@ -41,7 +34,7 @@ TommyGun* TommyGun::create(HelloWorld* combatScene, std::string weaponName, Hero
 
 
 
-bool TommyGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
+bool HandGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 
 {
 
@@ -54,6 +47,7 @@ bool TommyGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 	}
 
 	/*auto visibleSize = Director::getInstance()->getVisibleSize();
+
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();*/
 
 	//创建冲锋枪精灵
@@ -62,27 +56,27 @@ bool TommyGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 
 	//设置锚点位置，坐标位置，target并添加
 
-	setAnchorPoint(Point(0.5, 0.7));
+	setAnchorPoint(Point(0, 0));
 
-	setPosition(hero->getPositionX() - 50, hero->getPositionY() - 80);
+	setPosition(hero->getPositionX() - 70, hero->getPositionY() - 100);
 
-	setTag(TOMMY_GUN);
+	setTag(HAND_GUN);
 
 	//hero->addChild(tommyGun);
 
-	_attackPoint = 5;
+	_attackPoint = 2;
 
 	_magicPoint = 180;
 
-	_critRate = 0.3;
+	_critRate = 0.2;
 
-	_weaponName = "TommyGun";
+	_weaponName = "HandGun";
 
-	_weaponType = WType::TOMMYGUN;
+	_weaponType = WType::HANDGUN;
 
 	_hero = hero;
 
-	_combatScene = combatScene;
+	
 
 	//this->scheduleUpdate();
 
@@ -112,7 +106,7 @@ bool TommyGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 
 
 
-bool TommyGun::onTouchBegan(Touch* touch, Event* unused_event)
+bool HandGun::onTouchBegan(Touch* touch, Event* unused_event)
 
 {
 
@@ -140,7 +134,7 @@ bool TommyGun::onTouchBegan(Touch* touch, Event* unused_event)
 
 }
 
-void TommyGun::onTouchMoved(Touch* touch, Event* unused_event)
+void HandGun::onTouchMoved(Touch* touch, Event* unused_event)
 
 {
 
@@ -148,15 +142,9 @@ void TommyGun::onTouchMoved(Touch* touch, Event* unused_event)
 
 }
 
-void TommyGun::onTouchEnded(Touch* touch, Event* unused_event)
+void HandGun::onTouchEnded(Touch* touch, Event* unused_event)
 
 {
-	auto nowTime = GetCurrentTime() / 1000.f;
-	if (nowTime - _lastAttackTime < _hero->getMinAttackInterval())
-	{
-		return;
-	}
-	_lastAttackTime = nowTime;
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
@@ -179,25 +167,15 @@ void TommyGun::onTouchEnded(Touch* touch, Event* unused_event)
 
 	Sprite* Bullet = Sprite::create("Bullet.png");
 
-	Sprite* Bullet2 = Sprite::create("Bullet.png");
-
-	Sprite* Bullet3 = Sprite::create("Bullet.png");
+	
 
 
 
 	//Vec2 bulletPosition = this->convertToWorldSpace(Bullet->getPosition());
 
-	Bullet->setPosition(70, 30);
+	Bullet->setPosition(90, 30);
 
-	Bullet2->setPosition(90, 30);
-
-	Bullet3->setPosition(110, 30);
-
-	Bullet->setAnchorPoint(Point(0, 0));
-
-	Bullet2->setAnchorPoint(Point(0, 0));
-
-	Bullet3->setAnchorPoint(Point(0, 0));
+	
 
 	//Vec2 bullet1Position = getPosition() + Bullet->getPosition();
 
@@ -206,7 +184,9 @@ void TommyGun::onTouchEnded(Touch* touch, Event* unused_event)
 	//Vec2 bullet3Position = getPosition() + Bullet3->getPosition();
 
 	/*Bullet->setPosition(getPositionX(), getPositionY());
+
 	Bullet2->setPosition(getPositionX(), getPositionY() );
+
 	Bullet3->setPosition(getPositionX() , getPositionY());*/
 	/*Bullet->setPosition(spTommyGun->getPositionX() + 30 * detalVector.x, spTommyGun->getPositionY() + 30 * detalVector.y);
 	Bullet2->setPosition(spTommyGun->getPositionX() + 50 * detalVector.x, spTommyGun->getPositionY() + 50 * detalVector.y);
@@ -222,29 +202,20 @@ void TommyGun::onTouchEnded(Touch* touch, Event* unused_event)
 
 	float flyTime = overVector.getLength() / flySpeed;//飞行时间
 
-	auto moveTo = MoveTo::create(flyTime, Bullet->getPosition() + Vec2(2000, 0));
+	auto moveTo = MoveTo::create(flyTime, ccp(2000, 0));
 
-	auto moveTo2 = MoveTo::create(flyTime, Bullet2->getPosition() + Vec2(2000, 0));
-
-	auto moveTo3 = MoveTo::create(flyTime, Bullet3->getPosition() + Vec2(2000, 0));
+	
 
 	this->addChild(Bullet);
 
-	this->addChild(Bullet2);
-
-	this->addChild(Bullet3);
+	
 
 	this->allBullet.pushBack(Bullet);
 
-	this->allBullet.pushBack(Bullet2);
-
-	this->allBullet.pushBack(Bullet3);
-
+	
 	Bullet->runAction(moveTo);
 
-	Bullet2->runAction(moveTo2);
-
-	Bullet3->runAction(moveTo3);
+	
 
 	for (int i = 0; i < allBullet.size(); i++)
 
@@ -272,7 +243,7 @@ void TommyGun::onTouchEnded(Touch* touch, Event* unused_event)
 
 
 
-void TommyGun::openFire(HelloWorld* combatScene)
+void HandGun::openFire(HelloWorld* combatScene)
 
 {
 
@@ -280,19 +251,19 @@ void TommyGun::openFire(HelloWorld* combatScene)
 
 		return;
 
-
 	//创建一个触摸监听
 
 	EventListenerTouchOneByOne* touch = EventListenerTouchOneByOne::create();
 
 	/*touch->setSwallowTouches(true);
+
 	touch->setEnabled(true);*/
 
-	touch->onTouchBegan = CC_CALLBACK_2(TommyGun::onTouchBegan, this);
+	touch->onTouchBegan = CC_CALLBACK_2(HandGun::onTouchBegan, this);
 
-	touch->onTouchMoved = CC_CALLBACK_2(TommyGun::onTouchMoved, this);
+	touch->onTouchMoved = CC_CALLBACK_2(HandGun::onTouchMoved, this);
 
-	touch->onTouchEnded = CC_CALLBACK_2(TommyGun::onTouchEnded, this);
+	touch->onTouchEnded = CC_CALLBACK_2(HandGun::onTouchEnded, this);
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touch, this);
 
@@ -302,7 +273,7 @@ void TommyGun::openFire(HelloWorld* combatScene)
 
 
 
-void TommyGun::consumeMagic(HelloWorld* combatScene)
+void HandGun::consumeMagic(HelloWorld* combatScene)
 
 {
 
@@ -310,47 +281,86 @@ void TommyGun::consumeMagic(HelloWorld* combatScene)
 
 }
 
-void TommyGun::update(Vector<Enemy*> _enemies)
+void HandGun::update(Vector<Enemy*> _enemies)
 {
-	setPosition(_hero->getPositionX() + 10, _hero->getPositionY());
+	setTexture("handGun_2.png");
+
+	setPosition(_hero->getPositionX() - 5, _hero->getPositionY()-10);
+
+
 
 	for (int i = 0; i < allBullet.size(); i++)
 
+
+
 	{
+
+
 
 		auto nowBullet = allBullet.at(i);
 
+
+
 		if (nowBullet->getPositionY() > Director::getInstance()->getWinSize().height)
 
+
+
 		{
+
+
 
 			nowBullet->removeFromParent();
 
+
+
 			allBullet.eraseObject(nowBullet);
 
+
+
 			i--;
+
 		}
+
+
 
 	}
 
+
+
 	for (int i = 0; i < _enemies.size(); i++)
+
 	{
+
 		auto nowEnemy = _enemies.at(i);
 
+
+
 		for (int j = 0; j < allBullet.size(); j++)
+
 		{
+
 			auto nowBullet = allBullet.at(j);
 
+
+
 			if (((nowBullet->convertToWorldSpace(Point(0, 0)).distance(nowEnemy->getPosition())) < 50) && nowEnemy->getAlreadyDead() == false)
+
 			{
+
 				nowBullet->removeFromParent();
+
+
 
 				allBullet.eraseObject(nowBullet);
 
-				nowEnemy->Damage(_attackPoint);
-			}
-		}
-	}
 
+
+				nowEnemy->Damage(_attackPoint);
+
+			}
+
+		}
+
+	}
 
 }

@@ -28,6 +28,9 @@ bool Potion::init(HelloWorld* combatScene, std::string potionName)
 	{
 		return false;
 	}
+	_potionName = potionName;
+	_combatscene = combatScene;
+	setTexture(StringUtils::format("healthpotion_%s.jpg", _potionName.getCString(), _potionName.getCString()));
 	_maxHP = 0;
 	_maxAR = 0;
 	_HP = 0;

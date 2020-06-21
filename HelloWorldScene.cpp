@@ -25,9 +25,6 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "constnumber.h"
-#include"MenuScene.h"
-#include"GameLayer.h"
-extern Hero* HWhatHasYouChooseToBeYourHero;
 
 USING_NS_CC;
 
@@ -118,21 +115,9 @@ bool HelloWorld::init()
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }*/
-	SimpleAudioEngine::getInstance()->playBackgroundMusic("Background.mp3", true);
 	initstatedate();
 	inithero();	
-	initmap();
-	auto Pause_button = Button::create("pause.png");
-	Pause_button->setScaleX(1);
-	Pause_button->setScaleY(1);
-	Pause_button->setPosition(Vec2(visibleSize.width * 0.8, visibleSize.height * 0.9));
-	Pause_button->addTouchEventListener([this](Ref* pSender, Widget::TouchEventType type) {
-		if (type == Widget::TouchEventType::ENDED) {
-			GameLayer Pause;
-			Pause.TouchPaushButton();
-		}
-	});	
-	this->addChild(Pause_button);
+	initmap();	
 	this->scheduleUpdate();
     this->schedule(schedule_selector(HelloWorld::updateEnemy), 0.1f);
 
@@ -147,6 +132,8 @@ void HelloWorld::update(float delta)
 
 void HelloWorld::initmap()
 {
+	_enemies.clear();
+	_potions.clear();
 	_mylayer = GameScene::create();
 	this->addChild(_mylayer);
 	this->addChild(_myHero);
@@ -155,7 +142,6 @@ void HelloWorld::initmap()
 	this->addChild(_showState);
 	initweapon();
 	initenemy();
-	initHealthpotion();
 	_isFighting = true;
 }
 
@@ -167,20 +153,19 @@ void HelloWorld::inithero()
 	_myHero->setPosition(visibleSize / 2);
 	_myHero->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	listenerKeyBoard = EventListenerKeyboard::create();
-	//åˆ›å»ºé”®ç›˜ç›‘å¬
+	//´´½¨¼üÅÌ¼àÌý
 	listenerKeyBoard->onKeyPressed = CC_CALLBACK_2(HelloWorld::onPressKey, this,);
 	listenerKeyBoard->onKeyReleased = CC_CALLBACK_2(HelloWorld::onReleaseKey, this);
-	//ç»‘å®šé”®ç›˜ç›‘å¬
+	//°ó¶¨¼üÅÌ¼àÌý
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerKeyBoard, this);
-	//å¼€å¯ç›‘å¬
-	HWhatHasYouChooseToBeYourHero = _myHero;
+	//¿ªÆô¼àÌý
 }
 
 void HelloWorld::initweapon()
 {
-	_myWeapon = TommyGun::create(this, "tommygun.png", _myHero);
+	_myWeapon = HandGun::create(this, "handGun", _myHero);
 
-	_myWeapon->setTexture("tommygun.png");
+	_myWeapon->setTexture("handGun_2");
 
 	this->addChild(_myWeapon);
 
@@ -199,26 +184,84 @@ void HelloWorld::initHealthpotion()
 
 	switch (potionnumber)
 	{
-	case 0:	Potion_2 = HealthPotion_2::create(this, "healthpotion_2"); break;
+	case 0:	Potion_2 = HealthPotion_2::create(this, "2"); break;
 
-	case 1:	Potion_2 = HealthPotion_3::create(this, "healthpotion_3"); break;
+	case 1:	Potion_2 = HealthPotion_3::create(this, "3"); break;
 
-	case 2:	Potion_2 = HealthPotion_4::create(this, "healthpotion_4"); break;
+	case 2:	Potion_2 = HealthPotion_4::create(this, "4"); break;
 	}
 
-	Potion_2->setPosition(Vec2(750, 100));
+	Potion_2->setPosition(Vec2(765, 130));
 
 	addChild(Potion_2);
-
-	Potion_2->setVisible(true);
 
 	_potions.pushBack(Potion_2);
 }
 
+void HelloWorld::initbonusweapon()
+{
+
+	srand(time(0) + rand());
+
+	int potionnumber = CCRANDOM_0_1() * 4;
+
+	switch (potionnumber)
+	{
+	case 0:	
+	{
+		_bonusWeapon = HandGun::create(this, "handGun", _myHero);
+		_bonusWeapon->setTexture("handGun_2.png");
+		break;
+	}
+	case 1:	
+	{
+		_bonusWeapon = TommyGun::create(this, "tommyGun", _myHero);
+		_bonusWeapon->setTexture("tommyGun.png");
+		break;
+	}
+	case 2:	
+	{
+		_bonusWeapon = Sword::create(this, "sword", _myHero);
+		_bonusWeapon->setTexture("sword_1.png");
+		break;
+	}
+	case 3:
+	{
+		_bonusWeapon = Axe::create(this, "Axe", _myHero);
+		_bonusWeapon->setTexture("Axe_1.png");
+		break;
+	}
+	}
+
+	_bonusWeapon->setPosition(Vec2(765, 130));
+
+	addChild(_bonusWeapon);
+
+	_weapons.pushBack(_bonusWeapon);
+}
+
+void HelloWorld::initSuperGround()
+{
+	_marsh = Marsh::create(this, "marsh", _myHero);
+
+	_marsh->setTexture("zhaoze.png");
+
+	_marsh->setPosition(730, 100.5);
+
+	this->addChild(_marsh);
+
+	_magma = Magma::create(this, "magma", _myHero);
+
+	_magma->setTexture("yanjiang.png");
+
+	_magma->setPosition(803, 100.5);
+
+	this->addChild(_magma);
+}
 
 void HelloWorld::initenemy()
 {
-	for (int i = 0; i < 12; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		srand(time(0) + rand());
 		int enemynumber = CCRANDOM_0_1() * 4;
@@ -285,6 +328,7 @@ void HelloWorld::initstatedate()
 {
 	_pressdirection = Direction::NO;
 	_isCanMove = false;
+	_isBoxOpen = false;
 	_isFighting = true;
 	_wState = false;
 	_aState = false;
@@ -292,7 +336,7 @@ void HelloWorld::initstatedate()
 	_dState = false;
 }
 
-void HelloWorld::updateHero(float delta)//æ›´æ–°äººç‰©ä¿¡æ¯ï¼ˆwasdï¼‰
+void HelloWorld::updateHero(float delta)//¸üÐÂÈËÎïÐÅÏ¢£¨wasd£©
 {
 	Node::update(delta);
 	auto leftArrow = EventKeyboard::KeyCode::KEY_LEFT_ARROW;
@@ -321,6 +365,15 @@ void HelloWorld::updateHero(float delta)//æ›´æ–°äººç‰©ä¿¡æ¯ï¼ˆwasdï¼‰
 	}
 	Heromove();
 	_myHero->Recover();
+	if (_myHero->getPosition().distance(Vec2(765, 130)) <= 50 && _isFighting == false)
+	{
+		if (_isBoxOpen == false)
+		{
+			initbonusweapon();
+			//initHealthpotion();
+		    _isBoxOpen = true;
+		}		
+	}
 	if (_myHero->getPosition().distance(Vec2(450, 450)) <= 10 && _isFighting == false)
 	{
 		_myHero->removeFromParent();
@@ -334,7 +387,7 @@ void HelloWorld::updateWeapon(float t)
 	_myWeapon->update(_enemies);
 }
 
-void HelloWorld::updateEnemy(float delta)//æ›´æ–°æ€ªç‰©ä¿¡æ¯
+void HelloWorld::updateEnemy(float delta)//¸üÐÂ¹ÖÎïÐÅÏ¢
 {
 	int deadenemies = 0;
 	for (auto& i : _enemies)
@@ -373,7 +426,7 @@ void HelloWorld::updateEnemy(float delta)//æ›´æ–°æ€ªç‰©ä¿¡æ¯
 		{
 			if (i->getLastTimeDead() == false)
 			{				
-				auto Potion_1 = HealthPotion_1::create(this, "healthpotion_1");
+				auto Potion_1 = HealthPotion_1::create(this, "1");
 			    addChild(Potion_1);
 			    Potion_1->setPosition(i->getPosition());
 			    Potion_1->setVisible(true);
@@ -462,9 +515,43 @@ void HelloWorld::takePotion()
 	}
 }
 
+void HelloWorld::changeweapon()
+{
+	for (auto& i : _weapons)
+	{
+		if (i->getPosition().distance(_myHero->getPosition()) <= 50)
+		{
+			CC_SAFE_DELETE(_myWeapon);
+			switch (i->getWeaponType())
+			{
+			case WType::HANDGUN:
+			{
+				_myWeapon = HandGun::create(this, "handGun", _myHero);
+				break;
+			}
+			case WType::TOMMYGUN:
+			{
+				_myWeapon = TommyGun::create(this, "tommyGun", _myHero);
+				break;
+			}
+			case WType::SWORDW:
+			{
+				_myWeapon = Sword::create(this, "sword", _myHero);
+				break;
+			}
+			case WType::AXEW:
+			{
+				_myWeapon = Axe::create(this, "axe", _myHero);
+				break;
+			}
+			}
+			//addchild(_myWeapon);
+		}
+	}
+}
+
 void HelloWorld::Stopfight()
 {
-	_enemies.clear();
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Point origin = Director::getInstance()->getVisibleOrigin();
 	auto TransferMatrix = ParticleSystemQuad::create("TransferMatrix.plist");
@@ -568,17 +655,25 @@ bool HelloWorld::updateState(EventKeyboard::KeyCode keyCode, int type)
 		}
 		break;
 	}
-	case EventKeyboard::KeyCode::KEY_Q://å¼€å¯æŠ€èƒ½
+	case EventKeyboard::KeyCode::KEY_Q://¿ªÆô¼¼ÄÜ
 	{
-		if (type == PRESS)
+		if (type == RELEASE)
 		{
 			_myHero->castSkill();
 		}
 		break;
 	}
+	case EventKeyboard::KeyCode::KEY_F:
+	{
+		if (type == RELEASE)
+		{
+			changeweapon();
+		}
+		break;
+	}
 	case EventKeyboard::KeyCode::KEY_E:
 	{
-		if (type == PRESS)
+		if (type == RELEASE)
 		{
 			takePotion();
 		}

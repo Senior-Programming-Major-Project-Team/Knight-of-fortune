@@ -35,12 +35,20 @@
 #include "GameScene.h"
 #include "Buff.h"
 #include "HealthPotion.h"
+#include"HandGun.h"
+#include"Sword.h"
+#include"Axe.h"
+#include"Marsh.h"
+#include"Magma.h"
 
 
 class Hero;
 class Enemy;
 class Weapon;
 class GameScene;
+class Buff;
+class Marsh;
+class Magma;
 
 class HelloWorld : public cocos2d::Scene
 {
@@ -52,9 +60,13 @@ class HelloWorld : public cocos2d::Scene
 	CC_SYNTHESIZE(GameScene*, _mylayer, Mylayer);
 	CC_SYNTHESIZE(ShowState*, _showState, ShowState);
 	CC_SYNTHESIZE(Weapon*, _myWeapon, MyWeapon);
+	CC_SYNTHESIZE(Weapon*, _bonusWeapon, BonusWeapon);
 	CC_SYNTHESIZE(bool, _isFighting, IsFighting);
 	CC_SYNTHESIZE(Buff*, _myBuff, MyBuff);
 	CC_SYNTHESIZE(Potion*, _potion, Potion);
+	CC_SYNTHESIZE(bool, _isBoxOpen, IsBoxOpen);
+	CC_SYNTHESIZE(Marsh*, _marsh, Marsh_);
+	CC_SYNTHESIZE(Magma*, _magma, Magma_);
 
 
 public:
@@ -62,6 +74,8 @@ public:
 	Vector<Enemy*> _enemies;
 
 	Vector<Potion*> _potions;
+
+	Vector<Weapon*> _weapons;
 
     static cocos2d::Scene* createScene();
 
@@ -76,6 +90,10 @@ public:
 	void initweapon();
 
 	void initHealthpotion();
+
+	void initSuperGround();
+
+	void initbonusweapon();
 
 	void initenemy();//初始化敌人信息
 
@@ -115,6 +133,8 @@ public:
 	Vec2 RandomGeneration();
 
 	void takePotion();
+
+	void changeweapon();
 
 	void Stopfight();
 

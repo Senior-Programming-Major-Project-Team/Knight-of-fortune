@@ -22,10 +22,7 @@ bool HealthPotion_1::init(HelloWorld* combatScene, std::string potionName)
 	{
 		return false;
 	}
-	setTexture("PigRight.png");
 	_MP = 5;
-	_potionName = potionName;
-	_combatscene = combatScene;
 	return true;
 }
 
@@ -46,10 +43,12 @@ HealthPotion_2* HealthPotion_2::create(HelloWorld* combatScene, std::string poti
 
 bool HealthPotion_2::init(HelloWorld* combatScene, std::string potionName)
 {
-	setTexture("PigRight.png");
+	if (!Potion::init(combatScene, potionName))
+
+	{
+		return false;
+	}
 	_HP = 2;
-	_potionName = potionName;
-	_combatscene = combatScene;
 	return true;
 }
 
@@ -70,10 +69,12 @@ HealthPotion_3* HealthPotion_3::create(HelloWorld* combatScene, std::string poti
 
 bool HealthPotion_3::init(HelloWorld* combatScene, std::string potionName)
 {
-	setTexture("FlowerRight.png");
+	if (!Potion::init(combatScene, potionName))
+
+	{
+		return false;
+	}
 	_MP = 80;
-	_potionName = potionName;
-	_combatscene = combatScene;
 	return true;
 }
 
@@ -94,10 +95,12 @@ HealthPotion_4* HealthPotion_4::create(HelloWorld* combatScene, std::string poti
 
 bool HealthPotion_4::init(HelloWorld* combatScene, std::string potionName)
 {
-	setTexture("KnightRight.png");
+	if (!Potion::init(combatScene, potionName))
+
+	{
+		return false;
+	}
 	_maxHP = 5;
 	_maxAR = 5;
-	_potionName = potionName;
-	_combatscene = combatScene;
 	return true;
 }
