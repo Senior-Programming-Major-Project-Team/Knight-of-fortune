@@ -65,7 +65,7 @@ void  MapTest::initMapLayer()
 	boxesLayer->setVisible(false);
 
 	this->addChild(_map, 0, TAG_MAP);
-
+	
 	
 }
 
@@ -91,7 +91,7 @@ Vec2 MapTest::getPositionInMap(const Vec2& mousePosition)
 
 
 
-//此函数一定要确定输入的坐标是
+//此函数一定要确定输入的坐标是有箱子的
 void MapTest::removeBoxes(const Vec2& aPosition)
 {
 	if (_mapInformation.checkBoxes(aPosition))
