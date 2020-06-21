@@ -97,7 +97,6 @@ void MovingActor::changeCurrentArmor(float newCurrentArmor)
 void MovingActor::die()
 {
 	setAlreadyDead(true);
-	setTexture("HelloWorld.png");
 }
 
 void MovingActor::Damage(float damage)
