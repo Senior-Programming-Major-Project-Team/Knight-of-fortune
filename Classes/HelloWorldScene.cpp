@@ -238,8 +238,6 @@ bool HelloWorld::init()
 
 	initmap();
 
-	
-
 	this->scheduleUpdate();
 
 	this->schedule(schedule_selector(HelloWorld::updateEnemy), 0.1f);
@@ -260,8 +258,6 @@ void HelloWorld::update(float delta)
 
 	updateWeapon(0);
 
-	updateHealthPtion(0);
-
 }
 
 
@@ -276,8 +272,6 @@ void HelloWorld::initmap()
 
 	this->addChild(_myHero);
 
-	
-
 	_mapInformation = _mylayer->getMapInformation();
 
 	_showState = ShowState::createLayer();
@@ -288,9 +282,7 @@ void HelloWorld::initmap()
 
 	initenemy();
 
-	initHealthpotion();
-
-	this->addChild(_myHealthPotion_1);
+	initSuperGround();
 
 	_isFighting = true;
 
@@ -334,11 +326,11 @@ void HelloWorld::initweapon()
 
 {
 
-	_myWeapon = Axe::create(this, "Axe_1.png", _myHero);
+	_myWeapon = TommyGun::create(this, "tommygun.png", _myHero);
 
 
 
-	//_myWeapon->setTexture("tommygun.png");
+	_myWeapon->setTexture("tommygun.png");
 
 
 
@@ -346,7 +338,7 @@ void HelloWorld::initweapon()
 
 
 
-	_myWeapon->attack(this);
+	_myWeapon->openFire(this);
 
 
 
@@ -354,25 +346,25 @@ void HelloWorld::initweapon()
 
 }
 
-void HelloWorld::initHealthpotion()
+
+void HelloWorld::initSuperGround()
 {
-	_myHealthPotion_1 = HealthPotion_1::create(this, "bullet02.png", _myHero);
+	_marsh = Marsh::create(this, "marsh", _myHero);
 
-	
+	_marsh->setTexture("zhaoze.png");
 
-	_myHealthPotion_1->setTexture("bullet02.png");
+	_marsh->setPosition(730, 100.5);
 
-	_myHealthPotion_1->setVisible(true);
+	this->addChild(_marsh);
 
-	
+	_magma = Magma::create(this, "magma", _myHero);
 
+	_magma->setTexture("yanjiang.jpg");
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
+	_magma->setPosition(803, 100.5);
 
-	_myHealthPotion_1->setPosition(visibleSize/2);
+	this->addChild(_magma);
 }
-
-
 
 void HelloWorld::initenemy()
 
@@ -606,12 +598,6 @@ void HelloWorld::updateWeapon(float t)
 
 	_myWeapon->update(_enemies);
 
-}
-
-
-void HelloWorld::updateHealthPtion(float t)
-{
-	_myHealthPotion_1->update(t);
 }
 
 

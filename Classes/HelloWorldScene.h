@@ -78,7 +78,9 @@
 
 #include"Axe.h"
 
+#include"Marsh.h"
 
+#include"Magma.h"
 
 class Hero;
 
@@ -91,6 +93,10 @@ class GameScene;
 class Buff;
 
 class HealthPotion_1;
+
+class Marsh;
+
+class Magma;
 
 class HelloWorld : public cocos2d::Scene
 
@@ -116,7 +122,11 @@ class HelloWorld : public cocos2d::Scene
 
 	CC_SYNTHESIZE(Buff*, _myBuff, MyBuff);
 
-	CC_SYNTHESIZE(HealthPotion_1*, _myHealthPotion_1, MyHealthPotion_1);
+	CC_SYNTHESIZE(Potion*, _potion, Potion);
+
+	CC_SYNTHESIZE(Marsh*, _marsh, Marsh_);
+
+	CC_SYNTHESIZE(Magma*, _magma, Magma_);
 
 public:
 
@@ -149,7 +159,7 @@ public:
 	void initweapon();//³õÊ¼»¯ÎäÆ÷
 
 
-	void initHealthpotion();
+	void initSuperGround();
 
 
 

@@ -25,6 +25,7 @@ class Buff :public Sprite
 	CC_SYNTHESIZE(HelloWorld*, _combatscene, Combatscene);
 	CC_SYNTHESIZE(std::string, _buffName, BuffNme);
 	CC_SYNTHESIZE(Hero*, _hero,myhero);
+	CC_SYNTHESIZE(float, _speed, Speed);
 
 public:
 	virtual bool init(HelloWorld* combatScene, std::string buffName, Hero* hero,float armor, float hp, float mp, float attack, float beginTime, float endTime, float duration);
