@@ -21,9 +21,9 @@ class HandGun :public longRangeWeapon
 
 	CC_SYNTHESIZE(Vector<Enemy*>, _enemies, Enemies);
 public:
-	virtual bool init(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies);
+	virtual bool init(HelloWorld* combatScene, std::string weaponName, Hero* hero);
 	//CREATE_FUNC(tommyGun);
-	static HandGun* create(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies);
+	static HandGun* create(HelloWorld* combatScene, std::string weaponName, Hero* hero);
 
 	virtual bool onTouchBegan(Touch* touch, Event* unused_event);
 
@@ -35,7 +35,7 @@ public:
 	//void touchupdate(float time);
 	virtual void consumeMagic(HelloWorld* combatScene);
 
-	virtual void update(float t);
+	virtual void update(Vector<Enemy*> _enemies);
 
 
 	int targetX, targetY;

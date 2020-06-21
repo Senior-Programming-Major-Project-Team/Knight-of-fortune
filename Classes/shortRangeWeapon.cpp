@@ -37,6 +37,8 @@ bool ShortRangeWeapon::init(HelloWorld* combatScene, std::string weaponName, Her
 
 }
 
+ void ShortRangeWeapon::update(Vector<Enemy*> _enemies){}
 
+ void ShortRangeWeapon::attack(HelloWorld* combatScene){}
 
 

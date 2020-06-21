@@ -290,7 +290,7 @@ void HelloWorld::initmap()
 
 	initHealthpotion();
 
-	//this->addChild(_myHealthPotion_1);
+	this->addChild(_myHealthPotion_1);
 
 	_isFighting = true;
 
@@ -334,11 +334,11 @@ void HelloWorld::initweapon()
 
 {
 
-	_myWeapon = TommyGun::create(this, "tommygun.png", _myHero);
+	_myWeapon = Axe::create(this, "Axe_1.png", _myHero);
 
 
 
-	_myWeapon->setTexture("tommygun.png");
+	//_myWeapon->setTexture("tommygun.png");
 
 
 
@@ -346,7 +346,7 @@ void HelloWorld::initweapon()
 
 
 
-	_myWeapon->openFire(this);
+	_myWeapon->attack(this);
 
 
 
@@ -356,11 +356,11 @@ void HelloWorld::initweapon()
 
 void HelloWorld::initHealthpotion()
 {
-	_myHealthPotion_1 = HealthPotion_1::create(this, "healthpotion_1.bmp", _myHero);
+	_myHealthPotion_1 = HealthPotion_1::create(this, "bullet02.png", _myHero);
 
-	_myHero->addChild(_myHealthPotion_1);
+	
 
-	_myHealthPotion_1->setTexture("healthpotion_1.bmp");
+	_myHealthPotion_1->setTexture("bullet02.png");
 
 	_myHealthPotion_1->setVisible(true);
 

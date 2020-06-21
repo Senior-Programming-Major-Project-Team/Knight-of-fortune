@@ -3,14 +3,14 @@
 
 
 
-HandGun* HandGun::create(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies)
+HandGun* HandGun::create(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 
 {
 
 	HandGun* handGun = new(std::nothrow)HandGun;
 
 
-	if (handGun->init(combatScene, weaponName, hero, enemies))
+	if (handGun->init(combatScene, weaponName, hero))
 
 	{
 
@@ -34,11 +34,11 @@ HandGun* HandGun::create(HelloWorld* combatScene, std::string weaponName, Hero* 
 
 
 
-bool HandGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero, Vector<Enemy*> enemies)
+bool HandGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero)
 
 {
 
-	if (!longRangeWeapon::init(combatScene, weaponName, hero, enemies))
+	if (!longRangeWeapon::init(combatScene, weaponName, hero))
 
 	{
 
@@ -56,25 +56,25 @@ bool HandGun::init(HelloWorld* combatScene, std::string weaponName, Hero* hero, 
 
 	//设置锚点位置，坐标位置，target并添加
 
-	setAnchorPoint(Point(0.5, 0.7));
+	setAnchorPoint(Point(0, 0));
 
-	setPosition(hero->getPositionX() - 50, hero->getPositionY() - 80);
+	setPosition(hero->getPositionX() - 70, hero->getPositionY() - 100);
 
 	setTag(HAND_GUN);
 
 	//hero->addChild(tommyGun);
 
-	_attackPoint = 5;
+	_attackPoint = 2;
 
 	_magicPoint = 180;
 
-	_critRate = 0.3;
+	_critRate = 0.2;
 
 	_weaponName = "HandGun";
 
 	_hero = hero;
 
-	_enemies = enemies;
+	
 
 	//this->scheduleUpdate();
 
@@ -279,23 +279,41 @@ void HandGun::consumeMagic(HelloWorld* combatScene)
 
 }
 
-void HandGun::update(float t)
+void HandGun::update(Vector<Enemy*> _enemies)
 {
-	setPosition(_hero->getPositionX(), _hero->getPositionY() - 20);
+	setTexture("handGun_2.png");
+
+	setPosition(_hero->getPositionX() - 5, _hero->getPositionY()-10);
+
+
 
 	for (int i = 0; i < allBullet.size(); i++)
 
+
+
 	{
+
+
 
 		auto nowBullet = allBullet.at(i);
 
+
+
 		if (nowBullet->getPositionY() > Director::getInstance()->getWinSize().height)
+
+
 
 		{
 
+
+
 			nowBullet->removeFromParent();
 
+
+
 			allBullet.eraseObject(nowBullet);
+
+
 
 			i--;
 
@@ -305,29 +323,42 @@ void HandGun::update(float t)
 
 	}
 
+
+
 	for (int i = 0; i < _enemies.size(); i++)
+
 	{
+
 		auto nowEnemy = _enemies.at(i);
 
-		Rect enemyRec(nowEnemy->getPositionX(), nowEnemy->getPositionX(), nowEnemy->boundingBox().size.width, nowEnemy->boundingBox().size.height);
+
 
 		for (int j = 0; j < allBullet.size(); j++)
+
 		{
+
 			auto nowBullet = allBullet.at(j);
 
-			Vec2 AbsBulletPosition = this->convertToWorldSpaceAR(nowBullet->getPosition());
 
-			Rect bulletRec(AbsBulletPosition.x, AbsBulletPosition.y, nowBullet->boundingBox().size.width, nowBullet->boundingBox().size.height);
 
-			if (bulletRec.intersectsRect(enemyRec))
+			if (((nowBullet->convertToWorldSpace(Point(0, 0)).distance(nowEnemy->getPosition())) < 50) && nowEnemy->getAlreadyDead() == false)
+
 			{
+
 				nowBullet->removeFromParent();
+
+
 
 				allBullet.eraseObject(nowBullet);
 
-				j--;
+
+
+				nowEnemy->Damage(_attackPoint);
+
 			}
+
 		}
+
 	}
 
 }

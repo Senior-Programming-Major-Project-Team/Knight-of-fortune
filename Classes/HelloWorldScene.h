@@ -72,6 +72,12 @@
 
 #include"HealthPotion.h"
 
+#include"HandGun.h"
+
+#include"Sword.h"
+
+#include"Axe.h"
+
 
 
 class Hero;

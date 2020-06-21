@@ -12,6 +12,9 @@ class Sword :public ShortRangeWeapon
 	CC_SYNTHESIZE(INT32, _attackPoint, AttackPoint);
 	CC_SYNTHESIZE(float, _critRate, CritRate);
 	CC_SYNTHESIZE(float, _attackRadius, AttackRadius);
+	CC_SYNTHESIZE(Hero*, _hero, hero_);
+
+	CC_SYNTHESIZE(Vector<Enemy*>, _enemies, Enemies);
 public:
 	virtual bool init(HelloWorld* combatScene, std::string weaponName, Hero* hero);
 	//CREATE_FUNC(tommyGun);
@@ -24,6 +27,8 @@ public:
 	virtual void onTouchEnded(Touch* touch, Event* unused_event);
 
 	virtual void attack(HelloWorld* combatScene);
+
+	virtual void update(Vector<Enemy*> _enemies);
 	//void touchupdate(float time);
 	
 
