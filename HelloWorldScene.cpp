@@ -25,8 +25,11 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "constnumber.h"
-
+#include"MenuScene.h"
+#include"GameLayer.h"
 USING_NS_CC;
+using namespace ui;
+extern Hero* HWhatHasYouChooseToBeYourHero;
 
 Scene* HelloWorld::createScene()
 {
@@ -115,9 +118,21 @@ bool HelloWorld::init()
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }*/
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("Background.mp3", true);
 	initstatedate();
 	inithero();	
-	initmap();	
+	initmap();
+	auto Pause_button = Button::create("pause.png");
+	Pause_button->setScaleX(1);
+	Pause_button->setScaleY(1);
+	Pause_button->setPosition(Vec2(visibleSize.width * 0.8, visibleSize.height * 0.9));
+	Pause_button->addTouchEventListener([this](Ref* pSender, Widget::TouchEventType type) {
+		if (type == Widget::TouchEventType::ENDED) {
+			GameLayer Pause;
+			Pause.TouchPaushButton();
+		}
+	});	
+	this->addChild(Pause_button);
 	this->scheduleUpdate();
     this->schedule(schedule_selector(HelloWorld::updateEnemy), 0.1f);
 
@@ -153,12 +168,13 @@ void HelloWorld::inithero()
 	_myHero->setPosition(visibleSize / 2);
 	_myHero->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	listenerKeyBoard = EventListenerKeyboard::create();
-	//´´½¨¼üÅÌ¼àÌı
+	//åˆ›å»ºé”®ç›˜ç›‘å¬
 	listenerKeyBoard->onKeyPressed = CC_CALLBACK_2(HelloWorld::onPressKey, this,);
 	listenerKeyBoard->onKeyReleased = CC_CALLBACK_2(HelloWorld::onReleaseKey, this);
-	//°ó¶¨¼üÅÌ¼àÌı
+	//ç»‘å®šé”®ç›˜ç›‘å¬
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerKeyBoard, this);
-	//¿ªÆô¼àÌı
+	//å¼€å¯ç›‘å¬
+	HWhatHasYouChooseToBeYourHero = _myHero;
 }
 
 void HelloWorld::initweapon()
@@ -336,7 +352,7 @@ void HelloWorld::initstatedate()
 	_dState = false;
 }
 
-void HelloWorld::updateHero(float delta)//¸üĞÂÈËÎïĞÅÏ¢£¨wasd£©
+void HelloWorld::updateHero(float delta)//æ›´æ–°äººç‰©ä¿¡æ¯ï¼ˆwasdï¼‰
 {
 	Node::update(delta);
 	auto leftArrow = EventKeyboard::KeyCode::KEY_LEFT_ARROW;
@@ -387,7 +403,7 @@ void HelloWorld::updateWeapon(float t)
 	_myWeapon->update(_enemies);
 }
 
-void HelloWorld::updateEnemy(float delta)//¸üĞÂ¹ÖÎïĞÅÏ¢
+void HelloWorld::updateEnemy(float delta)//æ›´æ–°æ€ªç‰©ä¿¡æ¯
 {
 	int deadenemies = 0;
 	for (auto& i : _enemies)
@@ -655,7 +671,7 @@ bool HelloWorld::updateState(EventKeyboard::KeyCode keyCode, int type)
 		}
 		break;
 	}
-	case EventKeyboard::KeyCode::KEY_Q://¿ªÆô¼¼ÄÜ
+	case EventKeyboard::KeyCode::KEY_Q://å¼€å¯æŠ€èƒ½
 	{
 		if (type == RELEASE)
 		{
