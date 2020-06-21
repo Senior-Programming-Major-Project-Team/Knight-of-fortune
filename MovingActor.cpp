@@ -41,14 +41,21 @@ void MovingActor::initstate(HelloWorld* combatScene, Camp actorcamp)
 	_lastAttackTime = 0;
 }
 
-void MovingActor::changeMaxHealth(INT32 newMaxHealth)
+void MovingActor::changeMaxHealth(float newMaxHealth)
 {
 	auto oldMaxHealth = _maxHealth;
 	setMaxHealth(newMaxHealth);
 	setCurrentHealth(_currentHealth + newMaxHealth - oldMaxHealth);
 }
 
-void MovingActor::changeCurrentHealth(INT32 newCurrentHealth)
+void MovingActor::changeMaxAromr(float newMaxArmor)
+{
+	auto oldMaxArmor = _maxArmor;
+	setMaxArmor(newMaxArmor);
+	setCurrentArmor(_currentArmor + newMaxArmor - oldMaxArmor);
+}
+
+void MovingActor::changeCurrentHealth(float newCurrentHealth)
 {
 	if (newCurrentHealth <= 0)
 	{
@@ -61,7 +68,7 @@ void MovingActor::changeCurrentHealth(INT32 newCurrentHealth)
 		setCurrentHealth(newCurrentHealth);
 }
 
-void MovingActor::changeCurrentMagic(INT32 newCurrentMagic)
+void MovingActor::changeCurrentMagic(float newCurrentMagic)
 {
 	if (newCurrentMagic <= 0)
 		setCurrentMagic(0);
@@ -71,7 +78,7 @@ void MovingActor::changeCurrentMagic(INT32 newCurrentMagic)
 		setCurrentMagic(newCurrentMagic);
 }
 
-void MovingActor::changeCurrentArmor(INT32 newCurrentArmor)
+void MovingActor::changeCurrentArmor(float newCurrentArmor)
 {
 	if (newCurrentArmor <= 0)
 	{
@@ -93,7 +100,7 @@ void MovingActor::die()
 	setTexture("HelloWorld.png");
 }
 
-void MovingActor::Damage(INT32 damage)
+void MovingActor::Damage(float damage)
 {
 	changeCurrentArmor(getCurrentArmor() - damage);
 }
@@ -119,5 +126,3 @@ void MovingActor::updateDirection()
 		_actordirection = Direction::LEFT;
 	}
 }
-
-void MovingActor::Buff() {};

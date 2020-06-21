@@ -14,6 +14,7 @@ class Enemy :
 {
 	CC_SYNTHESIZE(String, _enemyName, EnemyName);
 	CC_SYNTHESIZE(EType, _enemyType, EnemyType);
+	CC_SYNTHESIZE(float, _lastTimeDead, LastTimeDead);
 
 public:
 

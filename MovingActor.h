@@ -21,12 +21,12 @@ class MovingActor :
 	CC_SYNTHESIZE(Direction, _actordirection, ActorDirection);
 	CC_SYNTHESIZE(float, _angle, Angle);
 	CC_SYNTHESIZE(float, _lastAttackTime, LastAttackTime);
-	CC_SYNTHESIZE(INT32, _maxArmor, MaxArmor);
-	CC_SYNTHESIZE(INT32, _maxMagic, MaxMagic);
-	CC_SYNTHESIZE(INT32, _maxHealth, MaxHealth);
-	CC_SYNTHESIZE(INT32, _currentArmor, CurrentArmor);
-	CC_SYNTHESIZE(INT32, _currentMagic, CurrentMagic);
-	CC_SYNTHESIZE(INT32, _currentHealth, CurrentHealth);
+	CC_SYNTHESIZE(float, _maxArmor, MaxArmor);
+	CC_SYNTHESIZE(float, _maxMagic, MaxMagic);
+	CC_SYNTHESIZE(float, _maxHealth, MaxHealth);
+	CC_SYNTHESIZE(float, _currentArmor, CurrentArmor);
+	CC_SYNTHESIZE(float, _currentMagic, CurrentMagic);
+	CC_SYNTHESIZE(float, _currentHealth, CurrentHealth);
 	CC_SYNTHESIZE(float, _currentSpeed, CurrentSpeed);
 	CC_SYNTHESIZE(bool, _alreadyDead, AlreadyDead);
 	CC_SYNTHESIZE(float, _minAttackInterval, MinAttackInterval);
@@ -38,13 +38,15 @@ protected:
 
 	virtual void updateDirection();//判断人物朝向
 
-	void changeMaxHealth(INT32 newMaxHealth);
+	void changeMaxHealth(float newMaxHealth);
 
-	void changeCurrentHealth(INT32 newCurrentHealth);
+	void changeMaxAromr(float newMaxArmor);
 
-	void changeCurrentArmor(INT32 newCurrentArmor);
+	void changeCurrentHealth(float newCurrentHealth);
 
-	void changeCurrentMagic(INT32 newCurrentMagic);
+	void changeCurrentArmor(float newCurrentArmor);
+
+	void changeCurrentMagic(float newCurrentMagic);
 
 public:
 	static MovingActor* create(HelloWorld* combatScene, const std::string& filename, Camp actorcamp);
@@ -53,13 +55,12 @@ public:
 
 	virtual bool init(HelloWorld* combatScene, const std::string& filename, Camp actorcamp);
 
-	virtual void Damage(INT32 _damage);//人物受伤判定
+	virtual void Damage(float _damage);//人物受伤判定
 
 	virtual void Recover();//每帧自动回复护甲
 
 	virtual void ArmorRecover(float dt);
 
-	virtual void Buff();//buff效果
 };
 #endif // _MovingActor_
 

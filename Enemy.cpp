@@ -39,6 +39,7 @@ void Enemy::initEnemyData(HelloWorld* combatScene, std::string enemyName, Camp c
 	_minAttackInterval = MIN_ATTACK_INTERVAL;
 	_attackRadius = ATTACK_RADIUS;
 	_alreadyDead = false;
+	_lastTimeDead = false;
 	_enemyName = enemyName;
 	_actorcamp = camp;
 	_actordirection = Direction::RIGHT;
@@ -95,5 +96,4 @@ void Enemy::Attack(Hero* hero, Enemy* enemy)
 void Enemy::die() 
 {
 	setAlreadyDead(true);
-	setTexture("HelloWorld.png");
 }

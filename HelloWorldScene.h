@@ -33,6 +33,8 @@
 #include "HandGunGoblin.h"
 #include "TommyGun.h"
 #include "GameScene.h"
+#include "Buff.h"
+#include "HealthPotion.h"
 
 
 class Hero;
@@ -51,10 +53,15 @@ class HelloWorld : public cocos2d::Scene
 	CC_SYNTHESIZE(ShowState*, _showState, ShowState);
 	CC_SYNTHESIZE(Weapon*, _myWeapon, MyWeapon);
 	CC_SYNTHESIZE(bool, _isFighting, IsFighting);
+	CC_SYNTHESIZE(Buff*, _myBuff, MyBuff);
+	CC_SYNTHESIZE(Potion*, _potion, Potion);
+
 
 public:
 
 	Vector<Enemy*> _enemies;
+
+	Vector<Potion*> _potions;
 
     static cocos2d::Scene* createScene();
 
@@ -67,6 +74,8 @@ public:
 	void inithero();//初始化人物信息
 
 	void initweapon();
+
+	void initHealthpotion();
 
 	void initenemy();//初始化敌人信息
 
@@ -104,6 +113,8 @@ public:
 	bool PressDirection();
 
 	Vec2 RandomGeneration();
+
+	void takePotion();
 
 	void Stopfight();
 

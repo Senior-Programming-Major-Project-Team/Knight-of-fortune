@@ -140,6 +140,7 @@ void HelloWorld::initmap()
 	this->addChild(_showState);
 	initweapon();
 	initenemy();
+	initHealthpotion();
 	_isFighting = true;
 }
 
@@ -171,6 +172,33 @@ void HelloWorld::initweapon()
 
 	_myWeapon->setPosition(110, 110);
 }
+
+void HelloWorld::initHealthpotion()
+{
+	Potion* Potion_2;
+
+	srand(time(0) + rand());
+
+	int potionnumber = CCRANDOM_0_1() * 2;
+
+	switch (potionnumber)
+	{
+	case 0:	Potion_2 = HealthPotion_2::create(this, "healthpotion_2"); break;
+
+	case 1:	Potion_2 = HealthPotion_3::create(this, "healthpotion_3"); break;
+
+	case 2:	Potion_2 = HealthPotion_4::create(this, "healthpotion_4"); break;
+	}
+
+	Potion_2->setPosition(Vec2(750, 100));
+
+	addChild(Potion_2);
+
+	Potion_2->setVisible(true);
+
+	_potions.pushBack(Potion_2);
+}
+
 
 void HelloWorld::initenemy()
 {
@@ -325,13 +353,23 @@ void HelloWorld::updateEnemy(float delta)//更新怪物信息
 		    }
 		}
 		
-		if (i->getAlreadyDead() == true)
+		else
 		{
-			i->removeFromParent();
+			if (i->getLastTimeDead() == false)
+			{				
+				auto Potion_1 = HealthPotion_1::create(this, "healthpotion_1");
+			    addChild(Potion_1);
+			    Potion_1->setPosition(i->getPosition());
+			    Potion_1->setVisible(true);
+			    _potions.pushBack(Potion_1);
+				i->setLastTimeDead(true);
+				i->removeFromParent();
+			}			
+			//
 			deadenemies++;
 		}
 	}
-	if (deadenemies == 12)
+	if (deadenemies == _enemies.size())
 	{
 		_isFighting = false;
 		Stopfight();
@@ -394,6 +432,18 @@ void HelloWorld::Heromove()
 	}
 	}
 	_myHero->heroMove(point);
+}
+
+void HelloWorld::takePotion()
+{
+	for (auto& i : _potions)
+	{
+		if (i->getPosition().distance(_myHero->getPosition()) <= 50)
+		{
+			_myHero->takepotion(i);
+			i->removeFromParent();
+		}
+	}
 }
 
 void HelloWorld::Stopfight()
@@ -502,11 +552,19 @@ bool HelloWorld::updateState(EventKeyboard::KeyCode keyCode, int type)
 		}
 		break;
 	}
-	case EventKeyboard::KeyCode::KEY_E://开启技能
+	case EventKeyboard::KeyCode::KEY_Q://开启技能
 	{
 		if (type == PRESS)
 		{
 			_myHero->castSkill();
+		}
+		break;
+	}
+	case EventKeyboard::KeyCode::KEY_E:
+	{
+		if (type == PRESS)
+		{
+			takePotion();
 		}
 		break;
 	}

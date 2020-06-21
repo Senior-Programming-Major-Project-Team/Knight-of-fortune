@@ -88,3 +88,11 @@ void Hero::die()
 	setAlreadyDead(true);
 	setTexture("HelloWorld.png");
 }
+
+void Hero::takepotion(Potion* potion)
+{
+	changeCurrentHealth(potion->getHP() + getCurrentHealth());
+	changeCurrentMagic(potion->getMP() + getCurrentMagic());
+	changeMaxHealth(potion->getMaxHP() + getMaxHealth());
+	changeMaxAromr(potion->getMaxAR() + getMaxArmor());
+}

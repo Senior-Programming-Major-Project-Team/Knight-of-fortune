@@ -5,8 +5,11 @@
 
 #include "cocos2d.h"
 #include "MovingActor.h"
+#include "HealthPotion.h"
 
 USING_NS_CC;
+
+class Potion;
 
 class Hero : public MovingActor
 {
@@ -30,9 +33,12 @@ public:
 
 	static Hero* create(HelloWorld* combatScene, std::string heroName, Camp atorcamp);
 
+	virtual void takepotion(Potion* potion);
+
 protected:
 
 	virtual void initHeroData(HelloWorld* combatScene, std::string heroName, Camp actorcamp);
+
 };
 
 #endif // _HERO_
